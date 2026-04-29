@@ -20,9 +20,14 @@
   const cartList = document.querySelector<HTMLUListElement>("[data-cart-list]");
   const cartEmpty = document.querySelector<HTMLElement>("[data-cart-empty]");
   const cartTotal = document.querySelector<HTMLElement>("[data-cart-total]");
-  const cartCount = document.querySelector<HTMLElement>("[data-cart-count]");
+  const cartCounts = [...document.querySelectorAll<HTMLElement>("[data-cart-count]")];
+  const cartDropdown = document.querySelector<HTMLElement>("[data-cart-dropdown]");
+  const cartToggle = document.querySelector<HTMLButtonElement>("[data-cart-toggle]");
+  const cartClose = document.querySelector<HTMLButtonElement>("[data-cart-close]");
   const cartClear = document.querySelector<HTMLButtonElement>("[data-cart-clear]");
   const cartCheckout = document.querySelector<HTMLButtonElement>("[data-cart-checkout]");
+  const checkoutPage = document.querySelector<HTMLElement>("[data-checkout-page]");
+  const checkoutBack = document.querySelector<HTMLButtonElement>("[data-checkout-back]");
   const checkoutForm = document.querySelector<HTMLFormElement>("[data-checkout-form]");
   const checkoutSummary = document.querySelector<HTMLElement>("[data-checkout-summary]");
   const checkoutSubmit = document.querySelector<HTMLButtonElement>("[data-checkout-submit]");
@@ -82,7 +87,10 @@
   });
 
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+    if (event.key === "Escape") {
+      closeMenu();
+      closeCartDropdown();
+    }
   });
 
   mobileMenuQuery.addEventListener("change", () => {
@@ -353,6 +361,40 @@
     if (checkoutSubmit) checkoutSubmit.disabled = !enabled;
   };
 
+  const openCartDropdown = () => {
+    if (!cartDropdown) return;
+
+    cartDropdown.hidden = false;
+    cartDropdown.classList.add("is-open");
+    cartToggle?.setAttribute("aria-expanded", "true");
+  };
+
+  const closeCartDropdown = () => {
+    if (!cartDropdown) return;
+
+    cartDropdown.classList.remove("is-open");
+    cartDropdown.hidden = true;
+    cartToggle?.setAttribute("aria-expanded", "false");
+  };
+
+  const openCheckoutPage = () => {
+    const { items } = getCartTotals();
+    if (!items.length || !checkoutPage) return;
+
+    closeCartDropdown();
+    checkoutPage.hidden = false;
+    checkoutPage.classList.add("is-open");
+    checkoutPage.scrollIntoView({ behavior: "smooth", block: "start" });
+    checkoutForm?.querySelector<HTMLInputElement>("input")?.focus({ preventScroll: true });
+  };
+
+  const closeCheckoutPage = () => {
+    if (!checkoutPage) return;
+
+    checkoutPage.classList.remove("is-open");
+    checkoutPage.hidden = true;
+  };
+
   const renderCart = () => {
     const { items, count, total } = getCartTotals();
     const hasItems = items.length > 0;
@@ -361,9 +403,9 @@
     cartEmpty?.toggleAttribute("hidden", hasItems);
     setCheckoutEnabled(hasItems);
 
-    if (cartCount) {
+    cartCounts.forEach((cartCount) => {
       cartCount.textContent = `${count} ${count === 1 ? "producto" : "productos"}`;
-    }
+    });
 
     if (cartTotal) {
       cartTotal.textContent = moneyFormatter.format(total);
@@ -438,26 +480,39 @@
   };
 
   cartAddButtons.forEach((button) => {
-    button.addEventListener("click", () => addCartItem(button));
+    button.addEventListener("click", () => {
+      addCartItem(button);
+      closeCheckoutPage();
+      openCartDropdown();
+    });
   });
 
   cartBuyButtons.forEach((button) => {
     button.addEventListener("click", () => {
       addCartItem(button);
-      document.querySelector("#carrito")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      openCheckoutPage();
     });
   });
+
+  cartToggle?.addEventListener("click", () => {
+    if (cartDropdown?.hidden) {
+      openCartDropdown();
+    } else {
+      closeCartDropdown();
+    }
+  });
+
+  cartClose?.addEventListener("click", closeCartDropdown);
 
   cartClear?.addEventListener("click", () => {
     cart.clear();
     if (checkoutStatus) checkoutStatus.textContent = "Carrito vaciado.";
+    closeCheckoutPage();
     renderCart();
   });
 
-  cartCheckout?.addEventListener("click", () => {
-    document.querySelector("#checkout")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    checkoutForm?.querySelector<HTMLInputElement>("input")?.focus();
-  });
+  cartCheckout?.addEventListener("click", openCheckoutPage);
+  checkoutBack?.addEventListener("click", closeCheckoutPage);
 
   checkoutForm?.addEventListener("submit", (event) => {
     event.preventDefault();
