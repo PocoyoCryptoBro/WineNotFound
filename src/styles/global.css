@@ -26,6 +26,7 @@ body {
   background: var(--paper);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 body.nav-open {
@@ -35,6 +36,14 @@ body.nav-open {
 img {
   display: block;
   max-width: 100%;
+}
+
+main,
+section,
+article,
+figure,
+div {
+  min-width: 0;
 }
 
 a {
@@ -201,14 +210,15 @@ textarea {
 
 .hero h1 {
   max-width: 12ch;
-  font-size: clamp(4rem, 12vw, 10.6rem);
+  overflow-wrap: anywhere;
+  font-size: 9.5rem;
 }
 
 .hero-copy {
   max-width: 650px;
   margin: 28px 0 0;
   color: rgba(255, 250, 242, 0.88);
-  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+  font-size: 1.22rem;
 }
 
 .hero-actions {
@@ -298,7 +308,7 @@ textarea {
   width: min(920px, 100%);
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.7rem, 4vw, 3.6rem);
+  font-size: 2.9rem;
   line-height: 1.08;
   text-align: center;
 }
@@ -318,7 +328,7 @@ textarea {
 
 .section h2,
 .club-band h2 {
-  font-size: clamp(2.4rem, 6vw, 5.6rem);
+  font-size: 4.6rem;
 }
 
 .section-heading p:not(.eyebrow),
@@ -440,7 +450,7 @@ textarea {
   max-width: 620px;
   padding: 28px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.6rem, 3vw, 2.7rem);
+  font-size: 2.35rem;
   line-height: 1.08;
 }
 
@@ -510,7 +520,7 @@ textarea {
 }
 
 .process-band h3 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: 3rem;
 }
 
 .process-list {
@@ -1083,7 +1093,7 @@ textarea {
 }
 
 .legal-hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: 4.8rem;
 }
 
 .legal-hero p,
@@ -1103,12 +1113,13 @@ textarea {
 .legal-section h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-size: 2.4rem;
 }
 
 @media (max-width: 920px) {
   .site-header {
     min-height: 68px;
+    padding: 14px 18px;
   }
 
   .nav-toggle {
@@ -1120,16 +1131,28 @@ textarea {
   .site-nav {
     position: fixed;
     inset: 0;
-    z-index: 21;
+    z-index: 19;
     display: grid;
-    place-content: center;
-    gap: 26px;
+    align-content: start;
+    gap: 10px;
+    padding: 92px 18px 28px;
     color: var(--ink);
     background: var(--paper);
-    font-size: 1.8rem;
+    font-size: 1.18rem;
     opacity: 0;
+    overflow-y: auto;
     pointer-events: none;
     transition: opacity 180ms ease;
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-nav a::after {
+    display: none;
   }
 
   .site-header.is-menu-open .site-nav {
@@ -1169,6 +1192,46 @@ textarea {
     position: static;
   }
 
+  .hero {
+    min-height: 84svh;
+    padding-top: 116px;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: 5.3rem;
+  }
+
+  .intro-band p {
+    font-size: 2.2rem;
+  }
+
+  .section h2,
+  .club-band h2 {
+    font-size: 3.25rem;
+  }
+
+  .video-panel figcaption {
+    font-size: 2rem;
+  }
+
+  .process-band h3 {
+    font-size: 2.35rem;
+  }
+
+  .wine-card,
+  .service-card,
+  .product-tile,
+  .faq-card,
+  .blog-card,
+  .experience-grid article {
+    min-height: auto;
+  }
+
+  .value-grid {
+    grid-template-columns: 1fr;
+  }
+
   .gallery-large {
     grid-row: auto;
   }
@@ -1190,30 +1253,74 @@ textarea {
   }
 
   .hero {
-    min-height: 90svh;
-    padding: 108px 18px 28px;
+    min-height: auto;
+    padding: 108px 18px 30px;
   }
 
   .hero h1 {
-    font-size: clamp(3.35rem, 19vw, 5.6rem);
+    font-size: 3.65rem;
+  }
+
+  .hero-copy {
+    margin-top: 22px;
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .hero-actions .button {
+    flex: 1 1 100%;
   }
 
   .hero-notes {
     grid-template-columns: 1fr;
-    margin-top: 38px;
+    margin-top: 28px;
   }
 
   .hero-notes span {
     min-height: auto;
+    padding: 14px;
+  }
+
+  .hero-notes strong {
+    font-size: 1.35rem;
   }
 
   .intro-band {
     min-height: 154px;
+    padding: 34px 18px;
+  }
+
+  .intro-band p {
+    font-size: 1.5rem;
+    line-height: 1.16;
   }
 
   .section {
     width: min(100% - 32px, var(--max-width));
-    padding: 68px 0;
+    padding: 56px 0;
+  }
+
+  .section-heading {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .section h2,
+  .club-band h2,
+  .legal-hero h1 {
+    font-size: 2.35rem;
+    line-height: 1;
+  }
+
+  .section-heading p:not(.eyebrow),
+  .cellar-copy p:not(.eyebrow),
+  .contact-copy p:not(.eyebrow),
+  .club-band > p {
+    font-size: 1rem;
   }
 
   .filter-bar {
@@ -1232,6 +1339,7 @@ textarea {
   .blog-card,
   .press-list,
   .event-list,
+  .story-copy,
   .experience-grid article,
   .reservation-form {
     padding: 22px;
@@ -1251,17 +1359,21 @@ textarea {
     padding: 48px 18px;
   }
 
-  .value-grid {
-    grid-template-columns: 1fr;
-  }
-
   .video-panel {
-    min-height: 340px;
+    min-height: 300px;
   }
 
   .video-panel figcaption,
   .gallery-text figcaption {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
+  }
+
+  .gallery-item {
+    min-height: 220px;
+  }
+
+  .gallery-text {
+    min-height: 190px;
   }
 
   .play-button {
@@ -1273,6 +1385,31 @@ textarea {
 
   .event-list article {
     grid-template-columns: 64px 1fr;
+  }
+
+  .legal-page {
+    width: min(100% - 32px, 940px);
+    padding: 34px 0 56px;
+  }
+
+  .legal-section h2 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .section h2,
+  .club-band h2,
+  .legal-hero h1 {
+    font-size: 2.05rem;
+  }
+
+  .event-list article {
+    grid-template-columns: 1fr;
   }
 }
 
