@@ -124,10 +124,19 @@
     @apply absolute inset-0;
   }
 
+  .hero-media {
+    @apply grid place-items-center overflow-hidden;
+  }
+
   .hero-media img,
   .hero-media video,
   .gallery-item video {
     @apply h-full w-full object-cover object-center;
+  }
+
+  .hero-media video {
+    object-position: center center;
+    transform-origin: center center;
   }
 
   .hero-media img,
