@@ -442,9 +442,12 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .service-card,
-  .product-tile {
+  .service-card {
     grid-template-rows: auto auto auto 1fr auto;
+  }
+
+  .product-tile {
+    grid-template-rows: auto auto auto auto 1fr auto;
   }
 
   .service-card h3,
@@ -672,6 +675,10 @@
 
   .product-tile {
     @apply min-h-[260px];
+  }
+
+  .product-image {
+    @apply aspect-[4/3] w-full rounded-md object-cover shadow-panel;
   }
 
   .product-tile p {

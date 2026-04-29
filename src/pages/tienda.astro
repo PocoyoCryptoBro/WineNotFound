@@ -61,6 +61,7 @@ const baseUrl = import.meta.env.BASE_URL;
         <div class="shop-grid shop-grid-rich">
           {shopItems.map((item) => (
             <article class="product-tile">
+              <img class="product-image" src={`${baseUrl}${item.image}`} alt={item.imageAlt} loading="lazy" />
               <p>{item.price}</p>
               <h3>{item.title}</h3>
               <span>{item.text}</span>
@@ -186,6 +187,7 @@ const baseUrl = import.meta.env.BASE_URL;
           <div class="subscription-plans">
             {subscriptionPlans.map((plan) => (
               <article class="product-tile subscription-plan">
+                <img class="product-image" src={`${baseUrl}${plan.image}`} alt={plan.imageAlt} loading="lazy" />
                 <p>{plan.price}</p>
                 <h3>{plan.title}</h3>
                 <span>{plan.text}</span>
