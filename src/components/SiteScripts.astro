@@ -301,7 +301,7 @@
       const numberLabel = document.createElement("strong");
       numberLabel.textContent = day.numberLabel;
       const monthLabel = document.createElement("small");
-      monthLabel.textContent = day.isClosed ? "CERRADO" : day.monthLabel;
+      monthLabel.textContent = day.monthLabel;
 
       button.append(dayLabel, numberLabel, monthLabel);
       button.addEventListener("click", () => {
@@ -338,7 +338,11 @@
     bookingTimes.replaceChildren();
 
     if (bookingSummary && day) {
-      bookingSummary.textContent = `▦ ${formatBookingDate(day.date)} ◷ ${bookingLabels[type]} ◎ ${total} ${total === 1 ? "Persona" : "Personas"}`;
+      bookingSummary.innerHTML = `
+        <svg class="booking-icon-svg" aria-hidden="true"><use href="/images/reference/restoo-sprites.svg#date"></use></svg>${formatBookingDate(day.date)}
+        <svg class="booking-icon-svg" aria-hidden="true"><use href="/images/reference/restoo-sprites.svg#time"></use></svg>${bookingLabels[type]}
+        <svg class="booking-icon-svg" aria-hidden="true"><use href="/images/reference/restoo-sprites.svg#guest"></use></svg>${total} ${total === 1 ? "Persona" : "Personas"}
+      `;
     }
 
     times.forEach((time) => {

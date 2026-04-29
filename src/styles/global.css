@@ -18,6 +18,13 @@
   --shadow-form: 0 14px 36px rgb(31 21 17 / 0.08);
 }
 
+@font-face {
+  font-family: BookingRoboto;
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Me5Q.ttf") format("truetype");
+}
+
 :root {
   --line: rgb(23 21 20 / 0.14);
   --max-width: 1180px;
@@ -1370,22 +1377,29 @@
 
   .booking-hero {
     @apply min-h-[100svh] items-start px-0 py-0;
+    font-family: BookingRoboto, Roboto, Arial, sans-serif;
     background: var(--booking-bg) center / cover;
   }
 
   .booking-card {
-    @apply w-[min(526px,calc(100%-16px))] gap-0 rounded-md bg-white p-[21px_32px_31px] text-center shadow-none;
-    margin-top: 12px;
+    @apply gap-0 bg-white text-center shadow-none;
+    width: min(525px, calc(100% - 16px));
+    border-radius: 6px;
+    padding: 21px 32px 26px;
+    margin-top: 11px;
+    transform: translateX(-4px);
   }
 
   .booking-card[data-active-panel="times"] {
-    @apply p-[20px_44px_38px];
+    @apply p-[20px_44px_23px];
     margin-top: 43px;
+    transform: translateX(-9px);
   }
 
   .booking-card[data-active-panel="guest"] {
     @apply p-[20px_21px_5px];
     margin-top: 13px;
+    transform: translateX(4px);
   }
 
   .booking-heading {
@@ -1421,8 +1435,105 @@
     @apply text-center text-[#1f2933];
   }
 
-  .booking-stepper .booking-icon {
-    @apply inline text-[18px] font-normal text-[#1f2933];
+  .booking-stepper label .booking-symbol {
+    display: inline-block;
+  }
+
+  .booking-icon-svg {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+    color: #333;
+    fill: currentColor;
+    vertical-align: -3px;
+  }
+
+  .booking-symbol {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 4px;
+    color: #1f2933;
+    vertical-align: -3px;
+  }
+
+  .booking-symbol-calendar {
+    border: 1.5px solid currentColor;
+    border-radius: 2px;
+  }
+
+  .booking-symbol-calendar::before,
+  .booking-symbol-calendar::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    right: 3px;
+  }
+
+  .booking-symbol-calendar::before {
+    top: 4px;
+    border-top: 1.5px solid currentColor;
+  }
+
+  .booking-symbol-calendar::after {
+    top: -3px;
+    height: 4px;
+    border-left: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+
+  .booking-symbol-clock {
+    border: 1.5px solid currentColor;
+    border-radius: 999px;
+  }
+
+  .booking-symbol-clock::before,
+  .booking-symbol-clock::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 1.5px;
+    height: 6px;
+    background: currentColor;
+    transform-origin: bottom center;
+  }
+
+  .booking-symbol-clock::after {
+    top: 8px;
+    height: 5px;
+    transform: rotate(45deg);
+  }
+
+  .booking-symbol-user {
+    border: 1.5px solid currentColor;
+    border-radius: 999px;
+  }
+
+  .booking-symbol-user::before,
+  .booking-symbol-user::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    border: 1.4px solid currentColor;
+    transform: translateX(-50%);
+  }
+
+  .booking-symbol-user::before {
+    top: 3px;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+  }
+
+  .booking-symbol-user::after {
+    bottom: 2px;
+    width: 9px;
+    height: 6px;
+    border-radius: 999px 999px 0 0;
+    border-bottom: 0;
   }
 
   .booking-stepper label small {
@@ -1479,7 +1590,12 @@
   }
 
   .booking-date-button.is-closed:not(.is-active) {
-    @apply bg-[#f7f7f7] text-[#9b9b9b];
+    @apply bg-[#fafafa] text-[#1f2933];
+  }
+
+  .booking-date-button.is-closed:not(.is-active) span,
+  .booking-date-button.is-closed:not(.is-active) small {
+    @apply text-[#505050];
   }
 
   .booking-options {
@@ -1487,8 +1603,21 @@
     grid-template-columns: 1fr;
   }
 
-  .booking-options span {
+  .booking-options label > span {
     @apply h-[51px] min-h-0 w-[102px] rounded-md border-[#2f3034] bg-[#2f3034] p-[8px_7px] text-[16px] leading-none text-white;
+  }
+
+  .booking-options legend .booking-symbol {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    min-height: 0;
+    padding: 0;
+    border-width: 1.5px;
+    border-color: currentColor;
+    background: transparent;
+    color: #3a3a3a;
+    vertical-align: -3px;
   }
 
   .booking-options small {
@@ -1551,8 +1680,20 @@
     @apply grid gap-[7px] text-[16px] font-black leading-none text-[#172331];
   }
 
-  .booking-confirm-summary span small {
-    @apply text-[26px] font-normal leading-none text-[#172331];
+  .booking-confirm-summary .booking-icon-svg {
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+    color: #172331;
+  }
+
+  .booking-confirm-summary .booking-symbol {
+    width: 23px;
+    height: 23px;
+    margin: 0 auto;
+    color: #172331;
+    vertical-align: 0;
   }
 
   .booking-confirm-summary .checkout-back {
@@ -1574,6 +1715,21 @@
 
   .phone-row span {
     @apply bg-[#f3f3f3] text-[15px] font-normal text-[#1f2933];
+  }
+
+  .phone-row .phone-prefix {
+    @apply flex items-center justify-center gap-[5px];
+    flex-direction: row !important;
+    white-space: nowrap;
+  }
+
+  .phone-row .flag-spain {
+    display: inline-block;
+    flex: 0 0 21px;
+    width: 21px;
+    height: 14px;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.14);
+    background: linear-gradient(#c60b1e 0 25%, #ffc400 25% 75%, #c60b1e 75% 100%);
   }
 
   .phone-row input {
@@ -2104,6 +2260,36 @@
 }
 
 @media (max-width: 640px) {
+  .booking-hero {
+    display: grid;
+    min-height: 100svh;
+    align-items: start;
+    justify-items: center;
+    padding: 0 !important;
+    background: var(--booking-bg) center / cover no-repeat;
+  }
+
+  .booking-card {
+    width: min(525px, calc(100% - 16px)) !important;
+    max-width: none;
+    border-radius: 6px;
+    padding: 21px 32px 26px !important;
+    margin-top: 11px;
+    transform: translateX(-4px);
+  }
+
+  .booking-card[data-active-panel="times"] {
+    padding: 20px 44px 23px !important;
+    margin-top: 43px;
+    transform: translateX(-9px);
+  }
+
+  .booking-card[data-active-panel="guest"] {
+    padding: 20px 21px 5px !important;
+    margin-top: 13px;
+    transform: translateX(4px);
+  }
+
   .booking-date-grid {
     @apply justify-center;
     grid-template-columns: repeat(7, 58px);
@@ -2116,6 +2302,10 @@
 
   .booking-confirm-summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .booking-actions a {
+    width: fit-content;
   }
 }
 

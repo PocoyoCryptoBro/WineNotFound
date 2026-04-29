@@ -3,6 +3,7 @@ import SiteScripts from "../components/SiteScripts.astro";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
+const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ const baseUrl = import.meta.env.BASE_URL;
       <section
         class="booking-hero"
         aria-labelledby="booking-title"
-        style={`--booking-bg: url("${baseUrl}images/gallery-restaurant.png")`}
+        style={`--booking-bg: url("${baseUrl}images/reference/laviejabodega-background.jpg")`}
       >
         <div class="booking-card booking-card-wide" data-booking-card data-active-panel="details">
           <form class="booking-form" data-booking-form>
@@ -34,7 +35,7 @@ const baseUrl = import.meta.env.BASE_URL;
               </div>
 
               <div class="booking-stepper" data-quantity-control>
-                <label for="adults"><span class="booking-icon" aria-hidden="true">◎</span> Adultos</label>
+                <label for="adults"><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#guest`}></use></svg> Adultos</label>
                 <div class="stepper-row">
                   <button type="button" data-step="-1" aria-label="Restar adulto">-</button>
                   <input id="adults" name="adults" type="number" value="2" min="1" max="12" readonly />
@@ -44,7 +45,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
               <div class="booking-stepper" data-quantity-control>
                 <label for="children">
-                  <span class="booking-icon" aria-hidden="true">◎</span> Niños
+                  <svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#guest`}></use></svg> Niños
                   <small>Hasta 12 años</small>
                 </label>
                 <div class="stepper-row">
@@ -55,12 +56,12 @@ const baseUrl = import.meta.env.BASE_URL;
               </div>
 
               <fieldset class="booking-date-options">
-                <legend><span aria-hidden="true">▦</span> Fecha</legend>
+                <legend><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#date`}></use></svg> Fecha</legend>
                 <div class="booking-date-grid" data-booking-date-options></div>
               </fieldset>
 
               <fieldset class="booking-options" data-booking-type-options>
-                <legend><span aria-hidden="true">◷</span> Reserva para</legend>
+                <legend><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#time`}></use></svg> Reserva para</legend>
                 <label>
                   <input type="radio" name="slot" value="comida" data-booking-type checked />
                   <span>COMIDA<small>13:30 - 15:30</small></span>
@@ -88,9 +89,9 @@ const baseUrl = import.meta.env.BASE_URL;
             <section class="booking-panel" data-booking-panel="guest" hidden>
               <h2>Ingrese sus datos personales.</h2>
               <div class="booking-confirm-summary">
-                <span><small aria-hidden="true">▦</small><strong data-confirm-date></strong></span>
-                <span><small aria-hidden="true">◷</small><strong data-confirm-time></strong></span>
-                <span><small aria-hidden="true">◎</small><strong data-confirm-people></strong></span>
+                <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#date`}></use></svg><strong data-confirm-date></strong></span>
+                <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#time`}></use></svg><strong data-confirm-time></strong></span>
+                <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#guest`}></use></svg><strong data-confirm-people></strong></span>
                 <button class="checkout-back" type="button" data-booking-modify>MODIFICAR</button>
               </div>
 
@@ -98,7 +99,7 @@ const baseUrl = import.meta.env.BASE_URL;
                 <input type="text" name="name" autocomplete="name" placeholder="Nombre completo" required />
                 <input type="email" name="email" autocomplete="email" placeholder="Email" required />
                 <div class="phone-row">
-                  <span>🇪🇸 +34</span>
+                  <span class="phone-prefix"><span class="flag-spain" aria-hidden="true"></span> +34</span>
                   <input type="tel" name="phone" autocomplete="tel" placeholder="Teléfono" required />
                 </div>
                 <input
