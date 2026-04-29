@@ -738,6 +738,7 @@
   }
 
   .cart-panel h3,
+  .cart-panel h2,
   .checkout-panel h3,
   .checkout-panel h2 {
     @apply text-[2rem] leading-[1.04];
@@ -815,6 +816,15 @@
 
   .checkout-page {
     @apply mx-auto w-[min(var(--max-width),calc(100%-40px))] py-[clamp(34px,5vw,68px)];
+  }
+
+  .checkout-layout {
+    @apply grid items-start gap-[18px];
+    grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .checkout-main .page-hero {
+    @apply pb-[34px] pt-[118px];
   }
 
   .checkout-page[hidden] {
@@ -1334,6 +1344,7 @@
   .process-band,
   .shop-grid,
   .cart-checkout,
+  .checkout-layout,
   .checkout-grid,
   .subscription-layout,
   .gallery-grid,

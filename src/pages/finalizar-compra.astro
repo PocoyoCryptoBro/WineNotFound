@@ -1,0 +1,123 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteScripts from "../components/SiteScripts.astro";
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Finaliza tu compra en WineNotFound con resumen del carrito, datos de envío y pago simulado."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>Finalizar compra | WineNotFound</title>
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main class="checkout-main">
+      <section class="page-hero" aria-labelledby="checkout-page-title">
+        <p class="eyebrow">Finalizar compra</p>
+        <h1 id="checkout-page-title">Pedido y pago</h1>
+        <p>Revisa el carrito, completa tus datos y confirma el pedido desde una página separada de la tienda.</p>
+      </section>
+
+      <section class="checkout-page checkout-page-standalone" aria-labelledby="checkout-title" data-checkout-page>
+        <div class="checkout-layout">
+          <aside class="cart-panel" aria-label="Resumen del carrito">
+            <div class="cart-panel-heading">
+              <div>
+                <p class="eyebrow">Carrito</p>
+                <h2>Resumen</h2>
+              </div>
+              <span data-cart-count>0 productos</span>
+            </div>
+            <p class="cart-empty" data-cart-empty>El carrito está vacío.</p>
+            <ul class="cart-list" data-cart-list></ul>
+            <div class="cart-total">
+              <span>Total</span>
+              <strong data-cart-total>0,00 €</strong>
+            </div>
+            <div class="cart-actions">
+              <button class="button button-outline" type="button" data-cart-clear disabled>Vaciar</button>
+              <a class="button button-primary" href={`${baseUrl}tienda/`}>Seguir comprando</a>
+            </div>
+          </aside>
+
+          <div class="checkout-panel">
+            <p class="eyebrow">Datos de pedido</p>
+            <h2 id="checkout-title">Datos de envío y pago</h2>
+            <ol class="checkout-steps" aria-label="Proceso de compra">
+              <li>Carrito</li>
+              <li>Datos</li>
+              <li>Envío</li>
+              <li>Pago</li>
+            </ol>
+            <p data-checkout-summary>Selecciona productos para activar el pago.</p>
+
+            <form class="checkout-form" data-checkout-form>
+              <div class="checkout-grid">
+                <label>
+                  Nombre completo
+                  <input type="text" name="name" autocomplete="name" required />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" autocomplete="email" required />
+                </label>
+                <label>
+                  Teléfono
+                  <input type="tel" name="phone" autocomplete="tel" placeholder="+34 910 404 404" required />
+                </label>
+                <label>
+                  Dirección
+                  <input type="text" name="address" autocomplete="street-address" required />
+                </label>
+                <label>
+                  Código postal
+                  <input type="text" name="postal" inputmode="numeric" autocomplete="postal-code" required />
+                </label>
+                <label>
+                  Provincia
+                  <input type="text" name="province" autocomplete="address-level2" required />
+                </label>
+                <label>
+                  Envío
+                  <select name="shipping" required>
+                    <option value="standard">Envío estándar 48-72 h</option>
+                    <option value="pickup">Recogida en bodega</option>
+                  </select>
+                </label>
+                <label>
+                  Pago
+                  <select name="payment" required>
+                    <option value="card-demo">Tarjeta simulada</option>
+                    <option value="transfer">Transferencia bancaria</option>
+                    <option value="pickup">Pago en bodega</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Notas del pedido
+                <textarea name="notes" rows="4" placeholder="Horario de entrega, regalo, alergias o mensaje para la caja"></textarea>
+              </label>
+              <button class="button button-primary" type="submit" data-checkout-submit disabled>Pagar ya</button>
+              <p class="form-status" data-checkout-status role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <SiteScripts />
+  </body>
+</html>

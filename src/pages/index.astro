@@ -21,7 +21,7 @@ import "../styles/global.css";
 const baseUrl = import.meta.env.BASE_URL;
 const featuredBlogPosts = blogPosts.slice(0, 3);
 const featuredPress = pressPublications;
-const homeGallery = galleryItems.filter((item) => item.type !== "video");
+const homeGallery = galleryItems;
 
 const pageLinks = [
   {
@@ -174,7 +174,7 @@ const pageLinks = [
           <p class="eyebrow">Colección actual</p>
           <h2 id="collection-title">Añadas difíciles de encontrar</h2>
           <p>
-            Tres referencias de producción limitada para mesas largas, conversaciones lentas y
+            Siete referencias de producción limitada para mesas largas, conversaciones lentas y
             noches que no necesitan explicación.
           </p>
         </div>
@@ -245,10 +245,10 @@ const pageLinks = [
       <section class="section gallery-section" id="galeria" aria-labelledby="gallery-title">
         <div class="section-heading">
           <p class="eyebrow">Galería</p>
-          <h2 id="gallery-title">Fotos de la bodega</h2>
+          <h2 id="gallery-title">Fotos y vídeos de la bodega</h2>
           <p>
-            Galería con imágenes generadas para el proyecto y fotografías del sitio que muestran
-            bodega, restaurante, vendimia, suscripción y eventos.
+            Galería con imágenes, fotografías del sitio y vídeos locales que muestran bodega,
+            restaurante, vendimia, suscripción y eventos.
           </p>
         </div>
         <div class="gallery-grid gallery-grid-expanded">

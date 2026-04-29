@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Entrada Maridaje</title>
+  <desc id="desc">Imagen de producto WineNotFound para Entrada Maridaje.</desc>
+  
+  <defs>
+    <linearGradient id="entrada-maridaje-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffaf2"/>
+      <stop offset="0.52" stop-color="#f0dfc2"/>
+      <stop offset="1" stop-color="#b66a45"/>
+    </linearGradient>
+    <linearGradient id="entrada-maridaje-glass" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="0.2" stop-color="#2b1018"/>
+      <stop offset="1" stop-color="#0f0a09"/>
+    </linearGradient>
+    <filter id="entrada-maridaje-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#171514" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="900" fill="url(#entrada-maridaje-bg)"/>
+  <path d="M0 656 C162 598 286 712 462 646 C660 570 816 548 1200 634 L1200 900 L0 900 Z" fill="#2b1018" opacity="0.12"/>
+  <rect x="178" y="636" width="846" height="88" rx="44" fill="#171514" opacity="0.15"/>
+  <g filter="url(#entrada-maridaje-shadow)">
+    
+    <circle cx="468" cy="434" r="132" fill="#fffaf2"/>
+    <circle cx="468" cy="434" r="82" fill="#f0dfc2"/>
+    <path d="M704 212 C778 314 760 476 676 586" fill="none" stroke="#641c2f" stroke-width="18" stroke-linecap="round"/>
+    <ellipse cx="718" cy="320" rx="72" ry="86" fill="#641c2f" opacity="0.88"/>
+    <rect x="706" y="402" width="24" height="174" rx="12" fill="#641c2f"/>
+    <rect x="660" y="572" width="116" height="22" rx="11" fill="#641c2f"/>
+    <rect x="516" y="466" width="152" height="86" rx="9" fill="#fffaf2"/>
+    <text x="592" y="518" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#2b1018">404</text>
+  </g>
+  <text x="76" y="112" font-family="Inter, Segoe UI, sans-serif" font-size="32" font-weight="800" fill="#566b52" letter-spacing="4">WINE NOT FOUND</text>
+  <text x="76" y="778" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#2b1018">Entrada Maridaje</text>
+  <text x="80" y="832" font-family="Inter, Segoe UI, sans-serif" font-size="28" font-weight="700" fill="#641c2f">Vino, mesa y bodega</text>
+</svg>

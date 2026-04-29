@@ -345,8 +345,39 @@
     quantity: number;
   };
 
-  const cart = new Map<string, CartItem>();
+  const CART_STORAGE_KEY = "winenotfound-cart";
+
+  const readStoredCart = () => {
+    try {
+      const stored = window.localStorage.getItem(CART_STORAGE_KEY);
+      if (!stored) return [];
+
+      const parsed = JSON.parse(stored) as CartItem[];
+      if (!Array.isArray(parsed)) return [];
+
+      return parsed.filter(
+        (item) =>
+          item &&
+          typeof item.id === "string" &&
+          typeof item.name === "string" &&
+          Number.isFinite(item.price) &&
+          Number.isFinite(item.quantity),
+      );
+    } catch {
+      return [];
+    }
+  };
+
+  const cart = new Map<string, CartItem>(readStoredCart().map((item) => [item.id, item]));
   const moneyFormatter = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
+
+  const persistCart = () => {
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify([...cart.values()]));
+    } catch {
+      // Cart still works in-memory if storage is unavailable.
+    }
+  };
 
   const getCartTotals = () => {
     const items = [...cart.values()];
@@ -377,27 +408,31 @@
     cartToggle?.setAttribute("aria-expanded", "false");
   };
 
-  const openCheckoutPage = () => {
+  const getCheckoutUrl = () => {
+    const baseHref = document.querySelector<HTMLAnchorElement>(".brand")?.href ?? `${window.location.origin}/`;
+    return new URL("finalizar-compra/", baseHref).href;
+  };
+
+  const goToCheckoutPage = () => {
     const { items } = getCartTotals();
-    if (!items.length || !checkoutPage) return;
+    if (!items.length) return;
 
     closeCartDropdown();
-    checkoutPage.hidden = false;
-    checkoutPage.classList.add("is-open");
-    checkoutPage.scrollIntoView({ behavior: "smooth", block: "start" });
-    checkoutForm?.querySelector<HTMLInputElement>("input")?.focus({ preventScroll: true });
+    window.location.href = getCheckoutUrl();
   };
 
   const closeCheckoutPage = () => {
     if (!checkoutPage) return;
-
-    checkoutPage.classList.remove("is-open");
-    checkoutPage.hidden = true;
+    if (checkoutPage.hasAttribute("hidden")) {
+      checkoutPage.classList.remove("is-open");
+      checkoutPage.hidden = true;
+    }
   };
 
   const renderCart = () => {
     const { items, count, total } = getCartTotals();
     const hasItems = items.length > 0;
+    persistCart();
 
     cartList?.replaceChildren();
     cartEmpty?.toggleAttribute("hidden", hasItems);
@@ -490,7 +525,7 @@
   cartBuyButtons.forEach((button) => {
     button.addEventListener("click", () => {
       addCartItem(button);
-      openCheckoutPage();
+      goToCheckoutPage();
     });
   });
 
@@ -511,7 +546,7 @@
     renderCart();
   });
 
-  cartCheckout?.addEventListener("click", openCheckoutPage);
+  cartCheckout?.addEventListener("click", goToCheckoutPage);
   checkoutBack?.addEventListener("click", closeCheckoutPage);
 
   checkoutForm?.addEventListener("submit", (event) => {

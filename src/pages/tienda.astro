@@ -2,7 +2,6 @@
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteScripts from "../components/SiteScripts.astro";
-import WineCard from "../components/WineCard.astro";
 import { shopItems, subscriptionPlans, wines } from "../data/site";
 import "../styles/global.css";
 
@@ -97,79 +96,51 @@ const baseUrl = import.meta.env.BASE_URL;
         </div>
       </section>
 
-      <section class="checkout-page" id="checkout" aria-labelledby="checkout-title" data-checkout-page hidden>
-        <div class="checkout-panel">
-          <button class="checkout-back" type="button" data-checkout-back>Volver a la tienda</button>
-          <p class="eyebrow">Finalizar compra</p>
-          <h2 id="checkout-title">Datos de pedido y pago</h2>
-          <ol class="checkout-steps" aria-label="Proceso de compra">
-            <li>Carrito</li>
-            <li>Datos</li>
-            <li>Envío</li>
-            <li>Pago</li>
-          </ol>
-          <p data-checkout-summary>Selecciona productos para activar el pago.</p>
-
-          <form class="checkout-form" data-checkout-form>
-            <div class="checkout-grid">
-              <label>
-                Nombre completo
-                <input type="text" name="name" autocomplete="name" required />
-              </label>
-              <label>
-                Email
-                <input type="email" name="email" autocomplete="email" required />
-              </label>
-              <label>
-                Teléfono
-                <input type="tel" name="phone" autocomplete="tel" placeholder="+34 910 404 404" required />
-              </label>
-              <label>
-                Dirección
-                <input type="text" name="address" autocomplete="street-address" required />
-              </label>
-              <label>
-                Código postal
-                <input type="text" name="postal" inputmode="numeric" autocomplete="postal-code" required />
-              </label>
-              <label>
-                Provincia
-                <input type="text" name="province" autocomplete="address-level2" required />
-              </label>
-              <label>
-                Envío
-                <select name="shipping" required>
-                  <option value="standard">Envío estándar 48-72 h</option>
-                  <option value="pickup">Recogida en bodega</option>
-                </select>
-              </label>
-              <label>
-                Pago
-                <select name="payment" required>
-                  <option value="card-demo">Tarjeta simulada</option>
-                  <option value="transfer">Transferencia bancaria</option>
-                  <option value="pickup">Pago en bodega</option>
-                </select>
-              </label>
-            </div>
-            <label>
-              Notas del pedido
-              <textarea name="notes" rows="4" placeholder="Horario de entrega, regalo, alergias o mensaje para la caja"></textarea>
-            </label>
-            <button class="button button-primary" type="submit" data-checkout-submit disabled>Pagar ya</button>
-            <p class="form-status" data-checkout-status role="status" aria-live="polite"></p>
-          </form>
-        </div>
-      </section>
-
       <section class="section collection" aria-labelledby="catalog-title">
         <div class="section-heading">
           <p class="eyebrow">Referencias</p>
           <h2 id="catalog-title">Vinos disponibles</h2>
+          <p>Compra botellas sueltas de la colección actual, incluidos los nuevos vinos añadidos al catálogo.</p>
         </div>
 
-        <div class="wine-grid">
-          {wines.map((wine) => <WineCard {...wine} />)}
+        <div class="shop-grid shop-grid-rich">
+          {wines.map((wine) => (
+            <article class="product-tile wine-product-tile" data-type={wine.type}>
+              <img class="product-image" src={`${baseUrl}${wine.image}`} alt={wine.imageAlt} loading="lazy" />
+              <p>{wine.price}</p>
+              <h3>{wine.title}</h3>
+              <span>{wine.description}</span>
+              <ul class="compact-list">
+                <li>{wine.kind} · {wine.vintage}</li>
+                <li>Crianza: {wine.ageing}</li>
+                <li>{wine.bottles} botellas</li>
+              </ul>
+              <div class="product-actions">
+                <button
+                  class="button button-primary"
+                  type="button"
+                  data-cart-add
+                  data-id={wine.id}
+                  data-name={wine.title}
+                  data-price={wine.priceValue}
+                  data-cycle={wine.cycle}
+                >
+                  Añadir al carrito
+                </button>
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-cart-buy
+                  data-id={wine.id}
+                  data-name={wine.title}
+                  data-price={wine.priceValue}
+                  data-cycle={wine.cycle}
+                >
+                  Pagar ya
+                </button>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
