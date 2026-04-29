@@ -21,6 +21,10 @@
   const confirmDate = document.querySelector<HTMLElement>("[data-confirm-date]");
   const confirmTime = document.querySelector<HTMLElement>("[data-confirm-time]");
   const confirmPeople = document.querySelector<HTMLElement>("[data-confirm-people]");
+  const successDate = document.querySelector<HTMLElement>("[data-success-date]");
+  const successTime = document.querySelector<HTMLElement>("[data-success-time]");
+  const successPeople = document.querySelector<HTMLElement>("[data-success-people]");
+  const successModify = document.querySelector<HTMLButtonElement>("[data-success-modify]");
   const quantityControls = [...document.querySelectorAll<HTMLElement>("[data-quantity-control]")];
   const cartAddButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-add]")];
   const cartBuyButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-buy]")];
@@ -273,8 +277,9 @@
   let selectedBookingDate = "";
   let selectedBookingTime = "";
 
-  const setBookingPanel = (panel: "details" | "times" | "guest") => {
+  const setBookingPanel = (panel: "details" | "times" | "guest" | "success") => {
     if (bookingCard) bookingCard.dataset.activePanel = panel;
+    document.body.classList.toggle("booking-success-active", panel === "success");
     bookingPanels.forEach((current) => {
       const active = current.dataset.bookingPanel === panel;
       current.hidden = !active;
@@ -410,12 +415,13 @@
       setBookingPanel("details");
     });
 
+    successModify?.addEventListener("click", () => {
+      if (bookingStatus) bookingStatus.textContent = "";
+      setBookingPanel("details");
+    });
+
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const formData = new FormData(bookingForm);
-      const rawName = formData.get("name");
-      const name = rawName?.toString().trim().split(" ")[0] || "Cliente";
-      const type = bookingLabels[getSelectedBookingType()];
       const day = bookingDays.find((item) => item.iso === selectedBookingDate);
       const { total } = getBookingPeople();
 
@@ -425,13 +431,11 @@
         return;
       }
 
-      if (bookingStatus) {
-        bookingStatus.textContent = `${name}, reserva confirmada: ${type} el ${formatBookingDate(day.date)} a las ${selectedBookingTime} para ${total} ${total === 1 ? "persona" : "personas"}.`;
-      }
-
-      bookingForm.reset();
-      selectedBookingTime = "";
-      setBookingPanel("details");
+      if (successDate) successDate.textContent = formatBookingDate(day.date);
+      if (successTime) successTime.textContent = selectedBookingTime;
+      if (successPeople) successPeople.textContent = `${total} ${total === 1 ? "Persona" : "Personas"}`;
+      if (bookingStatus) bookingStatus.textContent = "";
+      setBookingPanel("success");
     });
   }
 

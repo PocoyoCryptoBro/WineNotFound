@@ -63,6 +63,10 @@ const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
               <fieldset class="booking-options" data-booking-type-options>
                 <legend><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#time`}></use></svg> Reserva para</legend>
                 <label>
+                  <input type="radio" name="slot" value="cata" data-booking-type />
+                  <span>CATA<small>10:30 - 17:00</small></span>
+                </label>
+                <label>
                   <input type="radio" name="slot" value="comida" data-booking-type checked />
                   <span>COMIDA<small>13:30 - 15:30</small></span>
                 </label>
@@ -141,6 +145,41 @@ const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
                 normativa europea de protección de datos personales (Artículo 2, Artículo 4, Apartados 1 y
                 5 y Considerandos 14, 15, 26, 27, 29 y 30 del RGPD).
               </p>
+            </section>
+
+            <section class="booking-panel booking-success-panel" data-booking-panel="success" hidden>
+              <header class="booking-success-topbar">
+                <span>La Vieja Bodega</span>
+                <span><span aria-hidden="true">◎</span> ES</span>
+              </header>
+
+              <div class="booking-success-body">
+                <h2 class="booking-success-title">
+                  <span class="success-check" aria-hidden="true"></span>
+                  <span><strong>Gracias,</strong> su reserva está confirmada.</span>
+                </h2>
+
+                <div class="booking-success-summary">
+                  <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#date`}></use></svg><strong data-success-date></strong></span>
+                  <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#time`}></use></svg><strong data-success-time></strong></span>
+                  <span><svg class="booking-icon-svg" aria-hidden="true"><use href={`${spriteUrl}#guest`}></use></svg><strong data-success-people></strong></span>
+                </div>
+
+                <aside class="booking-gift-box">
+                  <h3>¿Necesita hacer un regalo especial?</h3>
+                  <p>Regale una experiencia única en La Vieja Bodega.</p>
+                  <a href={`${baseUrl}tienda/#suscripcion`}>VER EXPERIENCIAS PARA REGALAR</a>
+                </aside>
+
+                <div class="booking-success-actions">
+                  <button type="button"><span class="success-action-icon success-action-bell" aria-hidden="true"></span>AVISAR A MIS ACOMPAÑANTES</button>
+                  <a href={`${baseUrl}#menu`}><span class="success-action-icon success-action-menu" aria-hidden="true"></span>VER CARTA Y MENÚ</a>
+                  <a href="https://www.google.com/maps/search/?api=1&query=La%20Vieja%20Bodega%20Casalarreina"><span class="success-action-icon success-action-pin" aria-hidden="true"></span>CÓMO LLEGAR</a>
+                  <button type="button"><span class="success-action-icon success-action-calendar" aria-hidden="true"></span>AÑADIR A MI CALENDARIO</button>
+                  <button type="button"><span class="success-action-icon success-action-contact" aria-hidden="true"></span>AÑADIR LA VIEJA BODEGA<br />A MIS CONTACTOS</button>
+                  <button class="booking-success-modify" type="button" data-success-modify><span class="success-action-icon success-action-edit" aria-hidden="true"></span>MODIFICAR RESERVA</button>
+                </div>
+              </div>
             </section>
             <p class="form-status" data-booking-status role="status" aria-live="polite"></p>
           </form>

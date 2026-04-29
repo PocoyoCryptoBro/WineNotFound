@@ -1402,6 +1402,25 @@
     transform: translateX(4px);
   }
 
+  body.booking-success-active {
+    @apply bg-white;
+  }
+
+  body.booking-success-active .booking-hero {
+    @apply min-h-[100svh] items-start justify-items-center p-0;
+    background: #fff;
+  }
+
+  .booking-card[data-active-panel="success"] {
+    width: min(607px, 100%);
+    min-height: 100svh;
+    margin-top: 0;
+    padding: 0;
+    border-radius: 0;
+    background: #fff;
+    transform: none;
+  }
+
   .booking-heading {
     @apply mb-[25px] grid gap-1;
   }
@@ -1600,7 +1619,8 @@
 
   .booking-options {
     @apply mt-[19px] justify-items-center gap-[10px];
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 102px);
+    justify-content: center;
   }
 
   .booking-options label > span {
@@ -1783,6 +1803,234 @@
 
   .booking-legal-note {
     @apply mx-auto mb-0 mt-[24px] max-w-[475px] text-center text-[12px] leading-[1.33] text-[#777];
+  }
+
+  .booking-success-panel {
+    @apply block text-center;
+  }
+
+  .booking-success-topbar {
+    @apply flex h-[61px] items-center justify-center bg-[#cbc1b0] px-4 text-white;
+    position: relative;
+    font-size: 29px;
+    line-height: 1;
+  }
+
+  .booking-success-topbar span:last-child {
+    @apply absolute right-[17px] top-1/2 flex -translate-y-1/2 items-center gap-1;
+    font-size: 18px;
+  }
+
+  .booking-success-body {
+    @apply px-4 pb-8 pt-[31px];
+  }
+
+  h2.booking-success-title {
+    @apply mx-auto mb-[29px] flex max-w-[470px] items-start justify-center gap-3 text-center font-normal text-[#333];
+    font-size: 36px !important;
+    line-height: 1.18 !important;
+  }
+
+  .booking-success-title strong {
+    @apply font-black;
+  }
+
+  .success-check {
+    @apply mt-[4px] inline-block h-[39px] w-[39px] shrink-0 rounded-full border-2 border-[#82bd86];
+    position: relative;
+  }
+
+  .success-check::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    width: 16px;
+    height: 23px;
+    border-bottom: 3px solid #82bd86;
+    border-right: 3px solid #82bd86;
+    transform: rotate(45deg);
+  }
+
+  .booking-success-summary {
+    @apply mb-[31px] grid min-h-[148px] items-center rounded border-2 border-[#cfcfcf] bg-white px-[77px] py-[29px] text-center;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .booking-success-summary span {
+    @apply grid gap-[12px] text-[22px] font-black leading-none text-[#333];
+  }
+
+  .booking-success-summary .booking-icon-svg {
+    @apply mx-auto m-0 h-[37px] w-[37px] text-[#333];
+  }
+
+  .booking-gift-box {
+    @apply mb-[46px] rounded border-2 border-[#e0e0e0] bg-white px-[33px] py-[28px] text-center;
+    background-image:
+      linear-gradient(135deg, rgb(151 26 65 / 0.04) 25%, transparent 25%),
+      linear-gradient(225deg, rgb(151 26 65 / 0.04) 25%, transparent 25%),
+      linear-gradient(45deg, rgb(151 26 65 / 0.04) 25%, transparent 25%),
+      linear-gradient(315deg, rgb(151 26 65 / 0.04) 25%, #fff 25%);
+    background-position: 12px 0, 12px 0, 0 0, 0 0;
+    background-size: 24px 24px;
+    background-repeat: repeat;
+  }
+
+  .booking-gift-box h3 {
+    @apply m-0 text-[29px] font-black leading-none text-[#333];
+  }
+
+  .booking-gift-box p {
+    @apply my-[21px] text-[24px] leading-none text-[#333];
+  }
+
+  .booking-gift-box a {
+    @apply block h-[56px] rounded border border-[#971a41] bg-white px-3 py-[15px] text-[23px] font-black leading-none text-[#971a41];
+  }
+
+  .booking-success-actions {
+    @apply grid gap-[9px] px-6;
+  }
+
+  .booking-success-actions a,
+  .booking-success-actions button {
+    @apply flex min-h-[64px] w-full cursor-pointer items-center justify-center gap-[13px] rounded border border-[#971a41] bg-[#971a41] px-4 py-3 text-center text-[22px] font-black leading-[1.18] text-white;
+  }
+
+  .booking-success-actions .booking-success-modify {
+    @apply bg-white text-[#971a41];
+  }
+
+  .success-action-icon {
+    @apply relative inline-block h-[25px] w-[25px] shrink-0 text-current;
+  }
+
+  .success-action-bell {
+    border: 2px solid currentColor;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom: 0;
+  }
+
+  .success-action-bell::before,
+  .success-action-bell::after,
+  .success-action-menu::before,
+  .success-action-pin::before,
+  .success-action-pin::after,
+  .success-action-calendar::before,
+  .success-action-calendar::after,
+  .success-action-contact::before,
+  .success-action-edit::before,
+  .success-action-edit::after {
+    content: "";
+    position: absolute;
+  }
+
+  .success-action-bell::before {
+    left: -3px;
+    right: -3px;
+    bottom: -6px;
+    border-bottom: 2px solid currentColor;
+  }
+
+  .success-action-bell::after {
+    left: 9px;
+    bottom: -10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .success-action-menu {
+    border: 2px solid currentColor;
+    border-left-width: 7px;
+  }
+
+  .success-action-menu::before {
+    inset: 4px;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+  }
+
+  .success-action-pin {
+    border: 2px solid currentColor;
+    border-radius: 999px 999px 999px 0;
+    transform: rotate(-45deg);
+  }
+
+  .success-action-pin::before {
+    left: 6px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+  }
+
+  .success-action-calendar {
+    border: 2px solid currentColor;
+    border-radius: 2px;
+  }
+
+  .success-action-calendar::before {
+    left: 4px;
+    right: 4px;
+    top: 6px;
+    border-top: 2px solid currentColor;
+  }
+
+  .success-action-calendar::after {
+    left: 5px;
+    right: 5px;
+    top: -4px;
+    height: 6px;
+    border-left: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+  }
+
+  .success-action-contact {
+    border: 2px solid currentColor;
+    border-radius: 2px;
+  }
+
+  .success-action-contact::before {
+    left: 5px;
+    right: 5px;
+    top: 6px;
+    height: 2px;
+    background: currentColor;
+    box-shadow: 0 6px 0 currentColor;
+  }
+
+  .success-action-edit {
+    border: 2px solid currentColor;
+    border-radius: 2px;
+  }
+
+  .success-action-edit::before {
+    right: -5px;
+    top: -4px;
+    width: 14px;
+    height: 4px;
+    background: currentColor;
+    transform: rotate(-45deg);
+  }
+
+  .success-action-edit::after {
+    right: 1px;
+    top: 4px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: rotate(-45deg);
+  }
+
+  body.booking-success-active .form-status {
+    @apply hidden;
   }
 
   .blog-feature {
@@ -2290,6 +2538,14 @@
     transform: translateX(4px);
   }
 
+  .booking-card[data-active-panel="success"] {
+    width: min(607px, 100%) !important;
+    margin-top: 0;
+    padding: 0 !important;
+    border-radius: 0;
+    transform: none;
+  }
+
   .booking-date-grid {
     @apply justify-center;
     grid-template-columns: repeat(7, 58px);
@@ -2327,6 +2583,41 @@
   .booking-confirm-summary {
     @apply p-[20px];
     grid-template-columns: 1fr;
+  }
+
+  .booking-card[data-active-panel="success"] {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .booking-success-body {
+    @apply px-4;
+  }
+
+  .booking-success-title {
+    @apply text-[31px];
+  }
+
+  .booking-success-summary {
+    @apply px-8;
+  }
+
+  .booking-gift-box {
+    @apply px-4;
+  }
+
+  .booking-gift-box h3 {
+    @apply text-[24px];
+  }
+
+  .booking-gift-box p {
+    @apply text-[19px] leading-snug;
+  }
+
+  .booking-gift-box a,
+  .booking-success-actions a,
+  .booking-success-actions button {
+    @apply text-[18px];
   }
 }
 
