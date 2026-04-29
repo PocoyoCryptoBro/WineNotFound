@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          ASTRO_BASE: /WineNotFound
+          ASTRO_SITE: https://pocoyocryptobro.github.io
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
