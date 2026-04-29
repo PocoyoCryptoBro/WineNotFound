@@ -1,172 +1,30 @@
 ---
 import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteScripts from "../components/SiteScripts.astro";
 import WineCard from "../components/WineCard.astro";
 import ExperienceCard from "../components/ExperienceCard.astro";
 import ReservationForm from "../components/ReservationForm.astro";
+import { blogPosts, events, experiences, pressNotes, serviceCards, wines } from "../data/site";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
 
-const wines = [
+const pageLinks = [
   {
-    kind: "Tinto",
-    vintage: "2023",
-    title: "404 Crianza",
-    description:
-      "Tempranillo con fruta negra, madera fina y final mineral. El vino que todos buscan después del primer sorbo.",
-    ageing: "12 meses",
-    bottles: "2.700",
-    type: "red",
-    tone: "burgundy",
-    label: "404",
+    title: "Sobre nosotros",
+    text: "Historia, misión, visión y valores de WineNotFound.",
+    href: `${baseUrl}sobre-nosotros/`,
   },
   {
-    kind: "Reserva",
-    vintage: "2021",
-    title: "Null Reserva",
-    description:
-      "Concentrado, profundo y sobrio. Ciruela madura, cacao, hoja de tabaco y una acidez que limpia el paladar.",
-    ageing: "18 meses",
-    bottles: "980",
-    type: "red special",
-    tone: "ink",
-    label: "NULL",
+    title: "Tienda",
+    text: "Packs, referencias disponibles y proceso de compra.",
+    href: `${baseUrl}tienda/`,
   },
   {
-    kind: "Blanco",
-    vintage: "2024",
-    title: "Cache Miss",
-    description:
-      "Viura y albillo con piel de cítrico, flor seca y salinidad. Fermentado en barrica usada para ganar textura.",
-    ageing: "6 meses",
-    bottles: "1.450",
-    type: "white",
-    tone: "amber",
-    label: "CACHE",
-  },
-] as const;
-
-const experiences = [
-  {
-    number: "01",
-    title: "Cata de añadas",
-    description: "Cuatro vinos, una mesa de roble y una lectura guiada de suelo, clima y crianza.",
-    availability: "Miércoles y viernes",
-  },
-  {
-    number: "02",
-    title: "Maridaje 404",
-    description: "Menú de temporada con quesos afinados, setas, pan de masa madre y chocolate amargo.",
-    availability: "Sábados",
-  },
-  {
-    number: "03",
-    title: "Visita técnica",
-    description: "Recorrido por sala de depósitos, nave de barricas y archivo de botellas dormidas.",
-    availability: "Grupos reducidos",
-  },
-] as const;
-
-const serviceCards = [
-  {
-    title: "Venta de vinos",
-    text: "Botellas numeradas, estuches de regalo y preventa de microvinificaciones para clientes registrados.",
-    tag: "Producto",
-  },
-  {
-    title: "Catas y visitas",
-    text: "Experiencias guiadas en bodega para entender el viñedo, la crianza y el servicio de cada referencia.",
-    tag: "Servicio",
-  },
-  {
-    title: "Club privado",
-    text: "Acceso prioritario a ediciones limitadas, catas verticales y reservas antes del lanzamiento público.",
-    tag: "Suscripción",
-  },
-] as const;
-
-const purchaseSteps = [
-  "Elige una referencia, experiencia o pack de temporada.",
-  "Envía la solicitud desde el formulario de contacto o por teléfono.",
-  "Confirmamos disponibilidad, fecha de entrega o reserva de visita.",
-  "Recibes la confirmación final con el importe y las condiciones del servicio.",
-] as const;
-
-const shopItems = [
-  {
-    title: "Pack Debug",
-    price: "49 EUR",
-    text: "Dos botellas 404 Crianza y una ficha de cata para iniciarse en la bodega.",
-  },
-  {
-    title: "Vertical Null",
-    price: "120 EUR",
-    text: "Selección de tres añadas de reserva para comparar evolución, barrica y guarda.",
-  },
-  {
-    title: "Entrada Maridaje",
-    price: "35 EUR",
-    text: "Reserva individual para una sesión de maridaje 404 en grupo reducido.",
-  },
-] as const;
-
-const faqs = [
-  {
-    question: "¿Se puede comprar online?",
-    answer:
-      "Sí. La tienda funciona como solicitud de pedido: confirmamos disponibilidad por email antes del pago.",
-  },
-  {
-    question: "¿Las catas son para principiantes?",
-    answer:
-      "Sí. Adaptamos el lenguaje al grupo, desde una primera toma de contacto hasta una visita técnica.",
-  },
-  {
-    question: "¿Hacéis envíos fuera de España?",
-    answer:
-      "Trabajamos envíos nacionales y revisamos los internacionales caso por caso según normativa y transporte.",
-  },
-  {
-    question: "¿Puedo regalar una experiencia?",
-    answer:
-      "Sí. Preparamos bonos personalizados con fecha abierta durante seis meses desde la compra.",
-  },
-] as const;
-
-const blogPosts = [
-  {
-    date: "12 mayo 2026",
-    title: "Cómo leer una etiqueta sin perderse",
-    text: "Una guía breve para entender añada, crianza, parcela y temperatura de servicio.",
-  },
-  {
-    date: "28 mayo 2026",
-    title: "Barrica usada, vino más preciso",
-    text: "Por qué elegimos madera discreta para proteger la fruta y la identidad del viñedo.",
-  },
-] as const;
-
-const pressNotes = [
-  "WineNotFound presenta su primera microvinificación blanca de parcela alta.",
-  "La bodega abre visitas técnicas para centros educativos y grupos profesionales.",
-  "Null Reserva 2021 recibe una mención local por su equilibrio entre guarda y frescura.",
-] as const;
-
-const events = [
-  {
-    day: "06 JUN",
-    title: "Cata de añadas 404",
-    meta: "19:30 h · Bodega WineNotFound",
-  },
-  {
-    day: "21 JUN",
-    title: "Mercado de productores",
-    meta: "11:00 h · Plaza del Vino",
-  },
-  {
-    day: "04 JUL",
-    title: "Maridaje de verano",
-    meta: "20:00 h · Patio de barricas",
+    title: "Preguntas frecuentes",
+    text: "Dudas habituales sobre envíos, catas, reservas y regalos.",
+    href: `${baseUrl}faq/`,
   },
 ] as const;
 ---
@@ -178,11 +36,11 @@ const events = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="WineNotFound, bodega de partidas pequeñas, tienda online, catas privadas y vinos con carácter propio."
+      content="WineNotFound, bodega de partidas pequeñas, catas privadas y vinos con carácter propio."
     />
     <meta name="theme-color" content="#2b1018" />
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
-    <title>WineNotFound | Bodega, tienda y catas privadas</title>
+    <title>WineNotFound | Bodega y catas privadas</title>
   </head>
   <body>
     <SiteHeader />
@@ -199,12 +57,11 @@ const events = [
           <p class="eyebrow">Partidas pequeñas · Ribera imaginada · Vendimia manual</p>
           <h1 id="hero-title">WineNotFound</h1>
           <p class="hero-copy">
-            Elaboramos vinos de producción limitada, organizamos catas privadas y acercamos la
-            cultura del vino a personas que quieren comprar mejor, visitar mejor y beber con más
-            criterio.
+            Elaboramos vinos de producción limitada y organizamos experiencias en bodega para
+            acercar la cultura del vino de forma clara, cercana y memorable.
           </p>
           <div class="hero-actions" aria-label="Acciones principales">
-            <a class="button button-primary" href="#productos">Explorar productos</a>
+            <a class="button button-primary" href={`${baseUrl}tienda/`}>Ir a la tienda</a>
             <a class="button button-ghost" href="#contacto">Contactar</a>
           </div>
         </div>
@@ -219,61 +76,29 @@ const events = [
       <section class="intro-band" aria-label="Resumen WineNotFound">
         <p>
           Una bodega pequeña con alma digital: vinos honestos, experiencias cercanas y una forma de
-          vender basada en confianza, trazabilidad y conversación.
+          comunicar basada en confianza, trazabilidad y conversación.
         </p>
       </section>
 
-      <section class="section about-section" id="nosotros" aria-labelledby="about-title">
+      <section class="section hub-section" aria-labelledby="hub-title">
         <div class="section-heading">
-          <p class="eyebrow">Sobre nosotros</p>
-          <h2 id="about-title">Una historia que empezó con una botella sin etiqueta</h2>
+          <p class="eyebrow">Explora el sitio</p>
+          <h2 id="hub-title">Todo lo importante, bien separado</h2>
           <p>
-            WineNotFound nace cuando tres amigos de vendimia guardaron una barrica experimental que
-            nadie sabía cómo vender. La llamaron 404 porque no aparecía en ningún catálogo, pero cada
-            persona que la probaba preguntaba por la siguiente botella.
+            La home funciona como primera impresión. Para ampliar información, cada bloque principal
+            tiene su propia página.
           </p>
         </div>
 
-        <div class="story-grid">
-          <div class="story-copy">
-            <h3>Misión</h3>
-            <p>
-              Elaborar vinos de partidas pequeñas que expresen su origen con claridad y acercarlos
-              al cliente mediante catas, venta directa y comunicación transparente.
-            </p>
-            <h3>Visión</h3>
-            <p>
-              Ser una bodega reconocida por unir artesanía, trazabilidad digital y una experiencia
-              de compra sencilla, humana y memorable.
-            </p>
-          </div>
-
-          <div class="value-grid" aria-label="Valores de WineNotFound">
-            <article>
-              <span>01</span>
-              <h3>Honestidad</h3>
-              <p>Explicamos cada vino sin tecnicismos innecesarios y sin prometer lo que no somos.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Origen</h3>
-              <p>Trabajamos con parcelas concretas, vendimia manual y decisiones de bodega medidas.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Cercanía</h3>
-              <p>Cada visita, pedido o consulta recibe atención directa del equipo.</p>
-            </article>
-          </div>
+        <div class="link-grid">
+          {pageLinks.map((item) => (
+            <a class="link-card" href={item.href}>
+              <span>Ver página</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </a>
+          ))}
         </div>
-
-        <figure class="video-panel">
-          <img src={`${baseUrl}images/still-life.jpg`} alt="Botella de vino preparada para una cata privada" loading="lazy" />
-          <figcaption>
-            Video corporativo: instalaciones, equipo de bodega y testimonio de clientes del club.
-          </figcaption>
-          <span class="play-button" aria-hidden="true">Play</span>
-        </figure>
       </section>
 
       <section class="section products-section" id="productos" aria-labelledby="products-title">
@@ -281,8 +106,8 @@ const events = [
           <p class="eyebrow">Servicios y productos</p>
           <h2 id="products-title">Vinos, visitas y club privado</h2>
           <p>
-            La empresa combina venta directa de botellas, experiencias en bodega y una comunidad
-            para clientes que quieren acceder a referencias antes de que se agoten.
+            La actividad de WineNotFound se organiza en tres líneas: elaboración de vinos,
+            experiencias presenciales y club privado para clientes recurrentes.
           </p>
         </div>
 
@@ -294,16 +119,6 @@ const events = [
               <p>{card.text}</p>
             </article>
           ))}
-        </div>
-
-        <div class="process-band" aria-labelledby="process-title">
-          <div>
-            <p class="eyebrow">Procedimiento</p>
-            <h3 id="process-title">Cómo comprar o contratar</h3>
-          </div>
-          <ol class="process-list">
-            {purchaseSteps.map((step) => <li>{step}</li>)}
-          </ol>
         </div>
       </section>
 
@@ -361,28 +176,6 @@ const events = [
         </div>
       </section>
 
-      <section class="section shop-section" id="tienda" aria-labelledby="shop-title">
-        <div class="section-heading">
-          <p class="eyebrow">Tienda online</p>
-          <h2 id="shop-title">Packs destacados</h2>
-          <p>
-            La tienda funciona como catálogo de solicitud: el cliente escoge el producto, consulta
-            disponibilidad y recibe confirmación personalizada antes del pago.
-          </p>
-        </div>
-
-        <div class="shop-grid">
-          {shopItems.map((item) => (
-            <article class="product-tile">
-              <p>{item.price}</p>
-              <h3>{item.title}</h3>
-              <span>{item.text}</span>
-              <a href="#contacto">Solicitar</a>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section
         class="club-band"
         aria-labelledby="club-title"
@@ -396,7 +189,7 @@ const events = [
           Acceso preferente a microvinificaciones, preventa de añadas y catas verticales antes de
           que salgan al mapa.
         </p>
-        <a class="button button-primary" href="#contacto">Solicitar invitación</a>
+        <a class="button button-primary" href="#contacto">Solicitar información</a>
       </section>
 
       <section class="section gallery-section" id="galeria" aria-labelledby="gallery-title">
@@ -415,25 +208,9 @@ const events = [
           </figure>
           <figure class="gallery-item gallery-text">
             <figcaption>
-              Vendimia manual, botellas numeradas y sesiones para grupos reducidos durante todo el
-              año.
+              Vendimia manual, botellas numeradas y sesiones para grupos reducidos durante todo el año.
             </figcaption>
           </figure>
-        </div>
-      </section>
-
-      <section class="section faq-section" id="faq" aria-labelledby="faq-title">
-        <div class="section-heading">
-          <p class="eyebrow">FAQ</p>
-          <h2 id="faq-title">Preguntas frecuentes</h2>
-        </div>
-        <div class="faq-grid">
-          {faqs.map((item) => (
-            <article class="faq-card">
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </article>
-          ))}
         </div>
       </section>
 
@@ -476,10 +253,10 @@ const events = [
       <section class="section contact-section" id="contacto" aria-labelledby="contact-title">
         <div class="contact-copy">
           <p class="eyebrow">Contacto</p>
-          <h2 id="contact-title">Hablemos de tu próxima botella</h2>
+          <h2 id="contact-title">Hablemos de tu próxima visita</h2>
           <p>
-            Puedes contactar para comprar vino, reservar una cata, pedir información para grupos o
-            enviar sugerencias. Respondemos en menos de 24 horas laborables.
+            Usa el formulario para preguntas, sugerencias, reservas de cata o información general.
+            Para pedidos, consulta la página de tienda y después escríbenos si necesitas ayuda.
           </p>
           <address class="contact-card">
             <strong>WineNotFound S.L.</strong>
@@ -498,102 +275,7 @@ const events = [
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div>
-        <p>WineNotFound · Bodega de partidas limitadas</p>
-        <p>Ctra. del Pago 404, km 12 · hola@winenotfound.example · +34 910 404 404</p>
-      </div>
-      <nav class="footer-links" aria-label="Enlaces legales">
-        <a href={`${baseUrl}aviso-legal/`}>Aviso legal</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <p>&copy; <span data-year></span> WineNotFound</p>
-    </footer>
-
-    <script>
-      const header = document.querySelector("[data-header]");
-      const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
-      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".site-nav a")];
-      const filterButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
-      const wineCards = [...document.querySelectorAll<HTMLElement>(".wine-card")];
-      const reservationForm = document.querySelector<HTMLFormElement>("[data-reservation-form]");
-      const formStatus = document.querySelector("[data-form-status]");
-      const year = document.querySelector("[data-year]");
-
-      if (year) year.textContent = new Date().getFullYear().toString();
-
-      const updateHeaderState = () => {
-        header?.classList.toggle("is-scrolled", window.scrollY > 24);
-      };
-
-      updateHeaderState();
-      window.addEventListener("scroll", updateHeaderState, { passive: true });
-
-      navToggle?.addEventListener("click", () => {
-        const isOpen = navToggle.getAttribute("aria-expanded") === "true";
-        navToggle.setAttribute("aria-expanded", String(!isOpen));
-        header?.classList.toggle("is-menu-open", !isOpen);
-        document.body.classList.toggle("nav-open", !isOpen);
-      });
-
-      navLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-          navToggle?.setAttribute("aria-expanded", "false");
-          header?.classList.remove("is-menu-open");
-          document.body.classList.remove("nav-open");
-        });
-      });
-
-      filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const filter = button.dataset.filter ?? "all";
-
-          filterButtons.forEach((current) => current.classList.toggle("is-active", current === button));
-          wineCards.forEach((card) => {
-            const types = card.dataset.type?.split(" ") ?? [];
-            card.classList.toggle("is-hidden", filter !== "all" && !types.includes(filter));
-          });
-        });
-      });
-
-      const sections = navLinks
-        .map((link) => document.querySelector(link.getAttribute("href") ?? ""))
-        .filter(Boolean);
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-
-            navLinks.forEach((link) => {
-              link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`);
-            });
-          });
-        },
-        {
-          rootMargin: "-45% 0px -45% 0px",
-          threshold: 0,
-        },
-      );
-
-      sections.forEach((section) => {
-        if (section) observer.observe(section);
-      });
-
-      if (reservationForm) {
-        reservationForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const formData = new FormData(reservationForm);
-          const rawName = formData.get("name");
-          const name = rawName?.toString().trim().split(" ")[0] || "Gracias";
-
-          if (formStatus) {
-            formStatus.textContent = `${name}, solicitud recibida. Te escribiremos para confirmar disponibilidad.`;
-          }
-
-          reservationForm.reset();
-        });
-      }
-    </script>
+    <SiteFooter />
+    <SiteScripts />
   </body>
 </html>

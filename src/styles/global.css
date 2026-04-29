@@ -201,6 +201,7 @@ textarea {
 .hero h1,
 .section h2,
 .club-band h2,
+.page-hero h1,
 .legal-hero h1 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
@@ -334,11 +335,120 @@ textarea {
 .section-heading p:not(.eyebrow),
 .cellar-copy p:not(.eyebrow),
 .contact-copy p:not(.eyebrow),
+.page-hero p:not(.eyebrow),
 .club-band > p {
   max-width: 690px;
   margin: 0;
   color: rgba(23, 21, 20, 0.72);
   font-size: 1.05rem;
+}
+
+.page-hero {
+  display: grid;
+  gap: 18px;
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 140px 0 70px;
+}
+
+.page-hero h1 {
+  max-width: 980px;
+  font-size: 5.3rem;
+}
+
+.hub-section {
+  border-top: 1px solid var(--line);
+}
+
+.link-grid,
+.detail-grid,
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.link-card,
+.content-panel,
+.timeline-grid article {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 230px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-soft);
+}
+
+.link-card {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.link-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(100, 28, 47, 0.28);
+  box-shadow: var(--shadow);
+}
+
+.link-card span,
+.timeline-grid span {
+  color: var(--clay);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.link-card h3,
+.content-panel h3,
+.timeline-grid h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  line-height: 1.05;
+}
+
+.link-card p,
+.content-panel p,
+.timeline-grid p,
+.wide-copy p,
+.note-band > p {
+  margin: 0;
+  color: rgba(23, 21, 20, 0.72);
+}
+
+.split-section,
+.timeline-section,
+.detail-section {
+  border-top: 1px solid var(--line);
+}
+
+.wide-copy {
+  display: grid;
+  gap: 18px;
+  max-width: 940px;
+}
+
+.note-band {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 0.9fr) auto;
+  gap: 30px;
+  align-items: center;
+  padding: clamp(42px, 7vw, 76px) clamp(20px, 5vw, 72px);
+  color: var(--paper-soft);
+  background: var(--wine-dark);
+}
+
+.note-band h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.note-band > p {
+  color: rgba(255, 250, 242, 0.78);
 }
 
 .about-section {
@@ -362,8 +472,10 @@ textarea {
 }
 
 .story-copy h3,
+.story-copy h2,
 .service-card h3,
 .process-band h3,
+.process-band h2,
 .product-tile h3,
 .faq-card h3,
 .blog-card h3,
@@ -519,7 +631,8 @@ textarea {
   margin-bottom: 10px;
 }
 
-.process-band h3 {
+.process-band h3,
+.process-band h2 {
   font-size: 3rem;
 }
 
@@ -1074,7 +1187,7 @@ textarea {
 .legal-page {
   width: min(940px, calc(100% - 40px));
   margin: 0 auto;
-  padding: clamp(44px, 8vw, 86px) 0;
+  padding: 140px 0 clamp(44px, 8vw, 86px);
 }
 
 .legal-back {
@@ -1176,6 +1289,9 @@ textarea {
   .experience-grid,
   .cellar-section,
   .story-grid,
+  .link-grid,
+  .detail-grid,
+  .timeline-grid,
   .services-grid,
   .process-band,
   .shop-grid,
@@ -1184,6 +1300,7 @@ textarea {
   .updates-grid,
   .contact-section,
   .club-band,
+  .note-band,
   .site-footer {
     grid-template-columns: 1fr;
   }
@@ -1207,15 +1324,26 @@ textarea {
   }
 
   .section h2,
-  .club-band h2 {
+  .club-band h2,
+  .page-hero h1 {
     font-size: 3.25rem;
+  }
+
+  .page-hero {
+    padding-top: 118px;
+    padding-bottom: 54px;
+  }
+
+  .note-band h2 {
+    font-size: 2.75rem;
   }
 
   .video-panel figcaption {
     font-size: 2rem;
   }
 
-  .process-band h3 {
+  .process-band h3,
+  .process-band h2 {
     font-size: 2.35rem;
   }
 
@@ -1224,6 +1352,9 @@ textarea {
   .product-tile,
   .faq-card,
   .blog-card,
+  .link-card,
+  .content-panel,
+  .timeline-grid article,
   .experience-grid article {
     min-height: auto;
   }
@@ -1311,6 +1442,7 @@ textarea {
 
   .section h2,
   .club-band h2,
+  .page-hero h1,
   .legal-hero h1 {
     font-size: 2.35rem;
     line-height: 1;
@@ -1319,8 +1451,23 @@ textarea {
   .section-heading p:not(.eyebrow),
   .cellar-copy p:not(.eyebrow),
   .contact-copy p:not(.eyebrow),
+  .page-hero p:not(.eyebrow),
   .club-band > p {
     font-size: 1rem;
+  }
+
+  .page-hero {
+    width: min(100% - 32px, var(--max-width));
+    padding-top: 104px;
+    padding-bottom: 42px;
+  }
+
+  .note-band {
+    padding: 42px 18px;
+  }
+
+  .note-band h2 {
+    font-size: 2.2rem;
   }
 
   .filter-bar {
@@ -1337,6 +1484,9 @@ textarea {
   .product-tile,
   .faq-card,
   .blog-card,
+  .link-card,
+  .content-panel,
+  .timeline-grid article,
   .press-list,
   .event-list,
   .story-copy,
@@ -1389,7 +1539,7 @@ textarea {
 
   .legal-page {
     width: min(100% - 32px, 940px);
-    padding: 34px 0 56px;
+    padding: 104px 0 56px;
   }
 
   .legal-section h2 {
@@ -1404,6 +1554,7 @@ textarea {
 
   .section h2,
   .club-band h2,
+  .page-hero h1,
   .legal-hero h1 {
     font-size: 2.05rem;
   }

@@ -1,0 +1,99 @@
+<script>
+  const header = document.querySelector("[data-header]");
+  const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".site-nav a")];
+  const filterButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+  const wineCards = [...document.querySelectorAll<HTMLElement>(".wine-card")];
+  const reservationForm = document.querySelector<HTMLFormElement>("[data-reservation-form]");
+  const formStatus = document.querySelector("[data-form-status]");
+  const year = document.querySelector("[data-year]");
+
+  if (year) year.textContent = new Date().getFullYear().toString();
+
+  const updateHeaderState = () => {
+    const homePath = new URL(document.querySelector<HTMLAnchorElement>(".brand")?.href ?? "/", window.location.href)
+      .pathname;
+    header?.classList.toggle("is-scrolled", window.scrollY > 24 || window.location.pathname !== homePath);
+  };
+
+  updateHeaderState();
+  window.addEventListener("scroll", updateHeaderState, { passive: true });
+
+  navToggle?.addEventListener("click", () => {
+    const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", String(!isOpen));
+    header?.classList.toggle("is-menu-open", !isOpen);
+    document.body.classList.toggle("nav-open", !isOpen);
+  });
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      navToggle?.setAttribute("aria-expanded", "false");
+      header?.classList.remove("is-menu-open");
+      document.body.classList.remove("nav-open");
+    });
+  });
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter ?? "all";
+
+      filterButtons.forEach((current) => current.classList.toggle("is-active", current === button));
+      wineCards.forEach((card) => {
+        const types = card.dataset.type?.split(" ") ?? [];
+        card.classList.toggle("is-hidden", filter !== "all" && !types.includes(filter));
+      });
+    });
+  });
+
+  const localSectionLinks = navLinks
+    .map((link) => {
+      const href = link.getAttribute("href") ?? "";
+      if (href.startsWith("#")) return { link, hash: href };
+
+      try {
+        const url = new URL(link.href);
+        const samePage = url.origin === window.location.origin && url.pathname === window.location.pathname;
+        return samePage && url.hash ? { link, hash: url.hash } : null;
+      } catch {
+        return null;
+      }
+    })
+    .filter((item): item is { link: HTMLAnchorElement; hash: string } => Boolean(item));
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        localSectionLinks.forEach((item) => {
+          item.link.classList.toggle("is-active", item.hash === `#${entry.target.id}`);
+        });
+      });
+    },
+    {
+      rootMargin: "-45% 0px -45% 0px",
+      threshold: 0,
+    },
+  );
+
+  localSectionLinks.forEach((item) => {
+    const section = document.querySelector(item.hash);
+    if (section) observer.observe(section);
+  });
+
+  if (reservationForm) {
+    reservationForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(reservationForm);
+      const rawName = formData.get("name");
+      const name = rawName?.toString().trim().split(" ")[0] || "Gracias";
+
+      if (formStatus) {
+        formStatus.textContent = `${name}, solicitud recibida. Te escribiremos para responder a tu consulta.`;
+      }
+
+      reservationForm.reset();
+    });
+  }
+</script>

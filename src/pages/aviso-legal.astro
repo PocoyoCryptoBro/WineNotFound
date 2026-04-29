@@ -1,4 +1,7 @@
 ---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteScripts from "../components/SiteScripts.astro";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -18,8 +21,9 @@ const baseUrl = import.meta.env.BASE_URL;
     <title>Aviso legal | WineNotFound</title>
   </head>
   <body>
+    <SiteHeader />
+
     <main class="legal-page">
-      <a class="legal-back" href={baseUrl}>Volver a WineNotFound</a>
       <header class="legal-hero">
         <p class="eyebrow">Información legal</p>
         <h1>Aviso legal y privacidad</h1>
@@ -63,5 +67,8 @@ const baseUrl = import.meta.env.BASE_URL;
         </p>
       </section>
     </main>
+
+    <SiteFooter />
+    <SiteScripts />
   </body>
 </html>

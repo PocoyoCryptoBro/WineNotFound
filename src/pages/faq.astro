@@ -1,0 +1,68 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteScripts from "../components/SiteScripts.astro";
+import { faqs } from "../data/site";
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Preguntas frecuentes de WineNotFound sobre tienda, catas, reservas y envíos."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>FAQ | WineNotFound</title>
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-hero" aria-labelledby="faq-page-title">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h1 id="faq-page-title">Dudas habituales antes de visitar o comprar</h1>
+        <p>
+          Esta página reúne respuestas sobre funcionamiento de tienda, reservas, experiencias,
+          regalos y contacto con la bodega.
+        </p>
+      </section>
+
+      <section class="section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-title">Respuestas rápidas</h2>
+        </div>
+        <div class="faq-grid">
+          {faqs.map((item) => (
+            <article class="faq-card">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section note-band" aria-labelledby="more-help-title">
+        <div>
+          <p class="eyebrow">Contacto</p>
+          <h2 id="more-help-title">¿No encuentras tu respuesta?</h2>
+        </div>
+        <p>
+          Escríbenos desde el formulario de contacto de la página principal y responderemos en menos
+          de 24 horas laborables.
+        </p>
+        <a class="button button-primary" href={`${baseUrl}#contacto`}>Ir a contacto</a>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <SiteScripts />
+  </body>
+</html>

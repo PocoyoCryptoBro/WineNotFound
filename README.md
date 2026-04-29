@@ -1,6 +1,6 @@
 # WineNotFound
 
-Proyecto web moderno con Astro para una bodega ficticia llamada **WineNotFound**. Incluye una landing responsive con hero inmersivo, sobre nosotros, productos y servicios, tienda simulada, FAQ, blog, prensa, calendario de eventos, contacto y aviso legal.
+Proyecto web moderno con Astro para una bodega ficticia llamada **WineNotFound**. Incluye una home responsive y páginas independientes para sobre nosotros, tienda, FAQ, contacto indirecto y aviso legal.
 
 ## Comandos
 
@@ -13,7 +13,10 @@ npm run preview
 
 ## Estructura
 
-- `src/pages/index.astro`: página principal.
+- `src/pages/index.astro`: página principal resumida.
+- `src/pages/sobre-nosotros.astro`: historia, misión, visión y valores.
+- `src/pages/tienda.astro`: catálogo de productos y procedimiento de compra.
+- `src/pages/faq.astro`: preguntas frecuentes.
 - `src/pages/aviso-legal.astro`: aviso legal y política de privacidad ficticios.
 - `src/components/`: componentes reutilizables.
 - `src/styles/global.css`: identidad visual, layout responsive y estados interactivos.

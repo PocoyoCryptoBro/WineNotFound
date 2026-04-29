@@ -1,0 +1,145 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteScripts from "../components/SiteScripts.astro";
+import { values } from "../data/site";
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Historia, misión, visión y valores de WineNotFound, bodega de partidas pequeñas."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>Sobre nosotros | WineNotFound</title>
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-hero" aria-labelledby="about-page-title">
+        <p class="eyebrow">Sobre nosotros</p>
+        <h1 id="about-page-title">Una bodega pequeña con una historia difícil de encontrar</h1>
+        <p>
+          WineNotFound nace de una idea sencilla: elaborar vinos con identidad propia y explicar
+          cada decisión de forma clara, para que cualquier persona pueda entender qué hay detrás de
+          una botella.
+        </p>
+      </section>
+
+      <section class="section split-section" aria-labelledby="story-title">
+        <div class="section-heading">
+          <p class="eyebrow">Storytelling</p>
+          <h2 id="story-title">La primera botella no estaba en ningún catálogo</h2>
+        </div>
+        <div class="content-panel wide-copy">
+          <p>
+            La historia de WineNotFound empieza durante una vendimia especialmente pequeña. Tres
+            amigos decidieron separar una barrica experimental porque el vino tenía algo distinto:
+            fruta limpia, una acidez muy viva y una textura que no encajaba con las etiquetas
+            habituales de la zona.
+          </p>
+          <p>
+            Nadie sabía cómo vender aquella partida. No tenía nombre comercial, no figuraba en el
+            listado de referencias y tampoco respondía a una línea de producto existente. Por eso,
+            casi en broma, la llamaron 404: la botella que no se encontraba. El nombre se quedó,
+            pero el proyecto creció alrededor de una convicción muy seria: cuando un vino se explica
+            bien, se vende mejor y se disfruta más.
+          </p>
+          <p>
+            Hoy WineNotFound trabaja con parcelas seleccionadas, depósitos pequeños y una relación
+            directa con los clientes. La bodega combina lenguaje digital, trazabilidad y una forma
+            muy artesanal de tomar decisiones. No buscamos parecer grandes; buscamos que cada añada
+            tenga sentido y que cada persona que nos visite entienda por qué.
+          </p>
+        </div>
+      </section>
+
+      <section class="section about-section" aria-labelledby="mission-title">
+        <div class="story-grid">
+          <div class="story-copy">
+            <h2 id="mission-title">Misión</h2>
+            <p>
+              Elaborar vinos de partidas pequeñas que expresen su origen con claridad y acercarlos
+              al cliente mediante catas, venta directa y comunicación transparente.
+            </p>
+            <h2>Visión</h2>
+            <p>
+              Ser una bodega reconocida por unir artesanía, trazabilidad digital y una experiencia
+              de compra sencilla, humana y memorable.
+            </p>
+          </div>
+
+          <div class="value-grid" aria-label="Valores de WineNotFound">
+            {values.map((value) => (
+              <article>
+                <span>{value.number}</span>
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section cellar-section" aria-labelledby="team-title">
+        <div class="cellar-copy">
+          <p class="eyebrow">Equipo e instalaciones</p>
+          <h2 id="team-title">Personas antes que etiquetas</h2>
+          <p>
+            El equipo ficticio de WineNotFound está formado por una enóloga, un responsable de
+            viñedo y una persona encargada de experiencias y atención al cliente. Esta estructura
+            pequeña permite responder rápido, cuidar los detalles y mantener una relación cercana
+            con quienes visitan o compran en la bodega.
+          </p>
+          <div class="cellar-list">
+            <span>Equipo de bodega</span>
+            <span>Atención directa</span>
+            <span>Visitas guiadas</span>
+          </div>
+        </div>
+        <figure class="cellar-image">
+          <img src={`${baseUrl}images/still-life.jpg`} alt="Botella de vino en una mesa de cata" loading="lazy" />
+          <figcaption>
+            Espacio de cata privada, pensado para grupos reducidos y conversaciones sin prisa.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section timeline-section" aria-labelledby="timeline-title">
+        <div class="section-heading">
+          <p class="eyebrow">Evolución</p>
+          <h2 id="timeline-title">Hitos de la bodega</h2>
+        </div>
+        <div class="timeline-grid">
+          <article>
+            <span>2021</span>
+            <h3>Primera barrica 404</h3>
+            <p>Nace el concepto de partida limitada fuera del catálogo tradicional.</p>
+          </article>
+          <article>
+            <span>2023</span>
+            <h3>Apertura de catas</h3>
+            <p>La bodega incorpora visitas guiadas y sesiones de maridaje para grupos reducidos.</p>
+          </article>
+          <article>
+            <span>2026</span>
+            <h3>Tienda y club privado</h3>
+            <p>WineNotFound organiza su catálogo digital y lanza una comunidad para clientes fieles.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <SiteScripts />
+  </body>
+</html>
