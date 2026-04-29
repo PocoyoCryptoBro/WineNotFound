@@ -131,26 +131,38 @@ export const subscriptionSteps = [
 
 export const shopItems = [
   {
+    id: "pack-debug",
     title: "Pack Debug",
     price: "49 EUR",
+    priceValue: 49,
+    cycle: "Pago único",
     text: "Dos botellas 404 Crianza y una ficha de cata para iniciarse en la bodega.",
     benefits: ["2 botellas", "Ficha de cata", "Ideal para regalo"],
   },
   {
+    id: "vertical-null",
     title: "Vertical Null",
     price: "120 EUR",
+    priceValue: 120,
+    cycle: "Pago único",
     text: "Selección de tres añadas de reserva para comparar evolución, barrica y guarda.",
     benefits: ["3 añadas", "Notas de guarda", "Caja numerada"],
   },
   {
+    id: "entrada-maridaje",
     title: "Entrada Maridaje",
     price: "35 EUR",
+    priceValue: 35,
+    cycle: "Pago único",
     text: "Reserva individual para una sesión de maridaje 404 en grupo reducido.",
     benefits: ["3 vinos", "4 bocados", "Turno guiado"],
   },
   {
+    id: "suscripcion-missing-bottle",
     title: "Suscripción Missing Bottle",
     price: "Desde 19 EUR/mes",
+    priceValue: 19,
+    cycle: "Mensual",
     text: "Alta mensual al club privado con selección de vinos, preventas y ventajas en experiencias.",
     benefits: ["Acceso anticipado", "Caja de temporada", "Prioridad de reserva"],
   },
@@ -158,22 +170,31 @@ export const shopItems = [
 
 export const subscriptionPlans = [
   {
+    id: "lista-inicial",
     title: "Lista Inicial",
     price: "19 EUR/mes",
+    priceValue: 19,
+    cycle: "Mensual",
     text:
       "Plan de entrada para recibir contenido de cata, preventas y prioridad cuando se abren nuevas añadas.",
     benefits: ["Newsletter de bodega", "Preventa 48 h antes", "5% en experiencias"],
   },
   {
+    id: "caja-debug",
     title: "Caja Debug",
     price: "39 EUR/mes",
+    priceValue: 39,
+    cycle: "Mensual",
     text:
       "Selección periódica con botellas de temporada, fichas de cata y acceso a sesiones online del equipo.",
     benefits: ["2 botellas por envío", "Fichas impresas", "10% en catas y tienda"],
   },
   {
+    id: "reserva-404",
     title: "Reserva 404",
     price: "69 EUR/mes",
+    priceValue: 69,
+    cycle: "Mensual",
     text:
       "Suscripción completa con referencias limitadas, cupo prioritario para restaurante y eventos privados.",
     benefits: ["Botellas limitadas", "Mesa prioritaria", "Invitación a catas verticales"],

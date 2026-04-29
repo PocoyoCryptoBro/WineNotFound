@@ -9,6 +9,18 @@
   const bookingForm = document.querySelector<HTMLFormElement>("[data-booking-form]");
   const bookingStatus = document.querySelector("[data-booking-status]");
   const quantityControls = [...document.querySelectorAll<HTMLElement>("[data-quantity-control]")];
+  const cartAddButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-add]")];
+  const cartBuyButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-buy]")];
+  const cartList = document.querySelector<HTMLUListElement>("[data-cart-list]");
+  const cartEmpty = document.querySelector<HTMLElement>("[data-cart-empty]");
+  const cartTotal = document.querySelector<HTMLElement>("[data-cart-total]");
+  const cartCount = document.querySelector<HTMLElement>("[data-cart-count]");
+  const cartClear = document.querySelector<HTMLButtonElement>("[data-cart-clear]");
+  const cartCheckout = document.querySelector<HTMLButtonElement>("[data-cart-checkout]");
+  const checkoutForm = document.querySelector<HTMLFormElement>("[data-checkout-form]");
+  const checkoutSummary = document.querySelector<HTMLElement>("[data-checkout-summary]");
+  const checkoutSubmit = document.querySelector<HTMLButtonElement>("[data-checkout-submit]");
+  const checkoutStatus = document.querySelector<HTMLElement>("[data-checkout-status]");
   const year = document.querySelector("[data-year]");
 
   if (year) year.textContent = new Date().getFullYear().toString();
@@ -136,4 +148,159 @@
       }
     });
   }
+
+  type CartItem = {
+    id: string;
+    name: string;
+    price: number;
+    cycle: string;
+    quantity: number;
+  };
+
+  const cart = new Map<string, CartItem>();
+  const moneyFormatter = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
+
+  const getCartTotals = () => {
+    const items = [...cart.values()];
+    const count = items.reduce((total, item) => total + item.quantity, 0);
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return { items, count, total };
+  };
+
+  const setCheckoutEnabled = (enabled: boolean) => {
+    if (cartClear) cartClear.disabled = !enabled;
+    if (cartCheckout) cartCheckout.disabled = !enabled;
+    if (checkoutSubmit) checkoutSubmit.disabled = !enabled;
+  };
+
+  const renderCart = () => {
+    const { items, count, total } = getCartTotals();
+    const hasItems = items.length > 0;
+
+    cartList?.replaceChildren();
+    cartEmpty?.toggleAttribute("hidden", hasItems);
+    setCheckoutEnabled(hasItems);
+
+    if (cartCount) {
+      cartCount.textContent = `${count} ${count === 1 ? "producto" : "productos"}`;
+    }
+
+    if (cartTotal) {
+      cartTotal.textContent = moneyFormatter.format(total);
+    }
+
+    if (checkoutSummary) {
+      checkoutSummary.textContent = hasItems
+        ? `${count} ${count === 1 ? "producto" : "productos"} en el carrito · Total ${moneyFormatter.format(total)}`
+        : "Selecciona productos para activar el pago.";
+    }
+
+    items.forEach((item) => {
+      const row = document.createElement("li");
+      row.className = "cart-item";
+
+      const copy = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = item.name;
+      const meta = document.createElement("span");
+      meta.textContent = `${moneyFormatter.format(item.price)} · ${item.cycle}`;
+      copy.append(title, meta);
+
+      const controls = document.createElement("div");
+      controls.className = "cart-controls";
+
+      const decrease = document.createElement("button");
+      decrease.type = "button";
+      decrease.textContent = "−";
+      decrease.setAttribute("aria-label", `Restar ${item.name}`);
+      decrease.addEventListener("click", () => {
+        if (item.quantity <= 1) {
+          cart.delete(item.id);
+        } else {
+          item.quantity -= 1;
+        }
+        renderCart();
+      });
+
+      const quantity = document.createElement("span");
+      quantity.textContent = item.quantity.toString();
+
+      const increase = document.createElement("button");
+      increase.type = "button";
+      increase.textContent = "+";
+      increase.setAttribute("aria-label", `Sumar ${item.name}`);
+      increase.addEventListener("click", () => {
+        item.quantity += 1;
+        renderCart();
+      });
+
+      controls.append(decrease, quantity, increase);
+      row.append(copy, controls);
+      cartList?.append(row);
+    });
+  };
+
+  const addCartItem = (button: HTMLButtonElement) => {
+    const id = button.dataset.id ?? button.dataset.name ?? "producto";
+    const name = button.dataset.name ?? "Producto";
+    const price = Number(button.dataset.price ?? 0);
+    const cycle = button.dataset.cycle ?? "Pago único";
+    const current = cart.get(id);
+
+    if (current) {
+      current.quantity += 1;
+    } else {
+      cart.set(id, { id, name, price, cycle, quantity: 1 });
+    }
+
+    if (checkoutStatus) checkoutStatus.textContent = `${name} añadido al carrito.`;
+    renderCart();
+  };
+
+  cartAddButtons.forEach((button) => {
+    button.addEventListener("click", () => addCartItem(button));
+  });
+
+  cartBuyButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      addCartItem(button);
+      document.querySelector("#carrito")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  cartClear?.addEventListener("click", () => {
+    cart.clear();
+    if (checkoutStatus) checkoutStatus.textContent = "Carrito vaciado.";
+    renderCart();
+  });
+
+  cartCheckout?.addEventListener("click", () => {
+    document.querySelector("#checkout")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    checkoutForm?.querySelector<HTMLInputElement>("input")?.focus();
+  });
+
+  checkoutForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const { items, count, total } = getCartTotals();
+
+    if (!items.length) {
+      if (checkoutStatus) checkoutStatus.textContent = "Añade algún producto antes de pagar.";
+      return;
+    }
+
+    const formData = new FormData(checkoutForm);
+    const rawName = formData.get("name");
+    const name = rawName?.toString().trim().split(" ")[0] || "Cliente";
+    const orderId = `WNF-${Date.now().toString().slice(-6)}`;
+
+    if (checkoutStatus) {
+      checkoutStatus.textContent = `${name}, compra ${orderId} completada: ${count} producto(s) por ${moneyFormatter.format(total)}. Recibirás el resumen por email.`;
+    }
+
+    cart.clear();
+    checkoutForm.reset();
+    renderCart();
+  });
+
+  renderCart();
 </script>

@@ -3,7 +3,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteScripts from "../components/SiteScripts.astro";
 import WineCard from "../components/WineCard.astro";
-import { shopItems, subscriptionPlans, subscriptionSteps, wines } from "../data/site";
+import { shopItems, subscriptionPlans, wines } from "../data/site";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -25,24 +25,16 @@ const baseUrl = import.meta.env.BASE_URL;
   <body>
     <SiteHeader />
 
-    <main>
+    <main class="shop-main">
       <section class="page-hero" aria-labelledby="shop-page-title">
         <p class="eyebrow">Tienda online</p>
-        <h1 id="shop-page-title">Packs, vinos y suscripción privada</h1>
-        <p>
-          La tienda funciona como escaparate de solicitud. El cliente revisa productos o planes,
-          elige una opción y recibe confirmación de disponibilidad antes de pagar.
-        </p>
+        <h1 id="shop-page-title">Comprar en WineNotFound</h1>
       </section>
 
       <section class="section shop-section" aria-labelledby="packs-title">
         <div class="section-heading">
           <p class="eyebrow">Packs destacados</p>
-          <h2 id="packs-title">Opciones para comprar, regalar o reservar</h2>
-          <p>
-            Los precios y productos son ficticios para el proyecto. La tienda permite explicar cómo
-            funcionaría una bodega con packs, entradas para experiencias y alta de suscripción.
-          </p>
+          <h2 id="packs-title">Packs, regalos y experiencias</h2>
         </div>
 
         <div class="shop-grid shop-grid-rich">
@@ -54,9 +46,120 @@ const baseUrl = import.meta.env.BASE_URL;
               <ul class="compact-list">
                 {item.benefits.map((benefit) => <li>{benefit}</li>)}
               </ul>
-              <a href={`${baseUrl}#contacto`}>Pedir información</a>
+              <div class="product-actions">
+                <button
+                  class="button button-primary"
+                  type="button"
+                  data-cart-add
+                  data-id={item.id}
+                  data-name={item.title}
+                  data-price={item.priceValue}
+                  data-cycle={item.cycle}
+                >
+                  Añadir al carrito
+                </button>
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-cart-buy
+                  data-id={item.id}
+                  data-name={item.title}
+                  data-price={item.priceValue}
+                  data-cycle={item.cycle}
+                >
+                  Pagar ya
+                </button>
+              </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section class="section cart-section" id="carrito" aria-labelledby="cart-title">
+        <div class="section-heading">
+          <p class="eyebrow">Carrito</p>
+          <h2 id="cart-title">Tu pedido</h2>
+        </div>
+
+        <div class="cart-checkout">
+          <aside class="cart-panel" aria-label="Resumen del carrito">
+            <div class="cart-panel-heading">
+              <h3>Carrito</h3>
+              <span data-cart-count>0 productos</span>
+            </div>
+            <p class="cart-empty" data-cart-empty>El carrito está vacío.</p>
+            <ul class="cart-list" data-cart-list></ul>
+            <div class="cart-total">
+              <span>Total</span>
+              <strong data-cart-total>0,00 €</strong>
+            </div>
+            <div class="cart-actions">
+              <button class="button button-outline" type="button" data-cart-clear disabled>Vaciar</button>
+              <button class="button button-primary" type="button" data-cart-checkout disabled>Pagar ya</button>
+            </div>
+          </aside>
+
+          <section class="checkout-panel" id="checkout" aria-labelledby="checkout-title">
+            <p class="eyebrow">Finalizar compra</p>
+            <h3 id="checkout-title">Datos de pedido y pago</h3>
+            <ol class="checkout-steps" aria-label="Proceso de compra">
+              <li>Carrito</li>
+              <li>Datos</li>
+              <li>Envío</li>
+              <li>Pago</li>
+            </ol>
+            <p data-checkout-summary>Selecciona productos para activar el pago.</p>
+
+            <form class="checkout-form" data-checkout-form>
+              <div class="checkout-grid">
+                <label>
+                  Nombre completo
+                  <input type="text" name="name" autocomplete="name" required />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" autocomplete="email" required />
+                </label>
+                <label>
+                  Teléfono
+                  <input type="tel" name="phone" autocomplete="tel" placeholder="+34 910 404 404" required />
+                </label>
+                <label>
+                  Dirección
+                  <input type="text" name="address" autocomplete="street-address" required />
+                </label>
+                <label>
+                  Código postal
+                  <input type="text" name="postal" inputmode="numeric" autocomplete="postal-code" required />
+                </label>
+                <label>
+                  Provincia
+                  <input type="text" name="province" autocomplete="address-level2" required />
+                </label>
+                <label>
+                  Envío
+                  <select name="shipping" required>
+                    <option value="standard">Envío estándar 48-72 h</option>
+                    <option value="pickup">Recogida en bodega</option>
+                  </select>
+                </label>
+                <label>
+                  Pago
+                  <select name="payment" required>
+                    <option value="card-demo">Tarjeta simulada</option>
+                    <option value="transfer">Transferencia bancaria</option>
+                    <option value="pickup">Pago en bodega</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Notas del pedido
+                <textarea name="notes" rows="4" placeholder="Horario de entrega, regalo, alergias o mensaje para la caja"></textarea>
+              </label>
+              <button class="button button-primary" type="submit" data-checkout-submit disabled>Pagar ya</button>
+              <p class="form-status" data-checkout-status role="status" aria-live="polite"></p>
+            </form>
+          </section>
         </div>
       </section>
 
@@ -64,9 +167,6 @@ const baseUrl = import.meta.env.BASE_URL;
         <div class="section-heading">
           <p class="eyebrow">Referencias</p>
           <h2 id="catalog-title">Vinos disponibles</h2>
-          <p>
-            Cada referencia se presenta con añada, crianza, producción aproximada y perfil de sabor.
-          </p>
         </div>
 
         <div class="wine-grid">
@@ -78,10 +178,6 @@ const baseUrl = import.meta.env.BASE_URL;
         <div class="section-heading">
           <p class="eyebrow">Suscripción</p>
           <h2 id="subscription-title">The Missing Bottle List</h2>
-          <p>
-            La suscripción está pensada para clientes que quieren recibir selección de vinos,
-            preventas y ventajas en experiencias sin revisar la web cada semana.
-          </p>
         </div>
 
         <div class="subscription-layout">
@@ -98,29 +194,40 @@ const baseUrl = import.meta.env.BASE_URL;
                 <ul class="compact-list">
                   {plan.benefits.map((benefit) => <li>{benefit}</li>)}
                 </ul>
-                <a href={`${baseUrl}#contacto`}>Solicitar alta</a>
+                <div class="product-actions">
+                  <button
+                    class="button button-primary"
+                    type="button"
+                    data-cart-add
+                    data-id={plan.id}
+                    data-name={plan.title}
+                    data-price={plan.priceValue}
+                    data-cycle={plan.cycle}
+                  >
+                    Añadir al carrito
+                  </button>
+                  <button
+                    class="button button-outline"
+                    type="button"
+                    data-cart-buy
+                    data-id={plan.id}
+                    data-name={plan.title}
+                    data-price={plan.priceValue}
+                    data-cycle={plan.cycle}
+                  >
+                    Pagar ya
+                  </button>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section class="section" aria-labelledby="subscribe-title">
-        <div class="process-band" aria-labelledby="subscribe-title">
-          <div>
-            <p class="eyebrow">Procedimiento</p>
-            <h2 id="subscribe-title">Cómo suscribirse</h2>
-          </div>
-          <ol class="process-list">
-            {subscriptionSteps.map((step) => <li>{step}</li>)}
-          </ol>
-        </div>
-      </section>
-
       <section class="section detail-section" aria-labelledby="conditions-title">
         <div class="section-heading">
-          <p class="eyebrow">Condiciones</p>
-          <h2 id="conditions-title">Información comercial</h2>
+          <p class="eyebrow">Pedido</p>
+          <h2 id="conditions-title">Entrega y regalos</h2>
         </div>
         <div class="detail-grid">
           <article class="content-panel">
