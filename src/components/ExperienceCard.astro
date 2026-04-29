@@ -3,16 +3,25 @@ interface Props {
   number: string;
   title: string;
   description: string;
+  duration: string;
   availability: string;
+  bestFor: string;
+  includes: readonly string[];
 }
 
-const { number, title, description, availability } = Astro.props;
+const { number, title, description, duration, availability, bestFor, includes } = Astro.props;
 ---
 
 <article>
   <span class="experience-number">{number}</span>
   <h3>{title}</h3>
   <p>{description}</p>
-  <strong>{availability}</strong>
+  <div class="experience-meta" aria-label={`Detalles de ${title}`}>
+    <span>{duration}</span>
+    <span>{availability}</span>
+  </div>
+  <p class="experience-best">{bestFor}</p>
+  <ul class="experience-list">
+    {includes.map((item) => <li>{item}</li>)}
+  </ul>
 </article>
-

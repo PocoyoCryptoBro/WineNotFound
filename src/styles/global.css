@@ -210,9 +210,11 @@ textarea {
 }
 
 .hero h1 {
-  max-width: 12ch;
-  overflow-wrap: anywhere;
-  font-size: 9.5rem;
+  max-width: min(12ch, 100%);
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: keep-all;
+  font-size: clamp(1.95rem, calc((100vw - 84px) / 8.25), 9rem);
 }
 
 .hero-copy {
@@ -862,7 +864,7 @@ textarea {
 
 .experience-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
   background: var(--line);
 }
@@ -871,7 +873,7 @@ textarea {
   display: grid;
   align-content: start;
   gap: 14px;
-  min-height: 310px;
+  min-height: 420px;
   padding: 28px;
   background: var(--paper-soft);
 }
@@ -887,9 +889,36 @@ textarea {
   color: rgba(23, 21, 20, 0.72);
 }
 
-.experience-grid strong {
-  align-self: end;
+.experience-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.experience-meta span {
+  padding: 7px 10px;
+  color: var(--wine-dark);
+  background: rgba(195, 154, 82, 0.22);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.experience-best {
   color: var(--moss);
+  font-weight: 800;
+}
+
+.experience-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(23, 21, 20, 0.72);
+}
+
+.experience-list li::marker {
+  color: var(--clay);
 }
 
 .shop-section {
@@ -1316,7 +1345,6 @@ textarea {
 
   .hero h1 {
     max-width: 100%;
-    font-size: 5.3rem;
   }
 
   .intro-band p {
@@ -1378,18 +1406,15 @@ textarea {
   }
 
   .brand span:last-child {
-    max-width: 11ch;
-    overflow-wrap: anywhere;
+    max-width: none;
+    overflow-wrap: normal;
+    white-space: nowrap;
     line-height: 1.05;
   }
 
   .hero {
     min-height: auto;
     padding: 108px 18px 30px;
-  }
-
-  .hero h1 {
-    font-size: 3.65rem;
   }
 
   .hero-copy {
@@ -1548,10 +1573,6 @@ textarea {
 }
 
 @media (max-width: 380px) {
-  .hero h1 {
-    font-size: 3.2rem;
-  }
-
   .section h2,
   .club-band h2,
   .page-hero h1,
@@ -1561,6 +1582,12 @@ textarea {
 
   .event-list article {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 340px) {
+  .brand span:last-child {
+    font-size: 0.9rem;
   }
 }
 

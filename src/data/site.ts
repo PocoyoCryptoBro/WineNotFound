@@ -41,20 +41,42 @@ export const experiences = [
   {
     number: "01",
     title: "Cata de añadas",
-    description: "Cuatro vinos, una mesa de roble y una lectura guiada de suelo, clima y crianza.",
+    description:
+      "Experiencia pensada para entender cómo cambia un vino con el paso del tiempo. Se prueban varias añadas de una misma referencia y se comparan aromas, textura, evolución en botella y capacidad de guarda.",
+    duration: "90 min",
     availability: "Miércoles y viernes",
+    bestFor: "Personas que quieren aprender a catar con calma.",
+    includes: ["4 vinos", "Ficha de cata", "Explicación de añada y crianza"],
   },
   {
     number: "02",
     title: "Maridaje 404",
-    description: "Menú de temporada con quesos afinados, setas, pan de masa madre y chocolate amargo.",
+    description:
+      "Sesión gastronómica donde cada vino se acompaña con un bocado diseñado para potenciar su perfil. Se explica por qué funciona cada combinación y cómo aplicar esas ideas en casa.",
+    duration: "2 h",
     availability: "Sábados",
+    bestFor: "Grupos que quieren una experiencia más social.",
+    includes: ["3 vinos", "4 bocados", "Guía de maridaje"],
   },
   {
     number: "03",
     title: "Visita técnica",
-    description: "Recorrido por sala de depósitos, nave de barricas y archivo de botellas dormidas.",
+    description:
+      "Recorrido detallado por el proceso de elaboración: entrada de uva, depósitos, fermentación, crianza en barrica y control de temperatura. Termina con una cata comentada en sala.",
+    duration: "75 min",
     availability: "Grupos reducidos",
+    bestFor: "Estudiantes, profesionales o personas muy curiosas.",
+    includes: ["Recorrido por bodega", "Sala de barricas", "Cata de 3 vinos"],
+  },
+  {
+    number: "04",
+    title: "Restaurante de bodega",
+    description:
+      "Comida o cena en el restaurante de WineNotFound con menú de temporada. Cada plato se sirve con una referencia de la bodega y una explicación sencilla del maridaje.",
+    duration: "2 h 15 min",
+    availability: "Viernes noche y domingos",
+    bestFor: "Parejas, celebraciones pequeñas y comidas de empresa.",
+    includes: ["Menú degustación", "Maridaje incluido", "Mesa con reserva previa"],
   },
 ] as const;
 
