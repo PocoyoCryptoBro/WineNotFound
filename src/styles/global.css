@@ -2033,6 +2033,92 @@
     @apply hidden;
   }
 
+  @media (min-width: 900px) {
+    body.booking-success-active .booking-hero {
+      @apply px-8 py-8;
+      background: linear-gradient(135deg, #f7f2ea 0%, #ffffff 46%, #f2e7ec 100%);
+    }
+
+    .booking-card[data-active-panel="success"] {
+      width: min(1120px, calc(100% - 64px));
+      min-height: auto;
+      overflow: hidden;
+      border: 1px solid rgb(23 21 20 / 0.08);
+      border-radius: 8px;
+      box-shadow: 0 24px 70px rgb(24 13 15 / 0.14);
+    }
+
+    .booking-success-topbar {
+      height: 74px;
+      font-size: 34px;
+    }
+
+    .booking-success-topbar span:last-child {
+      right: 26px;
+      font-size: 19px;
+    }
+
+    .booking-success-body {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(390px, 1.08fr);
+      gap: 28px;
+      padding: 44px;
+    }
+
+    h2.booking-success-title {
+      grid-column: 1 / -1;
+      max-width: none;
+      margin-bottom: 4px;
+      align-items: center;
+      font-size: 40px !important;
+    }
+
+    .booking-success-summary,
+    .booking-gift-box {
+      min-height: 246px;
+      margin-bottom: 0;
+    }
+
+    .booking-success-summary {
+      padding-inline: 34px;
+    }
+
+    .booking-gift-box {
+      display: grid;
+      align-content: center;
+      padding: 34px;
+    }
+
+    .booking-gift-box h3 {
+      font-size: 27px;
+      line-height: 1.12;
+    }
+
+    .booking-gift-box p {
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .booking-gift-box a {
+      height: auto;
+      min-height: 54px;
+      font-size: 19px;
+    }
+
+    .booking-success-actions {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0;
+    }
+
+    .booking-success-actions a,
+    .booking-success-actions button {
+      min-height: 78px;
+      font-size: 18px;
+    }
+  }
+
   .blog-feature {
     @apply grid items-center gap-7;
     grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
