@@ -6,6 +6,9 @@
   const wineCards = [...document.querySelectorAll<HTMLElement>(".wine-card")];
   const reservationForm = document.querySelector<HTMLFormElement>("[data-reservation-form]");
   const formStatus = document.querySelector("[data-form-status]");
+  const bookingForm = document.querySelector<HTMLFormElement>("[data-booking-form]");
+  const bookingStatus = document.querySelector("[data-booking-status]");
+  const quantityControls = [...document.querySelectorAll<HTMLElement>("[data-quantity-control]")];
   const year = document.querySelector("[data-year]");
 
   if (year) year.textContent = new Date().getFullYear().toString();
@@ -94,6 +97,43 @@
       }
 
       reservationForm.reset();
+    });
+  }
+
+  quantityControls.forEach((control) => {
+    const input = control.querySelector<HTMLInputElement>("input");
+    const buttons = [...control.querySelectorAll<HTMLButtonElement>("[data-step]")];
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!input) return;
+
+        const step = Number(button.dataset.step ?? 0);
+        const min = Number(input.min || 0);
+        const max = Number(input.max || 99);
+        const nextValue = Math.min(max, Math.max(min, Number(input.value || 0) + step));
+        input.value = nextValue.toString();
+      });
+    });
+  });
+
+  if (bookingForm) {
+    bookingForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(bookingForm);
+      const slotLabels: Record<string, string> = {
+        cata: "cata",
+        comida: "comida",
+        cena: "cena",
+      };
+      const adults = formData.get("adults")?.toString() || "2";
+      const children = formData.get("children")?.toString() || "0";
+      const date = formData.get("date")?.toString() || "la fecha seleccionada";
+      const slot = slotLabels[formData.get("slot")?.toString() || "cata"] ?? "reserva";
+
+      if (bookingStatus) {
+        bookingStatus.textContent = `Solicitud preparada: ${slot} para ${adults} adulto(s) y ${children} niño(s) el ${date}. Te confirmaremos disponibilidad.`;
+      }
     });
   }
 </script>

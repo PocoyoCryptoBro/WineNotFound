@@ -3,7 +3,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteScripts from "../components/SiteScripts.astro";
 import WineCard from "../components/WineCard.astro";
-import { purchaseSteps, shopItems, wines } from "../data/site";
+import { shopItems, subscriptionPlans, subscriptionSteps, wines } from "../data/site";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -16,7 +16,7 @@ const baseUrl = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Tienda online ficticia de WineNotFound con packs, referencias y procedimiento de compra."
+      content="Tienda online ficticia de WineNotFound con packs, vinos y suscripción privada The Missing Bottle List."
     />
     <meta name="theme-color" content="#2b1018" />
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
@@ -28,29 +28,32 @@ const baseUrl = import.meta.env.BASE_URL;
     <main>
       <section class="page-hero" aria-labelledby="shop-page-title">
         <p class="eyebrow">Tienda online</p>
-        <h1 id="shop-page-title">Catálogo de packs y referencias</h1>
+        <h1 id="shop-page-title">Packs, vinos y suscripción privada</h1>
         <p>
-          La tienda funciona como escaparate de solicitud. El cliente revisa los productos, elige
-          una opción y recibe confirmación de disponibilidad antes de pagar.
+          La tienda funciona como escaparate de solicitud. El cliente revisa productos o planes,
+          elige una opción y recibe confirmación de disponibilidad antes de pagar.
         </p>
       </section>
 
       <section class="section shop-section" aria-labelledby="packs-title">
         <div class="section-heading">
           <p class="eyebrow">Packs destacados</p>
-          <h2 id="packs-title">Opciones para comprar o regalar</h2>
+          <h2 id="packs-title">Opciones para comprar, regalar o reservar</h2>
           <p>
-            Los precios y productos son ficticios para el proyecto. El objetivo es mostrar cómo
-            funcionaría una tienda de bodega con solicitud previa.
+            Los precios y productos son ficticios para el proyecto. La tienda permite explicar cómo
+            funcionaría una bodega con packs, entradas para experiencias y alta de suscripción.
           </p>
         </div>
 
-        <div class="shop-grid">
+        <div class="shop-grid shop-grid-rich">
           {shopItems.map((item) => (
             <article class="product-tile">
               <p>{item.price}</p>
               <h3>{item.title}</h3>
               <span>{item.text}</span>
+              <ul class="compact-list">
+                {item.benefits.map((benefit) => <li>{benefit}</li>)}
+              </ul>
               <a href={`${baseUrl}#contacto`}>Pedir información</a>
             </article>
           ))}
@@ -61,6 +64,9 @@ const baseUrl = import.meta.env.BASE_URL;
         <div class="section-heading">
           <p class="eyebrow">Referencias</p>
           <h2 id="catalog-title">Vinos disponibles</h2>
+          <p>
+            Cada referencia se presenta con añada, crianza, producción aproximada y perfil de sabor.
+          </p>
         </div>
 
         <div class="wine-grid">
@@ -68,14 +74,45 @@ const baseUrl = import.meta.env.BASE_URL;
         </div>
       </section>
 
-      <section class="section" aria-labelledby="buy-title">
-        <div class="process-band" aria-labelledby="buy-title">
+      <section class="section subscription-section" id="suscripcion" aria-labelledby="subscription-title">
+        <div class="section-heading">
+          <p class="eyebrow">Suscripción</p>
+          <h2 id="subscription-title">The Missing Bottle List</h2>
+          <p>
+            La suscripción está pensada para clientes que quieren recibir selección de vinos,
+            preventas y ventajas en experiencias sin revisar la web cada semana.
+          </p>
+        </div>
+
+        <div class="subscription-layout">
+          <figure class="subscription-media">
+            <img src={`${baseUrl}images/gallery-subscription.png`} alt="Caja de suscripción WineNotFound" loading="lazy" />
+            <figcaption>Caja de temporada con notas de cata, acceso anticipado y cupo prioritario.</figcaption>
+          </figure>
+          <div class="subscription-plans">
+            {subscriptionPlans.map((plan) => (
+              <article class="product-tile subscription-plan">
+                <p>{plan.price}</p>
+                <h3>{plan.title}</h3>
+                <span>{plan.text}</span>
+                <ul class="compact-list">
+                  {plan.benefits.map((benefit) => <li>{benefit}</li>)}
+                </ul>
+                <a href={`${baseUrl}#contacto`}>Solicitar alta</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="subscribe-title">
+        <div class="process-band" aria-labelledby="subscribe-title">
           <div>
-            <p class="eyebrow">Procedimiento de compra</p>
-            <h2 id="buy-title">Cómo se realiza un pedido</h2>
+            <p class="eyebrow">Procedimiento</p>
+            <h2 id="subscribe-title">Cómo suscribirse</h2>
           </div>
           <ol class="process-list">
-            {purchaseSteps.map((step) => <li>{step}</li>)}
+            {subscriptionSteps.map((step) => <li>{step}</li>)}
           </ol>
         </div>
       </section>
@@ -96,7 +133,7 @@ const baseUrl = import.meta.env.BASE_URL;
           </article>
           <article class="content-panel">
             <h3>Regalos</h3>
-            <p>Posibilidad de preparar bono de cata o pack personalizado con mensaje.</p>
+            <p>Posibilidad de preparar bono de cata, pack personalizado o alta de suscripción con mensaje.</p>
           </article>
         </div>
       </section>

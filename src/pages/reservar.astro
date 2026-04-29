@@ -1,0 +1,126 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteScripts from "../components/SiteScripts.astro";
+import ExperienceCard from "../components/ExperienceCard.astro";
+import { experiences, reservationSteps } from "../data/site";
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Reserva ficticia de catas, comidas y cenas en la bodega WineNotFound."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>Reservar | WineNotFound</title>
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="booking-hero"
+        aria-labelledby="booking-title"
+        style={`--booking-bg: url("${baseUrl}images/gallery-restaurant.png")`}
+      >
+        <div class="booking-card">
+          <p class="eyebrow">Reservas</p>
+          <h1 id="booking-title">Reserve en WineNotFound</h1>
+          <p>Ctra. del Pago 404, km 12 · Aranda de Duero</p>
+
+          <form class="booking-form" data-booking-form>
+            <div class="booking-stepper" data-quantity-control>
+              <label for="adults">Adultos</label>
+              <div class="stepper-row">
+                <button type="button" data-step="-1" aria-label="Restar adulto">−</button>
+                <input id="adults" name="adults" type="number" value="2" min="1" max="12" readonly />
+                <button type="button" data-step="1" aria-label="Sumar adulto">+</button>
+              </div>
+            </div>
+
+            <div class="booking-stepper" data-quantity-control>
+              <label for="children">
+                Niños
+                <span>Hasta 12 años</span>
+              </label>
+              <div class="stepper-row">
+                <button type="button" data-step="-1" aria-label="Restar niño">−</button>
+                <input id="children" name="children" type="number" value="0" min="0" max="8" readonly />
+                <button type="button" data-step="1" aria-label="Sumar niño">+</button>
+              </div>
+            </div>
+
+            <label class="booking-field">
+              Fecha
+              <input type="date" name="date" value="2026-05-28" min="2026-04-30" required />
+            </label>
+
+            <fieldset class="booking-options">
+              <legend>Reserva para</legend>
+              <label>
+                <input type="radio" name="slot" value="cata" checked />
+                <span>Cata <small>12:00 · 13:30</small></span>
+              </label>
+              <label>
+                <input type="radio" name="slot" value="comida" />
+                <span>Comida <small>13:30 · 15:30</small></span>
+              </label>
+              <label>
+                <input type="radio" name="slot" value="cena" />
+                <span>Cena <small>21:00 · 22:30</small></span>
+              </label>
+            </fieldset>
+
+            <button class="button button-primary" type="submit">Continuar</button>
+            <p class="form-status" data-booking-status role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="booking-actions">
+            <a href="#experiencias">Ver experiencias para regalar</a>
+            <a href={`${baseUrl}tienda/#suscripcion`}>Ver suscripción</a>
+          </div>
+
+          <p class="booking-phone">Llámenos al <a href="tel:+34910404404">+34 910 404 404</a> si tiene cualquier duda.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="booking-process-title">
+        <div class="process-band">
+          <div>
+            <p class="eyebrow">Procedimiento</p>
+            <h2 id="booking-process-title">Cómo se confirma una reserva</h2>
+          </div>
+          <ol class="process-list">
+            {reservationSteps.map((step) => <li>{step}</li>)}
+          </ol>
+        </div>
+      </section>
+
+      <section class="section experiences" id="experiencias" aria-labelledby="booking-experiences-title">
+        <div class="section-heading">
+          <p class="eyebrow">Elige experiencia</p>
+          <h2 id="booking-experiences-title">Cata, visita, comida o cena</h2>
+          <p>
+            La reserva permite pedir un turno. Después el equipo confirma disponibilidad, menú,
+            alergias y detalles del grupo.
+          </p>
+        </div>
+
+        <div class="experience-grid">
+          {experiences.map((experience) => <ExperienceCard {...experience} />)}
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <SiteScripts />
+  </body>
+</html>

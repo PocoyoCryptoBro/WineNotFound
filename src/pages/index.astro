@@ -5,10 +5,23 @@ import SiteScripts from "../components/SiteScripts.astro";
 import WineCard from "../components/WineCard.astro";
 import ExperienceCard from "../components/ExperienceCard.astro";
 import ReservationForm from "../components/ReservationForm.astro";
-import { blogPosts, events, experiences, pressNotes, serviceCards, wines } from "../data/site";
+import {
+  blogPosts,
+  events,
+  experiences,
+  galleryItems,
+  pressPublications,
+  reservationSteps,
+  serviceCards,
+  subscriptionSteps,
+  wines,
+} from "../data/site";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
+const featuredBlogPosts = blogPosts.slice(0, 3);
+const featuredPress = pressPublications;
+const homeGallery = galleryItems;
 
 const pageLinks = [
   {
@@ -17,13 +30,23 @@ const pageLinks = [
     href: `${baseUrl}sobre-nosotros/`,
   },
   {
+    title: "Reservar",
+    text: "Catas, comidas y cenas con formulario específico de reserva.",
+    href: `${baseUrl}reservar/`,
+  },
+  {
     title: "Tienda",
-    text: "Packs, referencias disponibles y proceso de compra.",
+    text: "Packs, referencias disponibles y suscripción privada.",
     href: `${baseUrl}tienda/`,
   },
   {
+    title: "Blog",
+    text: "Artículos sobre vino, bodega, restaurante y club privado.",
+    href: `${baseUrl}blog/`,
+  },
+  {
     title: "Preguntas frecuentes",
-    text: "Dudas habituales sobre envíos, catas, reservas y regalos.",
+    text: "Dudas habituales sobre envíos, catas, reservas, restaurante y suscripción.",
     href: `${baseUrl}faq/`,
   },
 ] as const;
@@ -36,47 +59,53 @@ const pageLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="WineNotFound, bodega de partidas pequeñas, catas privadas y vinos con carácter propio."
+      content="WineNotFound, bodega de partidas pequeñas, restaurante, catas privadas, suscripción y vinos con carácter propio."
     />
     <meta name="theme-color" content="#2b1018" />
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
-    <title>WineNotFound | Bodega y catas privadas</title>
+    <title>WineNotFound | Bodega, restaurante y catas privadas</title>
   </head>
   <body>
     <SiteHeader />
 
     <main>
       <section class="hero" id="inicio" aria-labelledby="hero-title">
-        <picture class="hero-media" aria-hidden="true">
-          <source srcset={`${baseUrl}images/hero-cellar.jpg`} media="(min-width: 720px)" />
+        <div class="hero-media hero-gallery" aria-hidden="true">
+          <video autoplay muted loop playsinline poster={`${baseUrl}images/gallery-tasting.png`}>
+            <source src={`${baseUrl}videos/cellar-loop.webm`} type="video/webm" />
+          </video>
           <img src={`${baseUrl}images/hero-cellar.jpg`} alt="" loading="eager" fetchpriority="high" />
-        </picture>
+          <img src={`${baseUrl}images/gallery-restaurant.png`} alt="" loading="eager" />
+          <video autoplay muted loop playsinline poster={`${baseUrl}images/gallery-restaurant.png`}>
+            <source src={`${baseUrl}videos/restaurant-service.webm`} type="video/webm" />
+          </video>
+        </div>
         <div class="hero-overlay" aria-hidden="true"></div>
 
         <div class="hero-content">
-          <p class="eyebrow">Partidas pequeñas · Ribera imaginada · Vendimia manual</p>
+          <p class="eyebrow">Partidas pequeñas · Restaurante · Suscripción privada</p>
           <h1 id="hero-title">WineNotFound</h1>
           <p class="hero-copy">
-            Elaboramos vinos de producción limitada y organizamos experiencias en bodega para
-            acercar la cultura del vino de forma clara, cercana y memorable.
+            Elaboramos vinos de producción limitada y organizamos experiencias en bodega:
+            catas, visitas técnicas, comidas, cenas y una suscripción para seguir cada añada desde dentro.
           </p>
           <div class="hero-actions" aria-label="Acciones principales">
-            <a class="button button-primary" href={`${baseUrl}tienda/`}>Ir a la tienda</a>
-            <a class="button button-ghost" href="#contacto">Contactar</a>
+            <a class="button button-primary" href={`${baseUrl}reservar/`}>Reservar experiencia</a>
+            <a class="button button-ghost" href={`${baseUrl}tienda/#suscripcion`}>Ver suscripción</a>
           </div>
         </div>
 
         <div class="hero-notes" aria-label="Datos de la bodega">
           <span><strong>2.700</strong> botellas por añada</span>
-          <span><strong>8</strong> parcelas seleccionadas</span>
-          <span><strong>14 C</strong> crianza constante</span>
+          <span><strong>4</strong> experiencias reservables</span>
+          <span><strong>2</strong> vídeos generados</span>
         </div>
       </section>
 
       <section class="intro-band" aria-label="Resumen WineNotFound">
         <p>
-          Una bodega pequeña con alma digital: vinos honestos, experiencias cercanas y una forma de
-          comunicar basada en confianza, trazabilidad y conversación.
+          Una bodega pequeña con alma digital: vinos honestos, restaurante de temporada, experiencias cercanas
+          y una tienda con suscripción para clientes que quieren seguir la historia completa.
         </p>
       </section>
 
@@ -85,12 +114,12 @@ const pageLinks = [
           <p class="eyebrow">Explora el sitio</p>
           <h2 id="hub-title">Todo lo importante, bien separado</h2>
           <p>
-            La home funciona como primera impresión. Para ampliar información, cada bloque principal
+            La home resume la empresa y enseña su actividad. Para ampliar información, cada bloque principal
             tiene su propia página.
           </p>
         </div>
 
-        <div class="link-grid">
+        <div class="link-grid link-grid-wide">
           {pageLinks.map((item) => (
             <a class="link-card" href={item.href}>
               <span>Ver página</span>
@@ -104,21 +133,44 @@ const pageLinks = [
       <section class="section products-section" id="productos" aria-labelledby="products-title">
         <div class="section-heading">
           <p class="eyebrow">Servicios y productos</p>
-          <h2 id="products-title">Vinos, visitas y club privado</h2>
+          <h2 id="products-title">Vinos, catas, restaurante y club privado</h2>
           <p>
-            La actividad de WineNotFound se organiza en tres líneas: elaboración de vinos,
-            experiencias presenciales y club privado para clientes recurrentes.
+            WineNotFound combina producto, experiencia y comunidad. Cada línea tiene una función concreta:
+            comprar vino, aprender, comer en bodega o formar parte del club.
           </p>
         </div>
 
-        <div class="services-grid">
+        <div class="services-grid services-grid-rich">
           {serviceCards.map((card) => (
             <article class="service-card">
               <span>{card.tag}</span>
               <h3>{card.title}</h3>
               <p>{card.text}</p>
+              <ul class="compact-list">
+                {card.benefits.map((benefit) => <li>{benefit}</li>)}
+              </ul>
+              <a class="text-link" href={`${baseUrl}${card.href}`}>Más info</a>
             </article>
           ))}
+        </div>
+
+        <div class="service-process-grid">
+          <article class="process-card">
+            <p class="eyebrow">Reservas</p>
+            <h3>Cómo reservar cata, comida o cena</h3>
+            <ol class="process-list">
+              {reservationSteps.map((step) => <li>{step}</li>)}
+            </ol>
+            <a class="button button-primary" href={`${baseUrl}reservar/`}>Ir a reservar</a>
+          </article>
+          <article class="process-card">
+            <p class="eyebrow">Suscripción</p>
+            <h3>Cómo unirse a The Missing Bottle List</h3>
+            <ol class="process-list">
+              {subscriptionSteps.map((step) => <li>{step}</li>)}
+            </ol>
+            <a class="button button-primary" href={`${baseUrl}tienda/#suscripcion`}>Ver planes</a>
+          </article>
         </div>
       </section>
 
@@ -168,7 +220,10 @@ const pageLinks = [
       <section class="section experiences" id="experiencias" aria-labelledby="experience-title">
         <div class="section-heading">
           <p class="eyebrow">Experiencias</p>
-          <h2 id="experience-title">Catas para perder la señal</h2>
+          <h2 id="experience-title">Catas, visitas y restaurante</h2>
+          <p>
+            Cada experiencia explica qué se hace, cuánto dura, para quién está pensada y qué incluye.
+          </p>
         </div>
 
         <div class="experience-grid">
@@ -179,38 +234,44 @@ const pageLinks = [
       <section
         class="club-band"
         aria-labelledby="club-title"
-        style={`--club-image: url("${baseUrl}images/hero-cellar.jpg")`}
+        style={`--club-image: url("${baseUrl}images/gallery-subscription.png")`}
       >
         <div>
           <p class="eyebrow">Club privado</p>
           <h2 id="club-title">The Missing Bottle List</h2>
         </div>
         <p>
-          Acceso preferente a microvinificaciones, preventa de añadas y catas verticales antes de
-          que salgan al mapa.
+          Acceso preferente a microvinificaciones, preventa de añadas, cajas seleccionadas,
+          prioridad para reservar restaurante y descuentos en catas.
         </p>
-        <a class="button button-primary" href="#contacto">Solicitar información</a>
+        <a class="button button-primary" href={`${baseUrl}tienda/#suscripcion`}>Ver suscripción</a>
       </section>
 
       <section class="section gallery-section" id="galeria" aria-labelledby="gallery-title">
         <div class="section-heading">
           <p class="eyebrow">Galería</p>
-          <h2 id="gallery-title">Instalaciones, producto y eventos</h2>
+          <h2 id="gallery-title">Fotos y vídeos de la bodega</h2>
+          <p>
+            Galería con imágenes generadas para el proyecto, fotografías del sitio y vídeos locales
+            que muestran bodega, restaurante, vendimia, suscripción y eventos.
+          </p>
         </div>
-        <div class="gallery-grid">
-          <figure class="gallery-item gallery-large">
-            <img src={`${baseUrl}images/hero-cellar.jpg`} alt="Sala de barricas y botellas de WineNotFound" loading="lazy" />
-            <figcaption>Sala de crianza</figcaption>
-          </figure>
-          <figure class="gallery-item">
-            <img src={`${baseUrl}images/still-life.jpg`} alt="Botella y copa de vino en mesa de cata" loading="lazy" />
-            <figcaption>Mesa de cata</figcaption>
-          </figure>
-          <figure class="gallery-item gallery-text">
-            <figcaption>
-              Vendimia manual, botellas numeradas y sesiones para grupos reducidos durante todo el año.
-            </figcaption>
-          </figure>
+        <div class="gallery-grid gallery-grid-expanded">
+          {homeGallery.map((item) => (
+            <figure class={`gallery-item ${item.span === "large" ? "gallery-large" : ""}`}>
+              {item.type === "video" ? (
+                <video autoplay muted loop playsinline poster={`${baseUrl}${item.poster}`}>
+                  <source src={`${baseUrl}${item.src}`} type="video/webm" />
+                </video>
+              ) : (
+                <img src={`${baseUrl}${item.src}`} alt={item.title} loading="lazy" />
+              )}
+              <figcaption>
+                <strong>{item.title}</strong>
+                <span>{item.text}</span>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
 
@@ -219,20 +280,26 @@ const pageLinks = [
           <p class="eyebrow">Blog, prensa y eventos</p>
           <h2 id="updates-title">Actualidad de la bodega</h2>
         </div>
-        <div class="updates-grid">
+        <div class="updates-grid updates-grid-rich">
           <div class="blog-list">
-            {blogPosts.map((post) => (
+            {featuredBlogPosts.map((post) => (
               <article class="blog-card">
-                <span>{post.date}</span>
+                <span>{post.category} · {post.date}</span>
                 <h3>{post.title}</h3>
                 <p>{post.text}</p>
+                <a class="text-link" href={`${baseUrl}blog/`}>Leer en el blog</a>
               </article>
             ))}
           </div>
           <div class="press-list">
             <h3>Prensa</h3>
             <ul>
-              {pressNotes.map((note) => <li>{note}</li>)}
+              {featuredPress.map((note) => (
+                <li>
+                  <strong>{note.source}</strong>
+                  <span>{note.title}</span>
+                </li>
+              ))}
             </ul>
           </div>
           <div class="event-list">
@@ -253,10 +320,10 @@ const pageLinks = [
       <section class="section contact-section" id="contacto" aria-labelledby="contact-title">
         <div class="contact-copy">
           <p class="eyebrow">Contacto</p>
-          <h2 id="contact-title">Hablemos de tu próxima visita</h2>
+          <h2 id="contact-title">Hablemos de tu consulta</h2>
           <p>
-            Usa el formulario para preguntas, sugerencias, reservas de cata o información general.
-            Para pedidos, consulta la página de tienda y después escríbenos si necesitas ayuda.
+            Este formulario es solo para preguntas, sugerencias o contacto general. Para reservar
+            catas, comidas o cenas usa la página de reserva; para comprar o suscribirte, usa la tienda.
           </p>
           <address class="contact-card">
             <strong>WineNotFound S.L.</strong>

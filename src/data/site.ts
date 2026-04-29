@@ -83,26 +83,50 @@ export const experiences = [
 export const serviceCards = [
   {
     title: "Vinos de partida limitada",
-    text: "Referencias numeradas, elaboradas en volúmenes pequeños y con información clara sobre añada, crianza y perfil.",
+    text:
+      "Referencias numeradas elaboradas en volúmenes pequeños. Cada botella indica añada, crianza, perfil de sabor y recomendación de servicio.",
     tag: "Producto",
+    href: "tienda/",
+    benefits: ["Producción controlada", "Botellas numeradas", "Fichas de cata claras"],
   },
   {
     title: "Catas y visitas",
-    text: "Experiencias guiadas en bodega para entender el viñedo, la crianza y el servicio de cada referencia.",
+    text:
+      "Experiencias guiadas para conocer el viñedo, la sala de depósitos, la nave de barricas y la manera correcta de catar cada referencia.",
     tag: "Servicio",
+    href: "reservar/",
+    benefits: ["Lenguaje adaptado al grupo", "Cata comentada", "Bonos regalo disponibles"],
   },
   {
-    title: "Club privado",
-    text: "Acceso prioritario a ediciones limitadas, catas verticales y reservas antes del lanzamiento público.",
-    tag: "Comunidad",
+    title: "Restaurante de bodega",
+    text:
+      "Comida o cena con menú de temporada y maridaje WineNotFound. La reserva permite elegir turno, número de adultos y niños.",
+    tag: "Restaurante",
+    href: "reservar/",
+    benefits: ["Turno de comida o cena", "Menú con producto local", "Maridaje explicado"],
+  },
+  {
+    title: "Suscripción privada",
+    text:
+      "The Missing Bottle List es el club para recibir selecciones periódicas, preventas y contenido exclusivo de la bodega.",
+    tag: "Club",
+    href: "tienda/#suscripcion",
+    benefits: ["Acceso anticipado", "Cajas seleccionadas", "Descuentos en experiencias"],
   },
 ] as const;
 
-export const purchaseSteps = [
-  "Elige una referencia o pack en la tienda.",
-  "Añádelo a tu solicitud de pedido o pide información comercial.",
-  "Confirmamos disponibilidad, transporte y condiciones.",
-  "Recibes la confirmación final antes de realizar cualquier pago.",
+export const reservationSteps = [
+  "Entra en la página Reservar y elige si quieres cata, comida o cena.",
+  "Selecciona adultos, niños, fecha y turno disponible.",
+  "Pulsa continuar para dejar la solicitud preparada.",
+  "La bodega confirma disponibilidad, menú y condiciones por email o teléfono.",
+] as const;
+
+export const subscriptionSteps = [
+  "Elige un plan de suscripción en la tienda.",
+  "Revisa qué incluye la caja, ventajas y frecuencia de entrega.",
+  "Solicita el alta para que la bodega confirme dirección, edad legal y disponibilidad.",
+  "Recibe cada selección con notas de cata, acceso a preventas y prioridad para eventos.",
 ] as const;
 
 export const shopItems = [
@@ -110,16 +134,49 @@ export const shopItems = [
     title: "Pack Debug",
     price: "49 EUR",
     text: "Dos botellas 404 Crianza y una ficha de cata para iniciarse en la bodega.",
+    benefits: ["2 botellas", "Ficha de cata", "Ideal para regalo"],
   },
   {
     title: "Vertical Null",
     price: "120 EUR",
     text: "Selección de tres añadas de reserva para comparar evolución, barrica y guarda.",
+    benefits: ["3 añadas", "Notas de guarda", "Caja numerada"],
   },
   {
     title: "Entrada Maridaje",
     price: "35 EUR",
     text: "Reserva individual para una sesión de maridaje 404 en grupo reducido.",
+    benefits: ["3 vinos", "4 bocados", "Turno guiado"],
+  },
+  {
+    title: "Suscripción Missing Bottle",
+    price: "Desde 19 EUR/mes",
+    text: "Alta mensual al club privado con selección de vinos, preventas y ventajas en experiencias.",
+    benefits: ["Acceso anticipado", "Caja de temporada", "Prioridad de reserva"],
+  },
+] as const;
+
+export const subscriptionPlans = [
+  {
+    title: "Lista Inicial",
+    price: "19 EUR/mes",
+    text:
+      "Plan de entrada para recibir contenido de cata, preventas y prioridad cuando se abren nuevas añadas.",
+    benefits: ["Newsletter de bodega", "Preventa 48 h antes", "5% en experiencias"],
+  },
+  {
+    title: "Caja Debug",
+    price: "39 EUR/mes",
+    text:
+      "Selección periódica con botellas de temporada, fichas de cata y acceso a sesiones online del equipo.",
+    benefits: ["2 botellas por envío", "Fichas impresas", "10% en catas y tienda"],
+  },
+  {
+    title: "Reserva 404",
+    price: "69 EUR/mes",
+    text:
+      "Suscripción completa con referencias limitadas, cupo prioritario para restaurante y eventos privados.",
+    benefits: ["Botellas limitadas", "Mesa prioritaria", "Invitación a catas verticales"],
   },
 ] as const;
 
@@ -130,9 +187,19 @@ export const faqs = [
       "Sí. La tienda funciona como solicitud de pedido: el cliente selecciona un pack y recibe confirmación de disponibilidad antes de pagar.",
   },
   {
+    question: "¿Cómo reservo una comida o cena?",
+    answer:
+      "Desde la página Reservar puedes elegir adultos, niños, fecha y turno de comida o cena. Después la bodega confirma disponibilidad.",
+  },
+  {
     question: "¿Las catas son para principiantes?",
     answer:
       "Sí. Adaptamos el lenguaje al grupo, desde una primera toma de contacto hasta una visita técnica.",
+  },
+  {
+    question: "¿Qué diferencia hay entre cata, visita y maridaje?",
+    answer:
+      "La cata se centra en los vinos, la visita recorre la bodega y el maridaje combina vinos con bocados o platos seleccionados.",
   },
   {
     question: "¿Hacéis envíos fuera de España?",
@@ -150,6 +217,26 @@ export const faqs = [
       "Incluye recorrido por sala de depósitos, nave de barricas, archivo de botellas y cata comentada de tres referencias.",
   },
   {
+    question: "¿Qué incluye la suscripción?",
+    answer:
+      "Depende del plan, pero puede incluir preventas, cajas de vino, fichas de cata, descuentos y prioridad para reservar eventos.",
+  },
+  {
+    question: "¿Puedo cancelar la suscripción?",
+    answer:
+      "Sí. Al ser una web ficticia, se plantea como una suscripción flexible que se puede pausar o cancelar antes del siguiente ciclo.",
+  },
+  {
+    question: "¿Hay opciones para empresas?",
+    answer:
+      "Sí. Se pueden preparar catas privadas, comidas de equipo, regalos corporativos y packs personalizados.",
+  },
+  {
+    question: "¿El restaurante admite niños?",
+    answer:
+      "Sí. El formulario permite indicar niños hasta 12 años para adaptar el espacio y el menú.",
+  },
+  {
     question: "¿Cuánto tarda la respuesta a una consulta?",
     answer:
       "Respondemos normalmente en menos de 24 horas laborables a través del email indicado en el formulario.",
@@ -159,20 +246,103 @@ export const faqs = [
 export const blogPosts = [
   {
     date: "12 mayo 2026",
+    category: "Guía",
+    readTime: "4 min",
+    image: "images/gallery-tasting.png",
     title: "Cómo leer una etiqueta sin perderse",
     text: "Una guía breve para entender añada, crianza, parcela y temperatura de servicio.",
+    content: [
+      "Una etiqueta no debería ser un examen. En WineNotFound la usamos para contar lo esencial: de dónde viene el vino, cómo se ha criado y qué puede esperar quien lo abre.",
+      "La añada habla del clima de ese año; la crianza explica el tiempo de reposo y el tipo de recipiente; la temperatura de servicio ayuda a que el vino no parezca más pesado o más plano de lo que es.",
+    ],
   },
   {
     date: "28 mayo 2026",
+    category: "Bodega",
+    readTime: "5 min",
+    image: "images/hero-cellar.jpg",
     title: "Barrica usada, vino más preciso",
     text: "Por qué elegimos madera discreta para proteger la fruta y la identidad del viñedo.",
+    content: [
+      "La barrica no tiene que tapar el vino. Cuando usamos madera de varios vinos anteriores, buscamos textura y estabilidad sin convertir cada copa en una nota de vainilla.",
+      "El resultado son tintos con más profundidad y blancos con más volumen, pero siempre con el origen por delante.",
+    ],
+  },
+  {
+    date: "9 junio 2026",
+    category: "Restaurante",
+    readTime: "3 min",
+    image: "images/gallery-restaurant.png",
+    title: "Por qué un maridaje no es solo juntar vino y comida",
+    text: "El restaurante trabaja cada plato desde acidez, textura, grasa y temperatura.",
+    content: [
+      "Un buen maridaje no busca impresionar con palabras difíciles. Busca que el plato y el vino se ayuden: que la acidez limpie, que la fruta acompañe y que la textura no pelee.",
+      "Por eso cada menú cambia con la temporada y se explica en mesa de manera sencilla.",
+    ],
+  },
+  {
+    date: "22 junio 2026",
+    category: "Viñedo",
+    readTime: "4 min",
+    image: "images/gallery-vineyard.png",
+    title: "Vendimia nocturna y selección manual",
+    text: "La uva llega más fresca, se oxida menos y permite decidir mejor en bodega.",
+    content: [
+      "Vendimiar de noche reduce la temperatura de entrada y protege aromas delicados. Después, la selección manual separa lo que puede formar parte de una partida pequeña.",
+      "No se trata de hacerlo más lento porque sí, sino de decidir con menos ruido y más precisión.",
+    ],
+  },
+  {
+    date: "5 julio 2026",
+    category: "Club",
+    readTime: "4 min",
+    image: "images/gallery-subscription.png",
+    title: "Qué recibe un socio de The Missing Bottle List",
+    text: "Preventas, cajas seleccionadas, notas de cata y prioridad para reservar experiencias.",
+    content: [
+      "La suscripción nace para quienes quieren seguir la bodega más allá de una compra puntual. Cada selección llega con contexto: por qué esa botella, cuándo abrirla y con qué acompañarla.",
+      "También permite acceder antes a microvinificaciones y reservar plaza en eventos con menos plazas.",
+    ],
   },
 ] as const;
 
-export const pressNotes = [
-  "WineNotFound presenta su primera microvinificación blanca de parcela alta.",
-  "La bodega abre visitas técnicas para centros educativos y grupos profesionales.",
-  "Null Reserva 2021 recibe una mención local por su equilibrio entre guarda y frescura.",
+export const pressPublications = [
+  {
+    source: "Diario del Vino",
+    date: "Abril 2026",
+    title: "WineNotFound presenta su primera microvinificación blanca de parcela alta",
+    text: "El medio destaca la apuesta por partidas pequeñas y comunicación clara para nuevos consumidores.",
+  },
+  {
+    source: "Gastro Castilla",
+    date: "Mayo 2026",
+    title: "Una bodega ficticia con restaurante que entiende el maridaje como experiencia",
+    text: "Artículo centrado en el menú de temporada, la sala de catas y el papel del equipo de sala.",
+  },
+  {
+    source: "La Revista Local",
+    date: "Mayo 2026",
+    title: "Null Reserva 2021 recibe una mención por equilibrio entre guarda y frescura",
+    text: "La publicación valora el uso contenido de barrica y la acidez del vino.",
+  },
+  {
+    source: "Podcast Mesa y Copa",
+    date: "Junio 2026",
+    title: "Entrevista al equipo sobre trazabilidad, reservas online y club privado",
+    text: "Conversación sobre cómo digitalizar una bodega sin perder cercanía.",
+  },
+  {
+    source: "Agenda Enoturismo",
+    date: "Junio 2026",
+    title: "WineNotFound abre visitas técnicas para centros educativos",
+    text: "La noticia presenta las visitas a depósitos, barricas y archivo de botellas.",
+  },
+  {
+    source: "Newsletter Productores",
+    date: "Julio 2026",
+    title: "The Missing Bottle List, una suscripción para seguir añadas limitadas",
+    text: "Publicación sobre el modelo de club, preventas y cajas seleccionadas.",
+  },
 ] as const;
 
 export const events = [
@@ -190,6 +360,65 @@ export const events = [
     day: "04 JUL",
     title: "Maridaje de verano",
     meta: "20:00 h · Patio de barricas",
+  },
+  {
+    day: "18 JUL",
+    title: "Cena de bodega",
+    meta: "21:00 h · Restaurante WineNotFound",
+  },
+] as const;
+
+export const galleryItems = [
+  {
+    type: "video",
+    title: "Bodega en movimiento",
+    text: "Vídeo generado para mostrar la atmósfera de sala, copas y barricas durante una visita guiada.",
+    src: "videos/cellar-loop.webm",
+    poster: "images/gallery-tasting.png",
+    span: "large",
+  },
+  {
+    type: "image",
+    title: "Vendimia al amanecer",
+    text: "Filas de viñedo y cajas de uva seleccionada antes de entrar en bodega.",
+    src: "images/gallery-vineyard.png",
+  },
+  {
+    type: "image",
+    title: "Restaurante de bodega",
+    text: "Mesa preparada para comida y cena con maridaje WineNotFound.",
+    src: "images/gallery-restaurant.png",
+  },
+  {
+    type: "video",
+    title: "Servicio de restaurante",
+    text: "Vídeo generado del turno de comida y cena con ambiente de bodega.",
+    src: "videos/restaurant-service.webm",
+    poster: "images/gallery-restaurant.png",
+  },
+  {
+    type: "image",
+    title: "Sala de catas",
+    text: "Copas numeradas, fichas de cata y servicio guiado para grupos reducidos.",
+    src: "images/gallery-tasting.png",
+  },
+  {
+    type: "image",
+    title: "Selección manual",
+    text: "Uva revisada para decidir qué entra en cada partida limitada.",
+    src: "images/gallery-harvest.png",
+  },
+  {
+    type: "image",
+    title: "Suscripción privada",
+    text: "Caja mensual con botellas, notas de cata y acceso a preventas.",
+    src: "images/gallery-subscription.png",
+  },
+  {
+    type: "image",
+    title: "Prensa y eventos",
+    text: "Presentaciones, entrevistas y lanzamientos de temporada.",
+    src: "images/gallery-press.png",
   },
 ] as const;
 
