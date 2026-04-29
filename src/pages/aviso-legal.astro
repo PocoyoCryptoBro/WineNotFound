@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Aviso legal, política de privacidad y condiciones de uso de WineNotFound."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>Aviso legal | WineNotFound</title>
+  </head>
+  <body>
+    <main class="legal-page">
+      <a class="legal-back" href={baseUrl}>Volver a WineNotFound</a>
+      <header class="legal-hero">
+        <p class="eyebrow">Información legal</p>
+        <h1>Aviso legal y privacidad</h1>
+        <p>
+          Esta página reúne la información corporativa ficticia, condiciones básicas de uso,
+          política de privacidad y notas de protección de datos para el proyecto WineNotFound.
+        </p>
+      </header>
+
+      <section class="legal-section" aria-labelledby="owner-title">
+        <h2 id="owner-title">Titularidad del sitio</h2>
+        <p>
+          Titular: WineNotFound S.L. Dirección: Ctra. del Pago 404, km 12, 09400 Aranda de Duero,
+          Burgos. Email: hola@winenotfound.example. Teléfono: +34 910 404 404.
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="terms-title">
+        <h2 id="terms-title">Condiciones de uso</h2>
+        <p>
+          El contenido del sitio tiene finalidad informativa y comercial. Las referencias, precios y
+          eventos son ficticios y pueden modificarse para fines académicos del proyecto.
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Política de privacidad</h2>
+        <p>
+          Los formularios de esta maqueta no envían información a servidores externos. En una web
+          real, los datos de contacto se utilizarían únicamente para responder consultas, gestionar
+          reservas o tramitar pedidos solicitados por el usuario.
+        </p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="cookies-title">
+        <h2 id="cookies-title">Cookies</h2>
+        <p>
+          Esta versión no incorpora cookies de analítica, publicidad ni seguimiento. Si se añadieran
+          herramientas externas, habría que mostrar el aviso correspondiente y permitir la gestión
+          del consentimiento.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

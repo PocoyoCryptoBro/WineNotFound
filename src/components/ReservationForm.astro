@@ -8,20 +8,25 @@
     <input type="email" name="email" autocomplete="email" required />
   </label>
   <label>
-    Experiencia
+    Teléfono
+    <input type="tel" name="phone" autocomplete="tel" placeholder="+34 910 404 404" />
+  </label>
+  <label>
+    Tipo de consulta
     <select name="experience" required>
-      <option value="">Selecciona una opcion</option>
-      <option value="cata-anadas">Cata de anadas</option>
+      <option value="">Selecciona una opción</option>
+      <option value="comprar-vino">Comprar vino</option>
+      <option value="cata-anadas">Cata de añadas</option>
       <option value="maridaje-404">Maridaje 404</option>
-      <option value="visita-tecnica">Visita tecnica</option>
+      <option value="visita-tecnica">Visita técnica</option>
       <option value="club-privado">Club privado</option>
+      <option value="sugerencias">Sugerencias o preguntas</option>
     </select>
   </label>
   <label>
     Mensaje
-    <textarea name="message" rows="5" placeholder="Fecha, numero de personas o preferencias"></textarea>
+    <textarea name="message" rows="5" placeholder="Fecha, número de personas, pedido o pregunta"></textarea>
   </label>
   <button class="button button-primary" type="submit">Enviar solicitud</button>
   <p class="form-status" data-form-status role="status" aria-live="polite"></p>
 </form>
-
