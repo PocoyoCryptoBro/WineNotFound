@@ -81,8 +81,12 @@
     font-weight: 780;
   }
 
-  .brand-mark {
-    @apply grid h-[42px] w-[42px] place-items-center rounded-full border border-current text-[0.72rem] tracking-[0.08em];
+  .brand-logo {
+    @apply h-[42px] w-auto max-w-[58px] object-contain transition-[filter] duration-200;
+  }
+
+  .site-header:not(.is-scrolled):not(.is-menu-open) .brand-logo {
+    filter: invert(1) brightness(1.15);
   }
 
   .site-nav {

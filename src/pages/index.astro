@@ -21,7 +21,7 @@ import "../styles/global.css";
 const baseUrl = import.meta.env.BASE_URL;
 const featuredBlogPosts = blogPosts.slice(0, 3);
 const featuredPress = pressPublications;
-const homeGallery = galleryItems;
+const homeGallery = galleryItems.filter((item) => item.type !== "video");
 
 const pageLinks = [
   {
@@ -70,14 +70,9 @@ const pageLinks = [
 
     <main>
       <section class="hero" id="inicio" aria-labelledby="hero-title">
-        <div class="hero-media hero-gallery" aria-hidden="true">
-          <video autoplay muted loop playsinline poster={`${baseUrl}images/gallery-tasting.png`}>
-            <source src={`${baseUrl}videos/cellar-loop.webm`} type="video/webm" />
-          </video>
-          <img src={`${baseUrl}images/hero-cellar.jpg`} alt="" loading="eager" fetchpriority="high" />
-          <img src={`${baseUrl}images/gallery-restaurant.png`} alt="" loading="eager" />
-          <video autoplay muted loop playsinline poster={`${baseUrl}images/gallery-restaurant.png`}>
-            <source src={`${baseUrl}videos/restaurant-service.webm`} type="video/webm" />
+        <div class="hero-media" aria-hidden="true">
+          <video autoplay muted loop playsinline poster={`${baseUrl}images/hero-cellar.jpg`}>
+            <source src={`${baseUrl}videos/bodega.webm`} type="video/webm" />
           </video>
         </div>
         <div class="hero-overlay" aria-hidden="true"></div>
@@ -98,7 +93,7 @@ const pageLinks = [
         <div class="hero-notes" aria-label="Datos de la bodega">
           <span><strong>2.700</strong> botellas por añada</span>
           <span><strong>4</strong> experiencias reservables</span>
-          <span><strong>2</strong> vídeos generados</span>
+          <span><strong>1</strong> vídeo de presentación</span>
         </div>
       </section>
 
@@ -250,10 +245,10 @@ const pageLinks = [
       <section class="section gallery-section" id="galeria" aria-labelledby="gallery-title">
         <div class="section-heading">
           <p class="eyebrow">Galería</p>
-          <h2 id="gallery-title">Fotos y vídeos de la bodega</h2>
+          <h2 id="gallery-title">Fotos de la bodega</h2>
           <p>
-            Galería con imágenes generadas para el proyecto, fotografías del sitio y vídeos locales
-            que muestran bodega, restaurante, vendimia, suscripción y eventos.
+            Galería con imágenes generadas para el proyecto y fotografías del sitio que muestran
+            bodega, restaurante, vendimia, suscripción y eventos.
           </p>
         </div>
         <div class="gallery-grid gallery-grid-expanded">
