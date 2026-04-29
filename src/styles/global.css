@@ -2306,6 +2306,12 @@ textarea {
   .legal-section h2 {
     font-size: 1.7rem;
   }
+
+ /* .brand-logo {
+    height: 40px;
+    width: auto;
+  }
+  */
 }
 
 @media (max-width: 380px) {
