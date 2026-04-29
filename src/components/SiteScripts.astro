@@ -608,6 +608,146 @@
     renderCart();
   };
 
+  const escapeHtml = (value: string) =>
+    value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  const getFormValue = (formData: FormData, key: string) => formData.get(key)?.toString().trim() || "";
+
+  const getSelectedOptionText = (form: HTMLFormElement, key: string, fallback: string) => {
+    const field = form.elements.namedItem(key);
+    if (field instanceof HTMLSelectElement) {
+      return field.selectedOptions[0]?.textContent?.trim() || fallback;
+    }
+
+    return fallback;
+  };
+
+  const openOrderSummaryTab = (
+    orderId: string,
+    formData: FormData,
+    products: CartItem[],
+    total: number,
+    checkoutFormElement: HTMLFormElement,
+  ) => {
+    const receiptWindow = window.open("", "_blank");
+    if (!receiptWindow) return false;
+
+    const name = getFormValue(formData, "name");
+    const email = getFormValue(formData, "email");
+    const phone = getFormValue(formData, "phone");
+    const address = getFormValue(formData, "address");
+    const postal = getFormValue(formData, "postal");
+    const province = getSelectedOptionText(checkoutFormElement, "province", getFormValue(formData, "province"));
+    const shipping = getSelectedOptionText(checkoutFormElement, "shipping", getFormValue(formData, "shipping"));
+    const payment = getSelectedOptionText(checkoutFormElement, "payment", getFormValue(formData, "payment"));
+    const notes = getFormValue(formData, "notes") || "Sin notas";
+    const date = new Date().toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" });
+
+    const productRows = products
+      .map(
+        (item) => `
+          <tr>
+            <td>
+              <strong>${escapeHtml(item.name)}</strong>
+              <span>${escapeHtml(item.cycle)}</span>
+            </td>
+            <td>${item.quantity}</td>
+            <td>${moneyFormatter.format(item.price)}</td>
+            <td>${moneyFormatter.format(item.price * item.quantity)}</td>
+          </tr>
+        `,
+      )
+      .join("");
+
+    receiptWindow.document.write(`
+      <!doctype html>
+      <html lang="es">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Pedido ${escapeHtml(orderId)} | WineNotFound</title>
+          <style>
+            :root { color-scheme: light; font-family: Inter, "Segoe UI", Arial, sans-serif; color: #171514; background: #f6f1e8; }
+            body { margin: 0; background: linear-gradient(135deg, #fff7ea, #f0d6a3 36%, #cfd9ba 68%, #ead2dc); }
+            main { box-sizing: border-box; width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0; }
+            section { background: #fffaf2; border: 1px solid rgb(23 21 20 / 0.14); border-radius: 8px; padding: 26px; box-shadow: 0 18px 45px rgb(24 13 15 / 0.12); }
+            h1, h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; line-height: 1; }
+            h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); }
+            h2 { font-size: 1.8rem; margin-top: 30px; }
+            p { color: rgb(23 21 20 / 0.72); }
+            .meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+            .meta span { background: rgb(195 154 82 / 0.24); color: #2b1018; border-radius: 999px; padding: 8px 12px; font-weight: 800; }
+            dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: rgb(23 21 20 / 0.14); border: 1px solid rgb(23 21 20 / 0.14); }
+            div { min-width: 0; }
+            dl div { background: #fffdf8; padding: 14px; }
+            dt { color: rgb(23 21 20 / 0.58); font-size: 0.76rem; font-weight: 900; text-transform: uppercase; }
+            dd { margin: 4px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+            table { width: 100%; margin-top: 14px; border-collapse: collapse; background: #fffdf8; }
+            th, td { border-bottom: 1px solid rgb(23 21 20 / 0.14); padding: 14px; text-align: left; vertical-align: top; }
+            th { color: rgb(23 21 20 / 0.58); font-size: 0.78rem; text-transform: uppercase; }
+            td span { display: block; color: rgb(23 21 20 / 0.58); font-size: 0.88rem; margin-top: 3px; }
+            .total { display: flex; justify-content: flex-end; gap: 18px; margin-top: 18px; font-size: 1.4rem; font-weight: 900; }
+            .actions { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; }
+            button { min-height: 44px; border: 0; border-radius: 999px; background: #641c2f; color: #fffaf2; padding: 10px 18px; font-weight: 900; cursor: pointer; }
+            @media print { body { background: white; } main { width: 100%; padding: 0; } section { box-shadow: none; border: 0; } .actions { display: none; } }
+            @media (max-width: 700px) { dl { grid-template-columns: 1fr; } th:nth-child(3), td:nth-child(3) { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main>
+            <section>
+              <h1>Resumen de compra</h1>
+              <div class="meta">
+                <span>${escapeHtml(orderId)}</span>
+                <span>${escapeHtml(date)}</span>
+              </div>
+
+              <h2>Cliente</h2>
+              <dl>
+                <div><dt>Nombre</dt><dd>${escapeHtml(name)}</dd></div>
+                <div><dt>Email</dt><dd>${escapeHtml(email)}</dd></div>
+                <div><dt>Teléfono</dt><dd>${escapeHtml(phone)}</dd></div>
+                <div><dt>Dirección</dt><dd>${escapeHtml(address)}</dd></div>
+                <div><dt>Código postal</dt><dd>${escapeHtml(postal)}</dd></div>
+                <div><dt>Provincia</dt><dd>${escapeHtml(province)}</dd></div>
+                <div><dt>Envío</dt><dd>${escapeHtml(shipping)}</dd></div>
+                <div><dt>Pago</dt><dd>${escapeHtml(payment)}</dd></div>
+                <div><dt>Notas</dt><dd>${escapeHtml(notes)}</dd></div>
+              </dl>
+
+              <h2>Productos comprados</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>${productRows}</tbody>
+              </table>
+              <div class="total"><span>Total</span><strong>${moneyFormatter.format(total)}</strong></div>
+
+              <div class="actions">
+                <button type="button" onclick="window.print()">Imprimir</button>
+                <button type="button" onclick="window.close()">Cerrar</button>
+              </div>
+            </section>
+          </main>
+        </body>
+      </html>
+    `);
+    receiptWindow.document.close();
+    receiptWindow.focus();
+    return true;
+  };
+
   cartAddButtons.forEach((button) => {
     button.addEventListener("click", () => {
       addCartItem(button);
@@ -652,13 +792,17 @@
       return;
     }
 
+    const purchasedItems = items.map((item) => ({ ...item }));
     const formData = new FormData(checkoutForm);
     const rawName = formData.get("name");
     const name = rawName?.toString().trim().split(" ")[0] || "Cliente";
     const orderId = `WNF-${Date.now().toString().slice(-6)}`;
+    const didOpenSummary = openOrderSummaryTab(orderId, formData, purchasedItems, total, checkoutForm);
 
     if (checkoutStatus) {
-      checkoutStatus.textContent = `${name}, compra ${orderId} completada: ${count} producto(s) por ${moneyFormatter.format(total)}. Recibirás el resumen por email.`;
+      checkoutStatus.textContent = didOpenSummary
+        ? `${name}, compra ${orderId} completada: ${count} producto(s) por ${moneyFormatter.format(total)}. Se ha abierto el resumen en una nueva pestaña.`
+        : `${name}, compra ${orderId} completada: ${count} producto(s) por ${moneyFormatter.format(total)}. El navegador ha bloqueado la pestaña del resumen.`;
     }
 
     cart.clear();
