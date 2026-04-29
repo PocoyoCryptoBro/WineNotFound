@@ -1,0 +1,37 @@
+---
+interface Props {
+  kind: string;
+  vintage: string;
+  title: string;
+  description: string;
+  ageing: string;
+  bottles: string;
+  type: string;
+  tone: "burgundy" | "ink" | "amber";
+  label: string;
+}
+
+const { kind, vintage, title, description, ageing, bottles, type, tone, label } = Astro.props;
+---
+
+<article class="wine-card" data-type={type}>
+  <div class={`bottle bottle-${tone}`} aria-hidden="true">
+    <span class="bottle-label">{label}</span>
+  </div>
+  <div>
+    <p class="wine-kicker">{kind} · {vintage}</p>
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
+  <dl>
+    <div>
+      <dt>Crianza</dt>
+      <dd>{ageing}</dd>
+    </div>
+    <div>
+      <dt>Botellas</dt>
+      <dd>{bottles}</dd>
+    </div>
+  </dl>
+</article>
+

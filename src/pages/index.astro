@@ -1,0 +1,298 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import WineCard from "../components/WineCard.astro";
+import ExperienceCard from "../components/ExperienceCard.astro";
+import ReservationForm from "../components/ReservationForm.astro";
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+
+const wines = [
+  {
+    kind: "Tinto",
+    vintage: "2023",
+    title: "404 Crianza",
+    description:
+      "Tempranillo con fruta negra, madera fina y final mineral. El vino que todos buscan despues del primer sorbo.",
+    ageing: "12 meses",
+    bottles: "2.700",
+    type: "red",
+    tone: "burgundy",
+    label: "404",
+  },
+  {
+    kind: "Reserva",
+    vintage: "2021",
+    title: "Null Reserva",
+    description:
+      "Concentrado, profundo y sobrio. Ciruela madura, cacao, hoja de tabaco y una acidez que limpia el paladar.",
+    ageing: "18 meses",
+    bottles: "980",
+    type: "red special",
+    tone: "ink",
+    label: "NULL",
+  },
+  {
+    kind: "Blanco",
+    vintage: "2024",
+    title: "Cache Miss",
+    description:
+      "Viura y albillo con piel de citrico, flor seca y salinidad. Fermentado en barrica usada para ganar textura.",
+    ageing: "6 meses",
+    bottles: "1.450",
+    type: "white",
+    tone: "amber",
+    label: "CACHE",
+  },
+] as const;
+
+const experiences = [
+  {
+    number: "01",
+    title: "Cata de anadas",
+    description: "Cuatro vinos, una mesa de roble y una lectura guiada de suelo, clima y crianza.",
+    availability: "Miercoles y viernes",
+  },
+  {
+    number: "02",
+    title: "Maridaje 404",
+    description: "Menu de temporada con quesos afinados, setas, pan de masa madre y chocolate amargo.",
+    availability: "Sabados",
+  },
+  {
+    number: "03",
+    title: "Visita tecnica",
+    description: "Recorrido por sala de depositos, nave de barricas y archivo de botellas dormidas.",
+    availability: "Grupos reducidos",
+  },
+] as const;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="WineNotFound, bodega de partidas pequenas, catas privadas y vinos con caracter propio."
+    />
+    <meta name="theme-color" content="#2b1018" />
+    <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
+    <title>WineNotFound | Bodega de partidas limitadas</title>
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <picture class="hero-media" aria-hidden="true">
+          <source srcset={`${baseUrl}images/hero-cellar.jpg`} media="(min-width: 720px)" />
+          <img src={`${baseUrl}images/hero-cellar.jpg`} alt="" loading="eager" fetchpriority="high" />
+        </picture>
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <p class="eyebrow">Partidas pequenas · Ribera imaginada · Vendimia manual</p>
+          <h1 id="hero-title">WineNotFound</h1>
+          <p class="hero-copy">
+            La bodega donde cada anada aparece con una personalidad distinta: vinos precisos,
+            catas sin prisa y una coleccion que no se deja indexar.
+          </p>
+          <div class="hero-actions" aria-label="Acciones principales">
+            <a class="button button-primary" href="#reservas">Reservar cata</a>
+            <a class="button button-ghost" href="#vinos">Ver anadas</a>
+          </div>
+        </div>
+
+        <div class="hero-notes" aria-label="Datos de la bodega">
+          <span><strong>2.700</strong> botellas por anada</span>
+          <span><strong>8</strong> parcelas seleccionadas</span>
+          <span><strong>14 C</strong> crianza constante</span>
+        </div>
+      </section>
+
+      <section class="intro-band" aria-label="Resumen WineNotFound">
+        <p>
+          Vinos con memoria de suelo calizo, crianza paciente y etiquetas que juegan con el
+          lenguaje digital sin perder el pulso artesanal.
+        </p>
+      </section>
+
+      <section class="section collection" id="vinos" aria-labelledby="collection-title">
+        <div class="section-heading">
+          <p class="eyebrow">Coleccion actual</p>
+          <h2 id="collection-title">Anadas dificiles de encontrar</h2>
+          <p>
+            Tres referencias de produccion limitada para mesas largas, conversaciones lentas y
+            noches que no necesitan explicacion.
+          </p>
+        </div>
+
+        <div class="filter-bar" aria-label="Filtrar vinos">
+          <button class="filter-button is-active" type="button" data-filter="all">Todos</button>
+          <button class="filter-button" type="button" data-filter="red">Tintos</button>
+          <button class="filter-button" type="button" data-filter="white">Blancos</button>
+          <button class="filter-button" type="button" data-filter="special">Especiales</button>
+        </div>
+
+        <div class="wine-grid">
+          {wines.map((wine) => <WineCard {...wine} />)}
+        </div>
+      </section>
+
+      <section class="section cellar-section" id="bodega" aria-labelledby="cellar-title">
+        <div class="cellar-copy">
+          <p class="eyebrow">La bodega</p>
+          <h2 id="cellar-title">Tradicion sin modo avion</h2>
+          <p>
+            Trabajamos con depositos pequenos, levaduras autoctonas y una crianza que escucha antes
+            de decidir. La tecnologia entra solo donde ayuda: control termico, trazabilidad y una
+            obsesion tranquila por el detalle.
+          </p>
+          <div class="cellar-list">
+            <span>Vendimia nocturna</span>
+            <span>Barricas francesas usadas</span>
+            <span>Etiquetado manual</span>
+          </div>
+        </div>
+        <figure class="cellar-image">
+          <img src={`${baseUrl}images/still-life.jpg`} alt="Botella de vino tinto con copa y uvas" loading="lazy" />
+          <figcaption>Edicion de cata privada: botellas numeradas y servicio a temperatura exacta.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section experiences" id="experiencias" aria-labelledby="experience-title">
+        <div class="section-heading">
+          <p class="eyebrow">Experiencias</p>
+          <h2 id="experience-title">Catas para perder la senal</h2>
+        </div>
+
+        <div class="experience-grid">
+          {experiences.map((experience) => <ExperienceCard {...experience} />)}
+        </div>
+      </section>
+
+      <section
+        class="club-band"
+        aria-labelledby="club-title"
+        style={`--club-image: url("${baseUrl}images/hero-cellar.jpg")`}
+      >
+        <div>
+          <p class="eyebrow">Club privado</p>
+          <h2 id="club-title">The Missing Bottle List</h2>
+        </div>
+        <p>
+          Acceso preferente a microvinificaciones, preventa de anadas y catas verticales antes de
+          que salgan al mapa.
+        </p>
+        <a class="button button-primary" href="#reservas">Solicitar invitacion</a>
+      </section>
+
+      <section class="section reservation" id="reservas" aria-labelledby="reservation-title">
+        <div class="reservation-copy">
+          <p class="eyebrow">Reservas</p>
+          <h2 id="reservation-title">Encuentra tu proxima botella</h2>
+          <p>
+            Cuentanos cuando quieres venir y prepararemos una cata ajustada a tu grupo. Respondemos
+            en menos de 24 horas laborables.
+          </p>
+        </div>
+
+        <ReservationForm />
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>WineNotFound · Bodega de partidas limitadas</p>
+      <p>Ctra. del Pago 404, km 12 · hola@winenotfound.example</p>
+      <p>&copy; <span data-year></span> WineNotFound</p>
+    </footer>
+
+    <script>
+      const header = document.querySelector("[data-header]");
+      const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".site-nav a")];
+      const filterButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+      const wineCards = [...document.querySelectorAll<HTMLElement>(".wine-card")];
+      const reservationForm = document.querySelector<HTMLFormElement>("[data-reservation-form]");
+      const formStatus = document.querySelector("[data-form-status]");
+      const year = document.querySelector("[data-year]");
+
+      if (year) year.textContent = new Date().getFullYear().toString();
+
+      const updateHeaderState = () => {
+        header?.classList.toggle("is-scrolled", window.scrollY > 24);
+      };
+
+      updateHeaderState();
+      window.addEventListener("scroll", updateHeaderState, { passive: true });
+
+      navToggle?.addEventListener("click", () => {
+        const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+        navToggle.setAttribute("aria-expanded", String(!isOpen));
+        header?.classList.toggle("is-menu-open", !isOpen);
+        document.body.classList.toggle("nav-open", !isOpen);
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          navToggle?.setAttribute("aria-expanded", "false");
+          header?.classList.remove("is-menu-open");
+          document.body.classList.remove("nav-open");
+        });
+      });
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter ?? "all";
+
+          filterButtons.forEach((current) => current.classList.toggle("is-active", current === button));
+          wineCards.forEach((card) => {
+            const types = card.dataset.type?.split(" ") ?? [];
+            card.classList.toggle("is-hidden", filter !== "all" && !types.includes(filter));
+          });
+        });
+      });
+
+      const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute("href") ?? ""))
+        .filter(Boolean);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            navLinks.forEach((link) => {
+              link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`);
+            });
+          });
+        },
+        {
+          rootMargin: "-45% 0px -45% 0px",
+          threshold: 0,
+        },
+      );
+
+      sections.forEach((section) => {
+        if (section) observer.observe(section);
+      });
+
+      if (reservationForm) {
+        reservationForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const formData = new FormData(reservationForm);
+          const rawName = formData.get("name");
+          const name = rawName?.toString().trim().split(" ")[0] || "Gracias";
+
+          if (formStatus) {
+            formStatus.textContent = `${name}, solicitud recibida. Te escribiremos para confirmar disponibilidad.`;
+          }
+
+          reservationForm.reset();
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<form class="reservation-form" data-reservation-form>
+  <label>
+    Nombre
+    <input type="text" name="name" autocomplete="name" required />
+  </label>
+  <label>
+    Email
+    <input type="email" name="email" autocomplete="email" required />
+  </label>
+  <label>
+    Experiencia
+    <select name="experience" required>
+      <option value="">Selecciona una opcion</option>
+      <option value="cata-anadas">Cata de anadas</option>
+      <option value="maridaje-404">Maridaje 404</option>
+      <option value="visita-tecnica">Visita tecnica</option>
+      <option value="club-privado">Club privado</option>
+    </select>
+  </label>
+  <label>
+    Mensaje
+    <textarea name="message" rows="5" placeholder="Fecha, numero de personas o preferencias"></textarea>
+  </label>
+  <button class="button button-primary" type="submit">Enviar solicitud</button>
+  <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+</form>
+

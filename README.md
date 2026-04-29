@@ -1,19 +1,24 @@
 # WineNotFound
 
-Proyecto web estático para una bodega ficticia llamada **WineNotFound**. Incluye una landing responsive con hero visual, catálogo filtrable, sección de bodega, experiencias y formulario de reserva simulado.
+Proyecto web moderno con Astro para una bodega ficticia llamada **WineNotFound**. Incluye una landing responsive con hero inmersivo, catálogo filtrable, narrativa de bodega, experiencias y formulario de reserva simulado.
+
+## Comandos
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
 
 ## Estructura
 
-- `index.html`: contenido y estructura de la página.
-- `styles.css`: identidad visual, layout responsive y componentes.
-- `script.js`: navegación móvil, filtros de vinos, estado del formulario y año automático.
-- `assets/`: imágenes locales usadas por la web.
-
-## Cómo abrirlo
-
-Abre `index.html` directamente en el navegador.
+- `src/pages/index.astro`: página principal.
+- `src/components/`: componentes reutilizables.
+- `src/styles/global.css`: identidad visual, layout responsive y estados interactivos.
+- `public/images/`: imágenes locales servidas por Astro.
 
 ## Créditos de imágenes
 
-- `assets/hero-cellar.jpg`: foto de Nicolas Spehler en Unsplash.
-- `assets/still-life.jpg`: foto de Karolina Paliulyte en Unsplash.
+- `public/images/hero-cellar.jpg`: foto de Nicolas Spehler en Unsplash.
+- `public/images/still-life.jpg`: foto de Karolina Paliulyte en Unsplash.
