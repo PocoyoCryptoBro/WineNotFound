@@ -8,6 +8,7 @@
   const reservationForm = document.querySelector<HTMLFormElement>("[data-reservation-form]");
   const formStatus = document.querySelector("[data-form-status]");
   const bookingForm = document.querySelector<HTMLFormElement>("[data-booking-form]");
+  const bookingCard = document.querySelector<HTMLElement>("[data-booking-card]");
   const bookingStatus = document.querySelector("[data-booking-status]");
   const bookingTypeInputs = [...document.querySelectorAll<HTMLInputElement>("[data-booking-type]")];
   const bookingDateOptions = document.querySelector<HTMLElement>("[data-booking-date-options]");
@@ -244,16 +245,14 @@
     const date = new Date(`${iso}T12:00:00`);
     if (isClosedDate(date)) return [];
 
-    const hash = hashBooking(`${iso}-${type}`);
-    if (hash % 19 === 0) return [];
-
-    return bookingSchedules[type].filter((_, index) => (hash + index * 5) % 6 !== 0);
+    return bookingSchedules[type];
   };
 
-  const formatBookingDate = (date: Date) =>
-    new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "short" })
-      .format(date)
-      .replace(".", "");
+  const formatBookingDate = (date: Date) => {
+    const weekday = new Intl.DateTimeFormat("es-ES", { weekday: "short" }).format(date).replace(".", "");
+    const month = new Intl.DateTimeFormat("es-ES", { month: "short" }).format(date).replace(".", "");
+    return `${weekday}., ${date.getDate()} ${month}.`;
+  };
 
   const getDateButtonLabel = (date: Date, todayIso: string): BookingDay => {
     const iso = toIsoDate(date);
@@ -263,7 +262,7 @@
     return {
       date,
       iso,
-      dayLabel: iso === todayIso ? "HOY" : weekday.toUpperCase(),
+      dayLabel: iso === todayIso ? "HOY" : `${weekday.toUpperCase()}.`,
       numberLabel: date.getDate().toString(),
       monthLabel: month.toUpperCase(),
       isClosed: isClosedDate(date),
@@ -275,6 +274,7 @@
   let selectedBookingTime = "";
 
   const setBookingPanel = (panel: "details" | "times" | "guest") => {
+    if (bookingCard) bookingCard.dataset.activePanel = panel;
     bookingPanels.forEach((current) => {
       const active = current.dataset.bookingPanel === panel;
       current.hidden = !active;
@@ -338,7 +338,7 @@
     bookingTimes.replaceChildren();
 
     if (bookingSummary && day) {
-      bookingSummary.textContent = `${formatBookingDate(day.date)} · ${bookingLabels[type]} · ${total} ${total === 1 ? "persona" : "personas"}`;
+      bookingSummary.textContent = `▦ ${formatBookingDate(day.date)} ◷ ${bookingLabels[type]} ◎ ${total} ${total === 1 ? "Persona" : "Personas"}`;
     }
 
     times.forEach((time) => {
@@ -362,7 +362,7 @@
   if (bookingForm) {
     const today = new Date();
     const todayIso = toIsoDate(today);
-    bookingDays = Array.from({ length: 7 }, (_, index) => {
+    bookingDays = Array.from({ length: 6 }, (_, index) => {
       const date = new Date(today);
       date.setDate(today.getDate() + index);
       return getDateButtonLabel(date, todayIso);
