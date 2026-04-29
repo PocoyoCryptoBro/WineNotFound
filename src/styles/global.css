@@ -66,7 +66,7 @@
 
 @layer components {
   .site-header {
-    @apply fixed inset-x-0 top-0 z-20 flex min-h-[76px] items-center justify-between gap-7 px-[clamp(20px,4vw,56px)] py-[18px] text-paper-soft transition-[background,color,box-shadow] duration-200;
+    @apply fixed inset-x-0 top-0 z-50 flex min-h-[76px] items-center justify-between gap-7 px-[clamp(20px,4vw,56px)] py-[18px] text-paper-soft transition-[background,color,box-shadow] duration-200;
     background: linear-gradient(180deg, rgb(18 12 12 / 0.72), rgb(18 12 12 / 0));
   }
 
@@ -77,7 +77,7 @@
   }
 
   .brand {
-    @apply inline-flex items-center gap-3 tracking-normal;
+    @apply relative z-[52] inline-flex items-center gap-3 tracking-normal;
     font-weight: 780;
   }
 
@@ -1013,7 +1013,7 @@
   }
 
   .booking-card {
-    @apply grid w-[min(560px,100%)] gap-3.5 rounded-lg bg-paper-soft/95 p-[clamp(26px,4vw,42px)] text-center shadow-[0_26px_90px_rgb(18_10_12_/_0.34)];
+    @apply grid w-[min(680px,100%)] gap-3.5 rounded-lg bg-paper-soft/95 p-[clamp(26px,4vw,42px)] text-center shadow-[0_26px_90px_rgb(18_10_12_/_0.34)];
   }
 
   .booking-card h1 {
@@ -1021,7 +1021,7 @@
   }
 
   .booking-form {
-    @apply mt-1;
+    @apply mt-1 text-left;
   }
 
   .booking-stepper,
@@ -1082,6 +1082,60 @@
 
   .booking-options input:checked + span small {
     @apply text-paper-soft/80;
+  }
+
+  .booking-times {
+    @apply m-0 grid gap-2 border-0 p-0 text-left;
+  }
+
+  .booking-times legend {
+    @apply mb-0.5 font-extrabold text-ink;
+  }
+
+  .booking-time-grid {
+    @apply grid gap-2;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .booking-time-option {
+    @apply cursor-pointer;
+  }
+
+  .booking-time-option.is-disabled {
+    @apply cursor-not-allowed;
+  }
+
+  .booking-time-option input {
+    @apply pointer-events-none absolute opacity-0;
+  }
+
+  .booking-time-option span {
+    @apply grid min-h-[54px] place-items-center gap-0.5 rounded-[7px] border border-ink/20 bg-cream p-2 text-center font-black leading-[1.05] text-ink;
+  }
+
+  .booking-time-option small {
+    @apply block text-[0.72rem] font-semibold text-moss;
+  }
+
+  .booking-time-option input:checked + span {
+    @apply border-wine-dark bg-wine-dark text-paper-soft;
+  }
+
+  .booking-time-option input:checked + span small {
+    @apply text-paper-soft/80;
+  }
+
+  .booking-time-option input:disabled + span {
+    @apply border-ink/10 bg-ink/5 text-ink/40;
+  }
+
+  .booking-time-option input:disabled + span small {
+    @apply text-ink/40;
+  }
+
+  .booking-time-help,
+  .booking-availability-note {
+    @apply m-0 text-[0.86rem] text-ink/60;
   }
 
   .booking-actions {
@@ -1181,16 +1235,16 @@
   }
 
   .nav-toggle {
-    @apply relative z-[22] block;
+    @apply relative z-[53] block;
   }
 
   .site-nav {
-    @apply fixed inset-0 z-[19] grid content-start gap-2.5 overflow-y-auto bg-paper px-[18px] pb-7 pt-[92px] text-[1.18rem] text-ink opacity-0 transition-opacity duration-200;
+    @apply invisible fixed inset-0 z-[51] grid h-[100dvh] min-h-[100dvh] -translate-y-2 content-start gap-2.5 overflow-y-auto overscroll-contain bg-paper px-[18px] pb-7 pt-[92px] text-[1.18rem] text-ink opacity-0 transition-[opacity,transform,visibility] duration-200;
     pointer-events: none;
   }
 
   .site-nav a {
-    @apply block border-b border-line px-1 py-4;
+    @apply block min-h-14 border-b border-line px-1 py-4;
   }
 
   .site-nav a::after {
@@ -1198,7 +1252,7 @@
   }
 
   .site-header.is-menu-open .site-nav {
-    @apply opacity-100;
+    @apply visible translate-y-0 opacity-100;
     pointer-events: auto;
   }
 
@@ -1469,6 +1523,10 @@
     grid-template-columns: 1fr;
   }
 
+  .booking-time-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .stepper-row {
     grid-template-columns: 56px 1fr 56px;
   }
@@ -1528,6 +1586,10 @@
   }
 
   .event-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-time-grid {
     grid-template-columns: 1fr;
   }
 }

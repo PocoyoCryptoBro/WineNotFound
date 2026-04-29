@@ -24,7 +24,7 @@ const navItems = [
     <span></span>
   </button>
 
-  <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+  <nav class="site-nav" id="site-nav" aria-label="Navegación principal" data-site-nav>
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
 </header>

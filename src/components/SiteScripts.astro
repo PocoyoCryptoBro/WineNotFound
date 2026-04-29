@@ -1,6 +1,7 @@
 <script>
   const header = document.querySelector("[data-header]");
   const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const siteNav = document.querySelector<HTMLElement>("[data-site-nav]");
   const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".site-nav a")];
   const filterButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
   const wineCards = [...document.querySelectorAll<HTMLElement>(".wine-card")];
@@ -8,6 +9,11 @@
   const formStatus = document.querySelector("[data-form-status]");
   const bookingForm = document.querySelector<HTMLFormElement>("[data-booking-form]");
   const bookingStatus = document.querySelector("[data-booking-status]");
+  const bookingDate = document.querySelector<HTMLInputElement>("[data-booking-date]");
+  const bookingTypeInputs = [...document.querySelectorAll<HTMLInputElement>("[data-booking-type]")];
+  const bookingTimes = document.querySelector<HTMLElement>("[data-booking-times]");
+  const bookingTimeHelp = document.querySelector<HTMLElement>("[data-booking-time-help]");
+  const bookingAvailabilityNote = document.querySelector<HTMLElement>("[data-booking-availability-note]");
   const quantityControls = [...document.querySelectorAll<HTMLElement>("[data-quantity-control]")];
   const cartAddButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-add]")];
   const cartBuyButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-buy]")];
@@ -34,19 +40,54 @@
   updateHeaderState();
   window.addEventListener("scroll", updateHeaderState, { passive: true });
 
+  const mobileMenuQuery = window.matchMedia("(max-width: 920px)");
+
+  const syncMenuA11y = (isOpen: boolean) => {
+    navToggle?.setAttribute("aria-expanded", String(isOpen));
+    navToggle?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+    siteNav?.setAttribute("aria-hidden", String(mobileMenuQuery.matches && !isOpen));
+  };
+
+  const closeMenu = () => {
+    header?.classList.remove("is-menu-open");
+    document.body.classList.remove("nav-open");
+    syncMenuA11y(false);
+  };
+
+  const openMenu = () => {
+    header?.classList.add("is-menu-open");
+    document.body.classList.add("nav-open");
+    syncMenuA11y(true);
+  };
+
+  syncMenuA11y(false);
+
   navToggle?.addEventListener("click", () => {
     const isOpen = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!isOpen));
-    header?.classList.toggle("is-menu-open", !isOpen);
-    document.body.classList.toggle("nav-open", !isOpen);
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      navToggle?.setAttribute("aria-expanded", "false");
-      header?.classList.remove("is-menu-open");
-      document.body.classList.remove("nav-open");
+      closeMenu();
     });
+  });
+
+  siteNav?.addEventListener("click", (event) => {
+    if (event.target === siteNav) closeMenu();
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  mobileMenuQuery.addEventListener("change", () => {
+    closeMenu();
+    syncMenuA11y(false);
   });
 
   filterButtons.forEach((button) => {
@@ -129,22 +170,161 @@
     });
   });
 
+  type BookingType = "cata" | "comida" | "cena";
+
+  const bookingLabels: Record<BookingType, string> = {
+    cata: "cata",
+    comida: "comida",
+    cena: "cena",
+  };
+
+  const bookingSchedules: Record<BookingType, string[]> = {
+    cata: [
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:00",
+      "13:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "18:30",
+      "19:00",
+      "19:30",
+      "20:00",
+    ],
+    comida: ["13:30", "14:00", "14:30", "15:00", "15:30", "16:00"],
+    cena: ["20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"],
+  };
+
+  const unavailableSlots: Record<string, Partial<Record<BookingType, string[]>>> = {
+    "2026-04-30": {
+      cata: ["11:30", "18:00"],
+      comida: ["14:30"],
+      cena: ["21:30"],
+    },
+    "2026-05-01": {
+      cata: ["10:30", "17:00", "19:00"],
+      comida: ["13:30", "15:00"],
+      cena: ["20:30", "22:00"],
+    },
+    "2026-05-02": {
+      cata: ["12:00", "13:00", "18:30"],
+      comida: ["14:00", "16:00"],
+      cena: ["20:00", "22:30"],
+    },
+  };
+
+  const toIsoDate = (date: Date) => {
+    const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return offsetDate.toISOString().slice(0, 10);
+  };
+
+  const getSelectedBookingType = (): BookingType => {
+    const selected = bookingTypeInputs.find((input) => input.checked)?.value;
+    return selected === "comida" || selected === "cena" ? selected : "cata";
+  };
+
+  const hasExplicitAvailability = (date: string, type: BookingType, time: string) =>
+    unavailableSlots[date]?.[type]?.includes(time) ?? false;
+
+  const isSlotUnavailable = (date: string, type: BookingType, time: string) => {
+    if (!date) return false;
+    if (hasExplicitAvailability(date, type, time)) return true;
+
+    const day = Number(date.slice(-2));
+    const timeIndex = bookingSchedules[type].indexOf(time);
+    const typeOffset: Record<BookingType, number> = { cata: 1, comida: 3, cena: 5 };
+
+    return (day + timeIndex + typeOffset[type]) % 7 === 0;
+  };
+
+  const renderBookingTimes = () => {
+    if (!bookingForm || !bookingTimes) return;
+
+    const type = getSelectedBookingType();
+    const date = bookingDate?.value ?? "";
+    const times = bookingSchedules[type];
+    let availableCount = 0;
+    let blockedCount = 0;
+
+    bookingTimes.replaceChildren();
+
+    times.forEach((time) => {
+      const blocked = isSlotUnavailable(date, type, time);
+      if (blocked) {
+        blockedCount += 1;
+      } else {
+        availableCount += 1;
+      }
+
+      const label = document.createElement("label");
+      label.className = blocked ? "booking-time-option is-disabled" : "booking-time-option";
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "time";
+      input.value = time;
+      input.disabled = blocked;
+
+      const copy = document.createElement("span");
+      copy.textContent = time;
+
+      const state = document.createElement("small");
+      state.textContent = blocked ? "Completo" : "Libre";
+      copy.append(state);
+
+      label.append(input, copy);
+      bookingTimes.append(label);
+    });
+
+    if (bookingTimeHelp) {
+      bookingTimeHelp.textContent =
+        type === "cata"
+          ? "Catas: de 10:30 a 13:30 y de 17:00 a 20:00, cada 30 minutos."
+          : type === "comida"
+            ? "Comidas: de 13:30 a 16:00, cada 30 minutos."
+            : "Cenas: de 20:00 a 23:00, cada 30 minutos.";
+    }
+
+    if (bookingAvailabilityNote) {
+      bookingAvailabilityNote.textContent = date
+        ? `${bookingLabels[type]} para ${date}: ${availableCount} libres y ${blockedCount} bloqueados.`
+        : "Selecciona una fecha para consultar disponibilidad.";
+    }
+  };
+
   if (bookingForm) {
+    if (bookingDate) {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      bookingDate.min = toIsoDate(today);
+      bookingDate.value ||= toIsoDate(tomorrow);
+    }
+
+    bookingTypeInputs.forEach((input) => input.addEventListener("change", renderBookingTimes));
+    bookingDate?.addEventListener("change", renderBookingTimes);
+    renderBookingTimes();
+
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const formData = new FormData(bookingForm);
-      const slotLabels: Record<string, string> = {
-        cata: "cata",
-        comida: "comida",
-        cena: "cena",
-      };
       const adults = formData.get("adults")?.toString() || "2";
       const children = formData.get("children")?.toString() || "0";
       const date = formData.get("date")?.toString() || "la fecha seleccionada";
-      const slot = slotLabels[formData.get("slot")?.toString() || "cata"] ?? "reserva";
+      const slot = bookingLabels[getSelectedBookingType()];
+      const time = formData.get("time")?.toString();
+
+      if (!time) {
+        if (bookingStatus) bookingStatus.textContent = "Elige un horario libre antes de continuar.";
+        return;
+      }
 
       if (bookingStatus) {
-        bookingStatus.textContent = `Solicitud preparada: ${slot} para ${adults} adulto(s) y ${children} niño(s) el ${date}. Te confirmaremos disponibilidad.`;
+        bookingStatus.textContent = `Solicitud preparada: ${slot} para ${adults} adulto(s) y ${children} niño(s) el ${date} a las ${time}. Te confirmaremos disponibilidad.`;
       }
     });
   }
