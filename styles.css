@@ -1,0 +1,815 @@
+:root {
+  --ink: #171514;
+  --paper: #f6f1e8;
+  --paper-soft: #fffaf2;
+  --wine: #641c2f;
+  --wine-dark: #2b1018;
+  --moss: #566b52;
+  --brass: #c39a52;
+  --clay: #b66a45;
+  --line: rgba(23, 21, 20, 0.14);
+  --shadow: 0 20px 55px rgba(24, 13, 15, 0.18);
+  --max-width: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+body.nav-open {
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.site-header {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 76px;
+  padding: 18px clamp(20px, 4vw, 56px);
+  color: var(--paper-soft);
+  background: linear-gradient(180deg, rgba(18, 12, 12, 0.72), rgba(18, 12, 12, 0));
+  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.site-header.is-scrolled,
+.site-header.is-menu-open {
+  color: var(--ink);
+  background: rgba(246, 241, 232, 0.94);
+  box-shadow: 0 12px 35px rgba(31, 21, 17, 0.11);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 780;
+  letter-spacing: 0;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 3vw, 38px);
+  font-size: 0.95rem;
+  font-weight: 680;
+}
+
+.site-nav a {
+  position: relative;
+}
+
+.site-nav a::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a.is-active::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin: 4px auto;
+  background: currentColor;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 92svh;
+  overflow: hidden;
+  padding: 132px clamp(20px, 5vw, 72px) 42px;
+  color: var(--paper-soft);
+}
+
+.hero-media,
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-media {
+  background-image: url("assets/hero-cellar.jpg");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.03);
+}
+
+.hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(12, 7, 7, 0.86) 0%, rgba(12, 7, 7, 0.58) 42%, rgba(12, 7, 7, 0.16) 100%),
+    linear-gradient(180deg, rgba(12, 7, 7, 0.08) 0%, rgba(12, 7, 7, 0.72) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--brass);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.section h2,
+.club-band h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.hero h1 {
+  max-width: 12ch;
+  font-size: clamp(4rem, 12vw, 10.6rem);
+}
+
+.hero-copy {
+  max-width: 650px;
+  margin: 28px 0 0;
+  color: rgba(255, 250, 242, 0.88);
+  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 760;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary {
+  color: var(--wine-dark);
+  background: var(--brass);
+}
+
+.button-primary:hover {
+  background: #d6ad66;
+}
+
+.button-ghost {
+  color: var(--paper-soft);
+  border-color: rgba(255, 250, 242, 0.58);
+  background: rgba(255, 250, 242, 0.08);
+}
+
+.button-ghost:hover {
+  background: rgba(255, 250, 242, 0.16);
+  border-color: rgba(255, 250, 242, 0.86);
+}
+
+.hero-notes {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 1px;
+  width: min(760px, 100%);
+  margin-top: clamp(52px, 9vh, 92px);
+  border: 1px solid rgba(255, 250, 242, 0.26);
+  background: rgba(255, 250, 242, 0.14);
+  backdrop-filter: blur(12px);
+}
+
+.hero-notes span {
+  display: grid;
+  gap: 3px;
+  min-height: 84px;
+  padding: 18px;
+  background: rgba(15, 10, 9, 0.26);
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 0.86rem;
+}
+
+.hero-notes strong {
+  color: var(--paper-soft);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.intro-band {
+  display: grid;
+  place-items: center;
+  min-height: 190px;
+  padding: 44px 20px;
+  color: var(--paper-soft);
+  background: var(--wine-dark);
+}
+
+.intro-band p {
+  width: min(920px, 100%);
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.7rem, 4vw, 3.6rem);
+  line-height: 1.08;
+  text-align: center;
+}
+
+.section {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(76px, 10vw, 128px) 0;
+}
+
+.section-heading {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+.section h2,
+.club-band h2 {
+  font-size: clamp(2.4rem, 6vw, 5.6rem);
+}
+
+.section-heading p:not(.eyebrow),
+.cellar-copy p,
+.reservation-copy p,
+.club-band > p {
+  max-width: 690px;
+  margin: 0;
+  color: rgba(23, 21, 20, 0.72);
+  font-size: 1.05rem;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 24px;
+}
+
+.filter-button {
+  min-height: 40px;
+  padding: 8px 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: transparent;
+  font-weight: 720;
+  cursor: pointer;
+}
+
+.filter-button.is-active,
+.filter-button:hover {
+  color: var(--paper-soft);
+  border-color: var(--wine);
+  background: var(--wine);
+}
+
+.wine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.wine-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  min-height: 560px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-soft);
+  box-shadow: 0 12px 30px rgba(31, 21, 17, 0.06);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.wine-card.is-hidden {
+  display: none;
+}
+
+.wine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.bottle {
+  position: relative;
+  width: 86px;
+  height: 236px;
+  justify-self: center;
+  border-radius: 28px 28px 18px 18px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent 24%, rgba(0, 0, 0, 0.28) 92%);
+  box-shadow: inset -10px 0 20px rgba(0, 0, 0, 0.22), 0 18px 30px rgba(24, 13, 15, 0.2);
+}
+
+.bottle::before {
+  position: absolute;
+  top: -58px;
+  left: 28px;
+  width: 30px;
+  height: 70px;
+  border-radius: 11px 11px 4px 4px;
+  content: "";
+  background: inherit;
+}
+
+.bottle::after {
+  position: absolute;
+  top: -64px;
+  left: 25px;
+  width: 36px;
+  height: 14px;
+  border-radius: 7px;
+  content: "";
+  background: rgba(13, 10, 10, 0.88);
+}
+
+.bottle-burgundy {
+  background-color: #5f182b;
+}
+
+.bottle-ink {
+  background-color: #151416;
+}
+
+.bottle-amber {
+  background-color: #c5893f;
+}
+
+.bottle-label {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 68px;
+  display: grid;
+  place-items: center;
+  min-height: 58px;
+  padding: 8px;
+  color: var(--wine-dark);
+  background: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.wine-kicker {
+  margin: 0 0 8px;
+  color: var(--moss);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.wine-card h3,
+.experience-grid h3 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.wine-card p {
+  margin: 0;
+  color: rgba(23, 21, 20, 0.74);
+}
+
+.wine-card dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+}
+
+.wine-card dl div {
+  padding: 14px;
+  background: var(--paper);
+}
+
+.wine-card dt {
+  color: rgba(23, 21, 20, 0.54);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.wine-card dd {
+  margin: 2px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+}
+
+.cellar-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.8fr);
+  gap: clamp(36px, 6vw, 88px);
+  align-items: center;
+}
+
+.cellar-copy {
+  display: grid;
+  gap: 20px;
+}
+
+.cellar-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cellar-list span {
+  padding: 9px 12px;
+  border: 1px solid rgba(86, 107, 82, 0.3);
+  border-radius: 999px;
+  color: var(--moss);
+  background: rgba(86, 107, 82, 0.08);
+  font-size: 0.88rem;
+  font-weight: 760;
+}
+
+.cellar-image {
+  margin: 0;
+}
+
+.cellar-image img {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.cellar-image figcaption {
+  margin-top: 12px;
+  color: rgba(23, 21, 20, 0.62);
+  font-size: 0.9rem;
+}
+
+.experiences {
+  border-top: 1px solid var(--line);
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.experience-grid article {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 310px;
+  padding: 28px;
+  background: var(--paper-soft);
+}
+
+.experience-number {
+  color: var(--clay);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+}
+
+.experience-grid p {
+  margin: 0;
+  color: rgba(23, 21, 20, 0.72);
+}
+
+.experience-grid strong {
+  align-self: end;
+  color: var(--moss);
+}
+
+.club-band {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 0.8fr) auto;
+  gap: 34px;
+  align-items: center;
+  padding: clamp(46px, 7vw, 84px) clamp(20px, 5vw, 72px);
+  color: var(--paper-soft);
+  background:
+    linear-gradient(90deg, rgba(43, 16, 24, 0.95), rgba(43, 16, 24, 0.78)),
+    url("assets/hero-cellar.jpg") center / cover;
+}
+
+.club-band > p {
+  color: rgba(255, 250, 242, 0.78);
+}
+
+.reservation {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(320px, 0.9fr);
+  gap: clamp(32px, 6vw, 76px);
+  align-items: start;
+}
+
+.reservation-copy {
+  position: sticky;
+  top: 110px;
+}
+
+.reservation-form {
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-soft);
+  box-shadow: 0 14px 36px rgba(31, 21, 17, 0.08);
+}
+
+.reservation-form label {
+  display: grid;
+  gap: 8px;
+  color: rgba(23, 21, 20, 0.72);
+  font-size: 0.9rem;
+  font-weight: 760;
+}
+
+.reservation-form input,
+.reservation-form select,
+.reservation-form textarea {
+  width: 100%;
+  border: 1px solid rgba(23, 21, 20, 0.18);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #fffdf8;
+}
+
+.reservation-form input,
+.reservation-form select {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.reservation-form textarea {
+  resize: vertical;
+  min-height: 136px;
+  padding: 13px 14px;
+}
+
+.reservation-form input:focus,
+.reservation-form select:focus,
+.reservation-form textarea:focus {
+  outline: 3px solid rgba(195, 154, 82, 0.32);
+  border-color: var(--brass);
+}
+
+.reservation-form .button {
+  width: 100%;
+}
+
+.form-status {
+  min-height: 24px;
+  margin: 0;
+  color: var(--moss);
+  font-weight: 760;
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 18px;
+  padding: 28px clamp(20px, 4vw, 56px);
+  border-top: 1px solid rgba(255, 250, 242, 0.12);
+  color: rgba(255, 250, 242, 0.76);
+  background: var(--ink);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+@media (max-width: 920px) {
+  .site-header {
+    min-height: 68px;
+  }
+
+  .nav-toggle {
+    position: relative;
+    z-index: 22;
+    display: block;
+  }
+
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 21;
+    display: grid;
+    place-content: center;
+    gap: 26px;
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 1.8rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .site-header.is-menu-open .site-nav {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-header.is-menu-open .nav-toggle span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .site-header.is-menu-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .site-header.is-menu-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .wine-grid,
+  .experience-grid,
+  .cellar-section,
+  .reservation,
+  .club-band,
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .reservation-copy {
+    position: static;
+  }
+
+  .club-band {
+    align-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding-inline: 16px;
+  }
+
+  .brand span:last-child {
+    max-width: 11ch;
+    overflow-wrap: anywhere;
+    line-height: 1.05;
+  }
+
+  .hero {
+    min-height: 90svh;
+    padding: 108px 18px 28px;
+  }
+
+  .hero h1 {
+    font-size: clamp(3.35rem, 19vw, 5.6rem);
+  }
+
+  .hero-notes {
+    grid-template-columns: 1fr;
+    margin-top: 38px;
+  }
+
+  .hero-notes span {
+    min-height: auto;
+  }
+
+  .intro-band {
+    min-height: 154px;
+  }
+
+  .section {
+    width: min(100% - 32px, var(--max-width));
+    padding: 68px 0;
+  }
+
+  .filter-bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-button {
+    width: 100%;
+  }
+
+  .wine-card,
+  .experience-grid article,
+  .reservation-form {
+    padding: 22px;
+  }
+
+  .wine-card {
+    min-height: auto;
+  }
+
+  .bottle {
+    transform: scale(0.88);
+    transform-origin: top center;
+    margin-bottom: -34px;
+  }
+
+  .club-band {
+    padding: 48px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
