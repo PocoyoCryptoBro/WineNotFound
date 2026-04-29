@@ -134,7 +134,7 @@ export const experiences = [
     description:
       "Experiencia pensada para entender cómo cambia un vino con el paso del tiempo. Se prueban varias añadas de una misma referencia y se comparan aromas, textura, evolución en botella y capacidad de guarda.",
     duration: "90 min",
-    availability: "Miércoles y viernes",
+    availability: "Lunes, martes, jueves, viernes, sábados y domingos",
     bestFor: "Personas que quieren aprender a catar con calma.",
     includes: ["4 vinos", "Ficha de cata", "Explicación de añada y crianza"],
   },
@@ -144,7 +144,7 @@ export const experiences = [
     description:
       "Sesión gastronómica donde cada vino se acompaña con un bocado diseñado para potenciar su perfil. Se explica por qué funciona cada combinación y cómo aplicar esas ideas en casa.",
     duration: "2 h",
-    availability: "Sábados",
+    availability: "Lunes, martes, jueves, viernes, sábados y domingos",
     bestFor: "Grupos que quieren una experiencia más social.",
     includes: ["3 vinos", "4 bocados", "Guía de maridaje"],
   },
@@ -162,11 +162,21 @@ export const experiences = [
     number: "04",
     title: "Restaurante de bodega",
     description:
-      "Comida o cena en el restaurante de WineNotFound con menú de temporada. Cada plato se sirve con una referencia de la bodega y una explicación sencilla del maridaje.",
+      "Comida en el restaurante de WineNotFound con menú de temporada. Cada plato se sirve con una referencia de la bodega y una explicación sencilla del maridaje.",
     duration: "2 h 15 min",
-    availability: "Viernes noche y domingos",
+    availability: "Lunes, martes, jueves, viernes, sábados y domingos",
     bestFor: "Parejas, celebraciones pequeñas y comidas de empresa.",
     includes: ["Menú degustación", "Maridaje incluido", "Mesa con reserva previa"],
+  },
+  {
+    number: "05",
+    title: "Paseo por los viñedos",
+    description:
+      "Recorrido tranquilo entre parcelas para conocer suelos, orientación, poda y el trabajo de campo antes de entrar en bodega.",
+    duration: "60 min",
+    availability: "Lunes, martes, jueves, viernes, sábados y domingos",
+    bestFor: "Visitantes que quieren empezar la experiencia en el origen de la uva.",
+    includes: ["Paseo guiado", "Explicación de viñedo", "Copa final en bodega"],
   },
 ] as const;
 
@@ -190,10 +200,10 @@ export const serviceCards = [
   {
     title: "Restaurante de bodega",
     text:
-      "Comida o cena con menú de temporada y maridaje WineNotFound. La reserva permite elegir turno, número de adultos y niños.",
+      "Comida con menú de temporada y maridaje WineNotFound. La reserva permite elegir turno, número de adultos y niños.",
     tag: "Restaurante",
     href: "reservar/",
-    benefits: ["Turno de comida o cena", "Menú con producto local", "Maridaje explicado"],
+    benefits: ["Turno de comida", "Menú con producto local", "Maridaje explicado"],
   },
   {
     title: "Suscripción privada",
@@ -203,20 +213,6 @@ export const serviceCards = [
     href: "tienda/#suscripcion",
     benefits: ["Acceso anticipado", "Cajas seleccionadas", "Descuentos en experiencias"],
   },
-] as const;
-
-export const reservationSteps = [
-  "Entra en la página Reservar y elige si quieres cata, comida o cena.",
-  "Selecciona adultos, niños, fecha y turno disponible.",
-  "Pulsa continuar para dejar la solicitud preparada.",
-  "La bodega confirma disponibilidad, menú y condiciones por email o teléfono.",
-] as const;
-
-export const subscriptionSteps = [
-  "Elige un plan de suscripción en la tienda.",
-  "Revisa qué incluye la caja, ventajas y frecuencia de entrega.",
-  "Solicita el alta para que la bodega confirme dirección, edad legal y disponibilidad.",
-  "Recibe cada selección con notas de cata, acceso a preventas y prioridad para eventos.",
 ] as const;
 
 export const shopItems = [
@@ -312,9 +308,9 @@ export const faqs = [
       "Sí. La tienda funciona como solicitud de pedido: el cliente selecciona un pack y recibe confirmación de disponibilidad antes de pagar.",
   },
   {
-    question: "¿Cómo reservo una comida o cena?",
+    question: "¿Cómo reservo una comida?",
     answer:
-      "Desde la página Reservar puedes elegir adultos, niños, fecha y turno de comida o cena. Después la bodega confirma disponibilidad.",
+      "Desde la página Reservar puedes elegir adultos, niños, fecha y turno de comida. Después la bodega confirma disponibilidad.",
   },
   {
     question: "¿Las catas son para principiantes?",
@@ -488,8 +484,8 @@ export const events = [
   },
   {
     day: "18 JUL",
-    title: "Cena de bodega",
-    meta: "21:00 h · Restaurante WineNotFound",
+    title: "Paseo por los viñedos",
+    meta: "10:30 h · Finca WineNotFound",
   },
 ] as const;
 
@@ -511,13 +507,13 @@ export const galleryItems = [
   {
     type: "image",
     title: "Restaurante de bodega",
-    text: "Mesa preparada para comida y cena con maridaje WineNotFound.",
+    text: "Mesa preparada para comida con maridaje WineNotFound.",
     src: "images/gallery-restaurant.png",
   },
   {
     type: "video",
     title: "Servicio de restaurante",
-    text: "Vídeo generado del turno de comida y cena con ambiente de bodega.",
+    text: "Vídeo generado del turno de comida con ambiente de bodega.",
     src: "videos/restaurant-service.webm",
     poster: "images/gallery-restaurant.png",
   },

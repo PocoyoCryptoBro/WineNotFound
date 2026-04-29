@@ -9,11 +9,17 @@
   const formStatus = document.querySelector("[data-form-status]");
   const bookingForm = document.querySelector<HTMLFormElement>("[data-booking-form]");
   const bookingStatus = document.querySelector("[data-booking-status]");
-  const bookingDate = document.querySelector<HTMLInputElement>("[data-booking-date]");
   const bookingTypeInputs = [...document.querySelectorAll<HTMLInputElement>("[data-booking-type]")];
+  const bookingDateOptions = document.querySelector<HTMLElement>("[data-booking-date-options]");
+  const bookingPanels = [...document.querySelectorAll<HTMLElement>("[data-booking-panel]")];
+  const bookingContinue = document.querySelector<HTMLButtonElement>("[data-booking-continue]");
+  const bookingBack = document.querySelector<HTMLButtonElement>("[data-booking-back]");
+  const bookingModify = document.querySelector<HTMLButtonElement>("[data-booking-modify]");
+  const bookingSummary = document.querySelector<HTMLElement>("[data-booking-summary]");
   const bookingTimes = document.querySelector<HTMLElement>("[data-booking-times]");
-  const bookingTimeHelp = document.querySelector<HTMLElement>("[data-booking-time-help]");
-  const bookingAvailabilityNote = document.querySelector<HTMLElement>("[data-booking-availability-note]");
+  const confirmDate = document.querySelector<HTMLElement>("[data-confirm-date]");
+  const confirmTime = document.querySelector<HTMLElement>("[data-confirm-time]");
+  const confirmPeople = document.querySelector<HTMLElement>("[data-confirm-people]");
   const quantityControls = [...document.querySelectorAll<HTMLElement>("[data-quantity-control]")];
   const cartAddButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-add]")];
   const cartBuyButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-cart-buy]")];
@@ -178,12 +184,20 @@
     });
   });
 
-  type BookingType = "cata" | "comida" | "cena";
+  type BookingType = "cata" | "comida";
+
+  type BookingDay = {
+    date: Date;
+    iso: string;
+    dayLabel: string;
+    numberLabel: string;
+    monthLabel: string;
+    isClosed: boolean;
+  };
 
   const bookingLabels: Record<BookingType, string> = {
-    cata: "cata",
-    comida: "comida",
-    cena: "cena",
+    cata: "Cata",
+    comida: "Comida",
   };
 
   const bookingSchedules: Record<BookingType, string[]> = {
@@ -195,34 +209,15 @@
       "12:30",
       "13:00",
       "13:30",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
       "17:00",
-      "17:30",
-      "18:00",
-      "18:30",
-      "19:00",
-      "19:30",
-      "20:00",
     ],
-    comida: ["13:30", "14:00", "14:30", "15:00", "15:30", "16:00"],
-    cena: ["20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"],
-  };
-
-  const unavailableSlots: Record<string, Partial<Record<BookingType, string[]>>> = {
-    "2026-04-30": {
-      cata: ["11:30", "18:00"],
-      comida: ["14:30"],
-      cena: ["21:30"],
-    },
-    "2026-05-01": {
-      cata: ["10:30", "17:00", "19:00"],
-      comida: ["13:30", "15:00"],
-      cena: ["20:30", "22:00"],
-    },
-    "2026-05-02": {
-      cata: ["12:00", "13:00", "18:30"],
-      comida: ["14:00", "16:00"],
-      cena: ["20:00", "22:30"],
-    },
+    comida: ["13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30"],
   };
 
   const toIsoDate = (date: Date) => {
@@ -230,110 +225,209 @@
     return offsetDate.toISOString().slice(0, 10);
   };
 
-  const getSelectedBookingType = (): BookingType => {
-    const selected = bookingTypeInputs.find((input) => input.checked)?.value;
-    return selected === "comida" || selected === "cena" ? selected : "cata";
+  const getSelectedBookingType = (): BookingType =>
+    bookingTypeInputs.find((input) => input.checked)?.value === "comida" ? "comida" : "cata";
+
+  const getBookingPeople = () => {
+    const adults = Number(bookingForm?.querySelector<HTMLInputElement>("#adults")?.value || 1);
+    const children = Number(bookingForm?.querySelector<HTMLInputElement>("#children")?.value || 0);
+    const total = adults + children;
+    return { adults, children, total };
   };
 
-  const hasExplicitAvailability = (date: string, type: BookingType, time: string) =>
-    unavailableSlots[date]?.[type]?.includes(time) ?? false;
+  const hashBooking = (value: string) =>
+    [...value].reduce((sum, character, index) => sum + character.charCodeAt(0) * (index + 3), 0);
 
-  const isSlotUnavailable = (date: string, type: BookingType, time: string) => {
-    if (!date) return false;
-    if (hasExplicitAvailability(date, type, time)) return true;
+  const isClosedDate = (date: Date) => date.getDay() === 3;
 
-    const day = Number(date.slice(-2));
-    const timeIndex = bookingSchedules[type].indexOf(time);
-    const typeOffset: Record<BookingType, number> = { cata: 1, comida: 3, cena: 5 };
+  const getAvailableTimes = (iso: string, type: BookingType) => {
+    const date = new Date(`${iso}T12:00:00`);
+    if (isClosedDate(date)) return [];
 
-    return (day + timeIndex + typeOffset[type]) % 7 === 0;
+    const hash = hashBooking(`${iso}-${type}`);
+    if (hash % 19 === 0) return [];
+
+    return bookingSchedules[type].filter((_, index) => (hash + index * 5) % 6 !== 0);
+  };
+
+  const formatBookingDate = (date: Date) =>
+    new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "short" })
+      .format(date)
+      .replace(".", "");
+
+  const getDateButtonLabel = (date: Date, todayIso: string): BookingDay => {
+    const iso = toIsoDate(date);
+    const weekday = new Intl.DateTimeFormat("es-ES", { weekday: "short" }).format(date).replace(".", "");
+    const month = new Intl.DateTimeFormat("es-ES", { month: "short" }).format(date).replace(".", "");
+
+    return {
+      date,
+      iso,
+      dayLabel: iso === todayIso ? "HOY" : weekday.toUpperCase(),
+      numberLabel: date.getDate().toString(),
+      monthLabel: month.toUpperCase(),
+      isClosed: isClosedDate(date),
+    };
+  };
+
+  let bookingDays: BookingDay[] = [];
+  let selectedBookingDate = "";
+  let selectedBookingTime = "";
+
+  const setBookingPanel = (panel: "details" | "times" | "guest") => {
+    bookingPanels.forEach((current) => {
+      const active = current.dataset.bookingPanel === panel;
+      current.hidden = !active;
+      current.classList.toggle("is-active", active);
+    });
+  };
+
+  const renderBookingDateButtons = () => {
+    if (!bookingDateOptions) return;
+
+    bookingDateOptions.replaceChildren();
+
+    bookingDays.forEach((day) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "booking-date-button";
+      button.dataset.date = day.iso;
+      button.classList.toggle("is-active", day.iso === selectedBookingDate);
+      button.classList.toggle("is-closed", day.isClosed);
+      button.setAttribute("aria-pressed", String(day.iso === selectedBookingDate));
+
+      const dayLabel = document.createElement("span");
+      dayLabel.textContent = day.dayLabel;
+      const numberLabel = document.createElement("strong");
+      numberLabel.textContent = day.numberLabel;
+      const monthLabel = document.createElement("small");
+      monthLabel.textContent = day.isClosed ? "CERRADO" : day.monthLabel;
+
+      button.append(dayLabel, numberLabel, monthLabel);
+      button.addEventListener("click", () => {
+        selectedBookingDate = day.iso;
+        if (bookingStatus) bookingStatus.textContent = "";
+        renderBookingDateButtons();
+      });
+
+      bookingDateOptions.append(button);
+    });
+
+    const moreButton = document.createElement("button");
+    moreButton.type = "button";
+    moreButton.className = "booking-date-button";
+    moreButton.innerHTML = "<span>&nbsp;</span><strong>...</strong><small>&nbsp;</small>";
+    moreButton.addEventListener("click", () => {
+      const lastDay = bookingDays.at(-1)?.date ?? new Date();
+      const nextDay = new Date(lastDay);
+      nextDay.setDate(lastDay.getDate() + 1);
+      bookingDays.push(getDateButtonLabel(nextDay, bookingDays[0]?.iso ?? toIsoDate(new Date())));
+      renderBookingDateButtons();
+    });
+    bookingDateOptions.append(moreButton);
   };
 
   const renderBookingTimes = () => {
-    if (!bookingForm || !bookingTimes) return;
+    if (!bookingTimes) return;
 
     const type = getSelectedBookingType();
-    const date = bookingDate?.value ?? "";
-    const times = bookingSchedules[type];
-    let availableCount = 0;
-    let blockedCount = 0;
+    const times = getAvailableTimes(selectedBookingDate, type);
+    const day = bookingDays.find((item) => item.iso === selectedBookingDate);
+    const { total } = getBookingPeople();
 
     bookingTimes.replaceChildren();
 
+    if (bookingSummary && day) {
+      bookingSummary.textContent = `${formatBookingDate(day.date)} · ${bookingLabels[type]} · ${total} ${total === 1 ? "persona" : "personas"}`;
+    }
+
     times.forEach((time) => {
-      const blocked = isSlotUnavailable(date, type, time);
-      if (blocked) {
-        blockedCount += 1;
-      } else {
-        availableCount += 1;
-      }
-
-      const label = document.createElement("label");
-      label.className = blocked ? "booking-time-option is-disabled" : "booking-time-option";
-
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "time";
-      input.value = time;
-      input.disabled = blocked;
-
-      const copy = document.createElement("span");
-      copy.textContent = time;
-
-      const state = document.createElement("small");
-      state.textContent = blocked ? "Completo" : "Libre";
-      copy.append(state);
-
-      label.append(input, copy);
-      bookingTimes.append(label);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "booking-time-button";
+      button.textContent = time;
+      button.addEventListener("click", () => {
+        selectedBookingTime = time;
+        const peopleLabel = `${total} ${total === 1 ? "Persona" : "Personas"}`;
+        if (confirmDate && day) confirmDate.textContent = formatBookingDate(day.date);
+        if (confirmTime) confirmTime.textContent = time;
+        if (confirmPeople) confirmPeople.textContent = peopleLabel;
+        if (bookingStatus) bookingStatus.textContent = "";
+        setBookingPanel("guest");
+      });
+      bookingTimes.append(button);
     });
-
-    if (bookingTimeHelp) {
-      bookingTimeHelp.textContent =
-        type === "cata"
-          ? "Catas: de 10:30 a 13:30 y de 17:00 a 20:00, cada 30 minutos."
-          : type === "comida"
-            ? "Comidas: de 13:30 a 16:00, cada 30 minutos."
-            : "Cenas: de 20:00 a 23:00, cada 30 minutos.";
-    }
-
-    if (bookingAvailabilityNote) {
-      bookingAvailabilityNote.textContent = date
-        ? `${bookingLabels[type]} para ${date}: ${availableCount} libres y ${blockedCount} bloqueados.`
-        : "Selecciona una fecha para consultar disponibilidad.";
-    }
   };
 
   if (bookingForm) {
-    if (bookingDate) {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      bookingDate.min = toIsoDate(today);
-      bookingDate.value ||= toIsoDate(tomorrow);
-    }
+    const today = new Date();
+    const todayIso = toIsoDate(today);
+    bookingDays = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + index);
+      return getDateButtonLabel(date, todayIso);
+    });
 
-    bookingTypeInputs.forEach((input) => input.addEventListener("change", renderBookingTimes));
-    bookingDate?.addEventListener("change", renderBookingTimes);
-    renderBookingTimes();
+    selectedBookingDate = bookingDays.find((day) => !day.isClosed)?.iso ?? bookingDays[0]?.iso ?? "";
+    renderBookingDateButtons();
+
+    bookingTypeInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (bookingStatus) bookingStatus.textContent = "";
+      });
+    });
+
+    bookingContinue?.addEventListener("click", () => {
+      const day = bookingDays.find((item) => item.iso === selectedBookingDate);
+      const type = getSelectedBookingType();
+      const availableTimes = getAvailableTimes(selectedBookingDate, type);
+
+      if (day?.isClosed || !availableTimes.length) {
+        if (bookingStatus) {
+          bookingStatus.textContent = day?.isClosed
+            ? "No hay disponibilidad: los miércoles cerramos por descanso del personal."
+            : "No hay disponibilidad para ese día. Prueba otra fecha.";
+        }
+        return;
+      }
+
+      if (bookingStatus) bookingStatus.textContent = "";
+      renderBookingTimes();
+      setBookingPanel("times");
+    });
+
+    bookingBack?.addEventListener("click", () => {
+      if (bookingStatus) bookingStatus.textContent = "";
+      setBookingPanel("details");
+    });
+
+    bookingModify?.addEventListener("click", () => {
+      if (bookingStatus) bookingStatus.textContent = "";
+      setBookingPanel("details");
+    });
 
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const formData = new FormData(bookingForm);
-      const adults = formData.get("adults")?.toString() || "2";
-      const children = formData.get("children")?.toString() || "0";
-      const date = formData.get("date")?.toString() || "la fecha seleccionada";
-      const slot = bookingLabels[getSelectedBookingType()];
-      const time = formData.get("time")?.toString();
+      const rawName = formData.get("name");
+      const name = rawName?.toString().trim().split(" ")[0] || "Cliente";
+      const type = bookingLabels[getSelectedBookingType()];
+      const day = bookingDays.find((item) => item.iso === selectedBookingDate);
+      const { total } = getBookingPeople();
 
-      if (!time) {
-        if (bookingStatus) bookingStatus.textContent = "Elige un horario libre antes de continuar.";
+      if (!selectedBookingTime || !day) {
+        if (bookingStatus) bookingStatus.textContent = "Elige día y horario antes de confirmar.";
+        setBookingPanel("details");
         return;
       }
 
       if (bookingStatus) {
-        bookingStatus.textContent = `Solicitud preparada: ${slot} para ${adults} adulto(s) y ${children} niño(s) el ${date} a las ${time}. Te confirmaremos disponibilidad.`;
+        bookingStatus.textContent = `${name}, reserva confirmada: ${type} el ${formatBookingDate(day.date)} a las ${selectedBookingTime} para ${total} ${total === 1 ? "persona" : "personas"}.`;
       }
+
+      bookingForm.reset();
+      selectedBookingTime = "";
+      setBookingPanel("details");
     });
   }
 

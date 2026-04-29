@@ -3,7 +3,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteScripts from "../components/SiteScripts.astro";
 import ExperienceCard from "../components/ExperienceCard.astro";
-import { experiences, reservationSteps } from "../data/site";
+import { experiences } from "../data/site";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -16,7 +16,7 @@ const baseUrl = import.meta.env.BASE_URL;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Reserva catas, comidas y cenas en la bodega WineNotFound con horarios según disponibilidad."
+      content="Reserva catas y comidas en WineNotFound con disponibilidad de lunes a domingo, excepto miércoles."
     />
     <meta name="theme-color" content="#2b1018" />
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
@@ -31,97 +31,124 @@ const baseUrl = import.meta.env.BASE_URL;
         aria-labelledby="booking-title"
         style={`--booking-bg: url("${baseUrl}images/gallery-restaurant.png")`}
       >
-        <div class="booking-card">
+        <div class="booking-card booking-card-wide">
           <p class="eyebrow">Reservas</p>
-          <h1 id="booking-title">Reserva cata, comida o cena</h1>
-          <p>Ctra. Nacional 232, 26330 Briones, La Rioja, España</p>
+          <h1 id="booking-title">Reserve en WineNotFound</h1>
+          <p>Ctra. Nacional 232, 26330 Briones, La Rioja · Lunes a domingo de 10:00 a 17:00 · Miércoles cerrado</p>
 
           <form class="booking-form" data-booking-form>
-            <div class="booking-stepper" data-quantity-control>
-              <label for="adults">Adultos</label>
-              <div class="stepper-row">
-                <button type="button" data-step="-1" aria-label="Restar adulto">−</button>
-                <input id="adults" name="adults" type="number" value="2" min="1" max="12" readonly />
-                <button type="button" data-step="1" aria-label="Sumar adulto">+</button>
+            <section class="booking-panel is-active" data-booking-panel="details">
+              <div class="booking-stepper" data-quantity-control>
+                <label for="adults">Adultos</label>
+                <div class="stepper-row">
+                  <button type="button" data-step="-1" aria-label="Restar adulto">-</button>
+                  <input id="adults" name="adults" type="number" value="2" min="1" max="12" readonly />
+                  <button type="button" data-step="1" aria-label="Sumar adulto">+</button>
+                </div>
               </div>
-            </div>
 
-            <div class="booking-stepper" data-quantity-control>
-              <label for="children">
-                Niños
-                <span>Hasta 12 años</span>
-              </label>
-              <div class="stepper-row">
-                <button type="button" data-step="-1" aria-label="Restar niño">−</button>
-                <input id="children" name="children" type="number" value="0" min="0" max="8" readonly />
-                <button type="button" data-step="1" aria-label="Sumar niño">+</button>
+              <div class="booking-stepper" data-quantity-control>
+                <label for="children">
+                  Niños
+                  <span>Hasta 12 años</span>
+                </label>
+                <div class="stepper-row">
+                  <button type="button" data-step="-1" aria-label="Restar niño">-</button>
+                  <input id="children" name="children" type="number" value="0" min="0" max="8" readonly />
+                  <button type="button" data-step="1" aria-label="Sumar niño">+</button>
+                </div>
               </div>
-            </div>
 
-            <label class="booking-field">
-              Fecha
-              <input type="date" name="date" data-booking-date required />
-            </label>
+              <fieldset class="booking-date-options">
+                <legend>Fecha</legend>
+                <div class="booking-date-grid" data-booking-date-options></div>
+              </fieldset>
 
-            <fieldset class="booking-options" data-booking-type-options>
-              <legend>Tipo de reserva</legend>
-              <label>
-                <input type="radio" name="slot" value="cata" data-booking-type checked />
-                <span>Cata</span>
-              </label>
-              <label>
-                <input type="radio" name="slot" value="comida" data-booking-type />
-                <span>Comida</span>
-              </label>
-              <label>
-                <input type="radio" name="slot" value="cena" data-booking-type />
-                <span>Cena</span>
-              </label>
-            </fieldset>
+              <fieldset class="booking-options" data-booking-type-options>
+                <legend>Reserva para</legend>
+                <label>
+                  <input type="radio" name="slot" value="cata" data-booking-type checked />
+                  <span>Cata<small>10:30 - 17:00</small></span>
+                </label>
+                <label>
+                  <input type="radio" name="slot" value="comida" data-booking-type />
+                  <span>Comida<small>13:30 - 15:30</small></span>
+                </label>
+              </fieldset>
 
-            <fieldset class="booking-times" aria-describedby="booking-time-help">
-              <legend>Horario disponible</legend>
-              <div class="booking-time-grid" data-booking-times></div>
-              <p class="booking-time-help" id="booking-time-help" data-booking-time-help>
-                Elige primero tipo y fecha para ver los turnos libres y bloqueados.
-              </p>
-            </fieldset>
+              <button class="button button-primary" type="button" data-booking-continue>Continuar</button>
+            </section>
 
-            <p class="booking-availability-note" data-booking-availability-note aria-live="polite"></p>
+            <section class="booking-panel" data-booking-panel="times" hidden>
+              <p class="booking-summary-line" data-booking-summary></p>
+              <h2>Elija un horario.</h2>
+              <div class="booking-time-grid booking-time-grid-large" data-booking-times></div>
+              <button class="button button-outline" type="button" data-booking-back>Retroceder</button>
+            </section>
 
-            <button class="button button-primary" type="submit">Continuar</button>
+            <section class="booking-panel" data-booking-panel="guest" hidden>
+              <h2>Ingrese sus datos personales.</h2>
+              <div class="booking-confirm-summary">
+                <span>Fecha <strong data-confirm-date></strong></span>
+                <span>Hora <strong data-confirm-time></strong></span>
+                <span>Personas <strong data-confirm-people></strong></span>
+                <button class="checkout-back" type="button" data-booking-modify>Modificar</button>
+              </div>
+
+              <div class="booking-guest-fields">
+                <input type="text" name="name" autocomplete="name" placeholder="Nombre completo" required />
+                <input type="email" name="email" autocomplete="email" placeholder="Email" required />
+                <div class="phone-row">
+                  <span>+34</span>
+                  <input type="tel" name="phone" autocomplete="tel" placeholder="Teléfono" required />
+                </div>
+                <input
+                  type="text"
+                  name="postal"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  placeholder="Código postal"
+                  required
+                />
+                <fieldset class="allergy-toggle">
+                  <legend>¿Alguna persona tiene alergias y/o intolerancias?</legend>
+                  <label><input type="radio" name="allergies" value="no" checked /> No</label>
+                  <label><input type="radio" name="allergies" value="si" /> Sí</label>
+                </fieldset>
+                <textarea name="requests" rows="3" placeholder="Añadir peticiones especiales"></textarea>
+                <label class="booking-checkbox">
+                  <input type="checkbox" name="terms" required />
+                  Acepto las condiciones de uso y política de privacidad.
+                </label>
+                <label class="booking-checkbox">
+                  <input type="checkbox" name="newsletter" />
+                  Quiero recibir información comercial por email y/o SMS.
+                </label>
+                <label class="booking-checkbox">
+                  <input type="checkbox" name="reminder" />
+                  Recordarme para la próxima reserva.
+                </label>
+              </div>
+
+              <button class="button button-primary" type="submit">Confirmar reserva</button>
+            </section>
             <p class="form-status" data-booking-status role="status" aria-live="polite"></p>
           </form>
 
           <div class="booking-actions">
-            <a href="#experiencias">Ver experiencias</a>
-            <a href={`${baseUrl}tienda/#suscripcion`}>Ver suscripción</a>
+            <a href="#experiencias">Ver experiencias para regalar</a>
+            <a href={`${baseUrl}tienda/#suscripcion`}>Canjear tarjeta regalo o código</a>
           </div>
 
-          <p class="booking-phone">Llámenos al <a href="tel:+34910404404">+34 910 404 404</a> si tiene cualquier duda.</p>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="booking-process-title">
-        <div class="process-band">
-          <div>
-            <p class="eyebrow">Procedimiento</p>
-            <h2 id="booking-process-title">Cómo se confirma una reserva</h2>
-          </div>
-          <ol class="process-list">
-            {reservationSteps.map((step) => <li>{step}</li>)}
-          </ol>
+          <p class="booking-phone">Llámenos al <a href="tel:+34910404404">941 32 42 54</a> si tiene cualquier duda.</p>
         </div>
       </section>
 
       <section class="section experiences" id="experiencias" aria-labelledby="booking-experiences-title">
         <div class="section-heading">
           <p class="eyebrow">Opciones reservables</p>
-          <h2 id="booking-experiences-title">Cata, comida o cena</h2>
-          <p>
-            Las reservas directas se limitan a cata, comida y cena. Los horarios aparecen
-            liberados o bloqueados según la disponibilidad de la fecha elegida.
-          </p>
+          <h2 id="booking-experiences-title">Cata, comida y paseo por viñedos</h2>
+          <p>Los miércoles la bodega permanece cerrada por descanso del personal.</p>
         </div>
 
         <div class="experience-grid">

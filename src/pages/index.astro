@@ -11,9 +11,7 @@ import {
   experiences,
   galleryItems,
   pressPublications,
-  reservationSteps,
   serviceCards,
-  subscriptionSteps,
   wines,
 } from "../data/site";
 import "../styles/global.css";
@@ -31,7 +29,7 @@ const pageLinks = [
   },
   {
     title: "Reservar",
-    text: "Catas, comidas y cenas con formulario específico de reserva.",
+    text: "Catas y comidas con formulario específico de reserva.",
     href: `${baseUrl}reservar/`,
   },
   {
@@ -82,7 +80,7 @@ const pageLinks = [
           <h1 id="hero-title">WineNotFound</h1>
           <p class="hero-copy">
             Elaboramos vinos de producción limitada y organizamos experiencias en bodega:
-            catas, visitas técnicas, comidas, cenas y una suscripción para seguir cada añada desde dentro.
+            catas, visitas técnicas, comidas, paseos por viñedos y una suscripción para seguir cada añada desde dentro.
           </p>
           <div class="hero-actions" aria-label="Acciones principales">
             <a class="button button-primary" href={`${baseUrl}reservar/`}>Reservar experiencia</a>
@@ -92,7 +90,7 @@ const pageLinks = [
 
         <div class="hero-notes" aria-label="Datos de la bodega">
           <span><strong>2.700</strong> botellas por añada</span>
-          <span><strong>4</strong> experiencias reservables</span>
+          <span><strong>5</strong> experiencias reservables</span>
           <span><strong>1</strong> vídeo de presentación</span>
         </div>
       </section>
@@ -149,24 +147,6 @@ const pageLinks = [
           ))}
         </div>
 
-        <div class="service-process-grid">
-          <article class="process-card">
-            <p class="eyebrow">Reservas</p>
-            <h3>Cómo reservar cata, comida o cena</h3>
-            <ol class="process-list">
-              {reservationSteps.map((step) => <li>{step}</li>)}
-            </ol>
-            <a class="button button-primary" href={`${baseUrl}reservar/`}>Ir a reservar</a>
-          </article>
-          <article class="process-card">
-            <p class="eyebrow">Suscripción</p>
-            <h3>Cómo unirse a The Missing Bottle List</h3>
-            <ol class="process-list">
-              {subscriptionSteps.map((step) => <li>{step}</li>)}
-            </ol>
-            <a class="button button-primary" href={`${baseUrl}tienda/#suscripcion`}>Ver planes</a>
-          </article>
-        </div>
       </section>
 
       <section class="section collection" id="vinos" aria-labelledby="collection-title">
@@ -215,7 +195,7 @@ const pageLinks = [
       <section class="section experiences" id="experiencias" aria-labelledby="experience-title">
         <div class="section-heading">
           <p class="eyebrow">Experiencias</p>
-          <h2 id="experience-title">Catas, visitas y restaurante</h2>
+          <h2 id="experience-title">Catas, visitas, comidas y viñedo</h2>
           <p>
             Cada experiencia explica qué se hace, cuánto dura, para quién está pensada y qué incluye.
           </p>
@@ -318,7 +298,7 @@ const pageLinks = [
           <h2 id="contact-title">Hablemos de tu consulta</h2>
           <p>
             Este formulario es solo para preguntas, sugerencias o contacto general. Para reservar
-            catas, comidas o cenas usa la página de reserva; para comprar o suscribirte, usa la tienda.
+            catas o comidas usa la página de reserva; para comprar o suscribirte, usa la tienda.
           </p>
           <address class="contact-card">
             <strong>WineNotFound S.L.</strong>

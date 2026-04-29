@@ -5,6 +5,60 @@ import SiteScripts from "../components/SiteScripts.astro";
 import "../styles/global.css";
 
 const baseUrl = import.meta.env.BASE_URL;
+const provinces = [
+  "A Coruña",
+  "Álava",
+  "Albacete",
+  "Alicante",
+  "Almería",
+  "Asturias",
+  "Ávila",
+  "Badajoz",
+  "Barcelona",
+  "Burgos",
+  "Cáceres",
+  "Cádiz",
+  "Cantabria",
+  "Castellón",
+  "Ceuta",
+  "Ciudad Real",
+  "Córdoba",
+  "Cuenca",
+  "Girona",
+  "Granada",
+  "Guadalajara",
+  "Gipuzkoa",
+  "Huelva",
+  "Huesca",
+  "Illes Balears",
+  "Jaén",
+  "La Rioja",
+  "Las Palmas",
+  "León",
+  "Lleida",
+  "Lugo",
+  "Madrid",
+  "Málaga",
+  "Melilla",
+  "Murcia",
+  "Navarra",
+  "Ourense",
+  "Palencia",
+  "Pontevedra",
+  "Salamanca",
+  "Santa Cruz de Tenerife",
+  "Segovia",
+  "Sevilla",
+  "Soria",
+  "Tarragona",
+  "Teruel",
+  "Toledo",
+  "Valencia",
+  "Valladolid",
+  "Bizkaia",
+  "Zamora",
+  "Zaragoza",
+] as const;
 ---
 
 <!doctype html>
@@ -87,7 +141,10 @@ const baseUrl = import.meta.env.BASE_URL;
                 </label>
                 <label>
                   Provincia
-                  <input type="text" name="province" autocomplete="address-level2" required />
+                  <select name="province" autocomplete="address-level2" required>
+                    <option value="">Selecciona provincia</option>
+                    {provinces.map((province) => <option value={province}>{province}</option>)}
+                  </select>
                 </label>
                 <label>
                   Envío
