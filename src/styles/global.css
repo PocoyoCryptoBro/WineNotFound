@@ -2719,7 +2719,37 @@
 }
 
 body.booking-body {
-  background: linear-gradient(135deg, #fff7ea 0%, #f0d6a3 32%, #cfd9ba 62%, #ead2dc 100%);
+  position: relative;
+  min-height: 100svh;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgb(43 16 24 / 0.32), rgb(43 16 24 / 0.16)),
+    var(--booking-bg) center / cover fixed no-repeat !important;
+}
+
+body.booking-body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(43 16 24 / 0.32), rgb(43 16 24 / 0.16)),
+    var(--booking-bg) center / cover no-repeat;
+}
+
+body.booking-body.booking-success-active::before {
+  opacity: 0;
+}
+
+body.booking-body > main {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgb(43 16 24 / 0.32), rgb(43 16 24 / 0.16)),
+    var(--booking-bg) center / cover fixed no-repeat !important;
 }
 
 body.booking-body .site-header {
@@ -2734,7 +2764,11 @@ body.booking-body .site-header .brand-logo {
 }
 
 body.booking-body.booking-success-active {
-  background: linear-gradient(135deg, #fff7ea 0%, #f0d6a3 32%, #cfd9ba 62%, #ead2dc 100%);
+  background: linear-gradient(135deg, #fff7ea 0%, #f0d6a3 32%, #cfd9ba 62%, #ead2dc 100%) !important;
+}
+
+body.booking-body.booking-success-active > main {
+  background: transparent !important;
 }
 
 .booking-hero {
@@ -3482,14 +3516,13 @@ h2.booking-success-title {
 
 /* Final reservation layout: compact booking style with WineNotFound framing. */
 body.booking-body .booking-hero {
-  min-height: auto !important;
+  min-height: 100svh !important;
+  min-height: 100vh !important;
   align-items: start !important;
   justify-items: center !important;
   padding: 100px 16px 56px !important;
   font-family: BookingRoboto, Roboto, Arial, sans-serif !important;
-  background:
-    linear-gradient(90deg, rgb(43 16 24 / 0.32), rgb(43 16 24 / 0.16)),
-    var(--booking-bg) center / cover no-repeat !important;
+  background: transparent !important;
 }
 
 body.booking-body .booking-card,
@@ -3973,6 +4006,8 @@ body.booking-body .form-status[data-booking-status] {
 
 @media (max-width: 640px) {
   body.booking-body .booking-hero {
+    min-height: 100svh !important;
+    min-height: 100vh !important;
     padding: 92px 8px 32px !important;
   }
 
