@@ -276,6 +276,48 @@
   let bookingDays: BookingDay[] = [];
   let selectedBookingDate = "";
   let selectedBookingTime = "";
+  let calendarMonth = new Date();
+
+  const getBookingToday = () => {
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    return today;
+  };
+
+  const setBookingDaysFrom = (startDate: Date) => {
+    const today = getBookingToday();
+    const start = new Date(startDate);
+    start.setHours(12, 0, 0, 0);
+    const safeStart = start < today ? today : start;
+    const todayIso = toIsoDate(today);
+
+    bookingDays = Array.from({ length: 6 }, (_, index) => {
+      const date = new Date(safeStart);
+      date.setDate(safeStart.getDate() + index);
+      return getDateButtonLabel(date, todayIso);
+    });
+  };
+
+  const getSelectedBookingDateObject = () => {
+    if (!selectedBookingDate) return getBookingToday();
+    return new Date(`${selectedBookingDate}T12:00:00`);
+  };
+
+  const getBookingCalendarPanel = () => {
+    const dateFieldset = bookingDateOptions?.closest(".booking-date-options");
+    if (!dateFieldset) return null;
+
+    let panel = dateFieldset.querySelector<HTMLElement>("[data-booking-calendar]");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.className = "booking-calendar";
+      panel.dataset.bookingCalendar = "";
+      panel.hidden = true;
+      dateFieldset.append(panel);
+    }
+
+    return panel;
+  };
 
   const setBookingPanel = (panel: "details" | "times" | "guest" | "success") => {
     if (bookingCard) bookingCard.dataset.activePanel = panel;
@@ -311,6 +353,8 @@
       button.append(dayLabel, numberLabel, monthLabel);
       button.addEventListener("click", () => {
         selectedBookingDate = day.iso;
+        const panel = getBookingCalendarPanel();
+        if (panel) panel.hidden = true;
         if (bookingStatus) bookingStatus.textContent = "";
         renderBookingDateButtons();
       });
@@ -318,18 +362,109 @@
       bookingDateOptions.append(button);
     });
 
+    const calendarPanel = getBookingCalendarPanel();
     const moreButton = document.createElement("button");
     moreButton.type = "button";
     moreButton.className = "booking-date-button";
+    moreButton.setAttribute("aria-label", "Abrir calendario");
+    moreButton.setAttribute("aria-expanded", String(Boolean(calendarPanel && !calendarPanel.hidden)));
     moreButton.innerHTML = "<span>&nbsp;</span><strong>...</strong><small>&nbsp;</small>";
     moreButton.addEventListener("click", () => {
-      const lastDay = bookingDays.at(-1)?.date ?? new Date();
-      const nextDay = new Date(lastDay);
-      nextDay.setDate(lastDay.getDate() + 1);
-      bookingDays.push(getDateButtonLabel(nextDay, bookingDays[0]?.iso ?? toIsoDate(new Date())));
-      renderBookingDateButtons();
+      const panel = getBookingCalendarPanel();
+      if (!panel) return;
+
+      calendarMonth = getSelectedBookingDateObject();
+      calendarMonth.setDate(1);
+      panel.hidden = !panel.hidden;
+      moreButton.setAttribute("aria-expanded", String(!panel.hidden));
+      renderBookingCalendar();
     });
     bookingDateOptions.append(moreButton);
+  };
+
+  const renderBookingCalendar = () => {
+    const panel = getBookingCalendarPanel();
+    if (!panel) return;
+
+    const today = getBookingToday();
+    const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const monthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+    const monthLabel = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(monthStart);
+    const firstWeekdayOffset = (monthStart.getDay() + 6) % 7;
+    const daysInMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
+    const weekdays = ["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"];
+
+    panel.replaceChildren();
+
+    const header = document.createElement("div");
+    header.className = "booking-calendar-header";
+
+    const previousButton = document.createElement("button");
+    previousButton.type = "button";
+    previousButton.className = "booking-calendar-nav";
+    previousButton.textContent = "<";
+    previousButton.setAttribute("aria-label", "Mes anterior");
+    previousButton.disabled = new Date(monthStart.getFullYear(), monthStart.getMonth() - 1, 1) < minMonth;
+    previousButton.addEventListener("click", () => {
+      calendarMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() - 1, 1);
+      renderBookingCalendar();
+    });
+
+    const title = document.createElement("strong");
+    title.textContent = `${monthLabel.charAt(0).toUpperCase()}${monthLabel.slice(1)}`;
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "booking-calendar-nav";
+    nextButton.textContent = ">";
+    nextButton.setAttribute("aria-label", "Mes siguiente");
+    nextButton.addEventListener("click", () => {
+      calendarMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 1);
+      renderBookingCalendar();
+    });
+
+    header.append(previousButton, title, nextButton);
+
+    const weekdayGrid = document.createElement("div");
+    weekdayGrid.className = "booking-calendar-weekdays";
+    weekdays.forEach((weekday) => {
+      const label = document.createElement("span");
+      label.textContent = weekday;
+      weekdayGrid.append(label);
+    });
+
+    const dayGrid = document.createElement("div");
+    dayGrid.className = "booking-calendar-grid";
+
+    Array.from({ length: firstWeekdayOffset }).forEach(() => {
+      const spacer = document.createElement("span");
+      spacer.className = "booking-calendar-empty";
+      dayGrid.append(spacer);
+    });
+
+    Array.from({ length: daysInMonth }, (_, index) => {
+      const date = new Date(monthStart.getFullYear(), monthStart.getMonth(), index + 1, 12);
+      const iso = toIsoDate(date);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "booking-calendar-day";
+      button.textContent = String(index + 1);
+      button.disabled = date < today;
+      button.classList.toggle("is-active", iso === selectedBookingDate);
+      button.classList.toggle("is-closed", isClosedDate(date));
+      button.setAttribute("aria-pressed", String(iso === selectedBookingDate));
+      button.addEventListener("click", () => {
+        selectedBookingDate = iso;
+        selectedBookingTime = "";
+        setBookingDaysFrom(date);
+        if (bookingStatus) bookingStatus.textContent = "";
+        panel.hidden = true;
+        renderBookingDateButtons();
+      });
+      dayGrid.append(button);
+    });
+
+    panel.append(header, weekdayGrid, dayGrid);
   };
 
   const renderBookingTimes = () => {
@@ -369,13 +504,9 @@
   };
 
   if (bookingForm) {
-    const today = new Date();
-    const todayIso = toIsoDate(today);
-    bookingDays = Array.from({ length: 6 }, (_, index) => {
-      const date = new Date(today);
-      date.setDate(today.getDate() + index);
-      return getDateButtonLabel(date, todayIso);
-    });
+    const today = getBookingToday();
+    setBookingDaysFrom(today);
+    calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     selectedBookingDate = bookingDays.find((day) => !day.isClosed)?.iso ?? bookingDays[0]?.iso ?? "";
     renderBookingDateButtons();

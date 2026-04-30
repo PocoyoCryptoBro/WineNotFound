@@ -1,4 +1,5 @@
 ---
+import SiteHeader from "../components/SiteHeader.astro";
 import SiteScripts from "../components/SiteScripts.astro";
 import "../styles/global.css";
 
@@ -19,19 +20,21 @@ const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
     <link rel="icon" href={`${baseUrl}favicon.svg`} type="image/svg+xml" />
     <title>Reservar | WineNotFound</title>
   </head>
-  <body>
+  <body class="booking-body">
+    <SiteHeader />
+
     <main>
       <section
         class="booking-hero"
         aria-labelledby="booking-title"
-        style={`--booking-bg: url("${baseUrl}images/reference/laviejabodega-background.jpg")`}
+        style={`--booking-bg: url("${baseUrl}images/hero-cellar.jpg")`}
       >
         <div class="booking-card booking-card-wide" data-booking-card data-active-panel="details">
           <form class="booking-form" data-booking-form>
             <section class="booking-panel is-active" data-booking-panel="details">
               <div class="booking-heading">
-                <h1 id="booking-title">Reserve en La Vieja Bodega.</h1>
-                <p>Av. de La Rioja, 17. Casalarreina</p>
+                <h1 id="booking-title">Reserve en WineNotFound.</h1>
+                <p>Ctra. Nacional 232, Briones</p>
               </div>
 
               <div class="booking-stepper" data-quantity-control>
@@ -149,7 +152,7 @@ const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
 
             <section class="booking-panel booking-success-panel" data-booking-panel="success" hidden>
               <header class="booking-success-topbar">
-                <span>La Vieja Bodega</span>
+                <span>WineNotFound</span>
                 <span><span aria-hidden="true">◎</span> ES</span>
               </header>
 
@@ -167,16 +170,16 @@ const spriteUrl = `${baseUrl}images/reference/restoo-sprites.svg`;
 
                 <aside class="booking-gift-box">
                   <h3>¿Necesita hacer un regalo especial?</h3>
-                  <p>Regale una experiencia única en La Vieja Bodega.</p>
+                  <p>Regale una experiencia única en WineNotFound.</p>
                   <a href={`${baseUrl}tienda/#suscripcion`}>VER EXPERIENCIAS PARA REGALAR</a>
                 </aside>
 
                 <div class="booking-success-actions">
                   <button type="button"><span class="success-action-icon success-action-bell" aria-hidden="true"></span>AVISAR A MIS ACOMPAÑANTES</button>
                   <a href={`${baseUrl}#menu`}><span class="success-action-icon success-action-menu" aria-hidden="true"></span>VER CARTA Y MENÚ</a>
-                  <a href="https://www.google.com/maps/search/?api=1&query=La%20Vieja%20Bodega%20Casalarreina"><span class="success-action-icon success-action-pin" aria-hidden="true"></span>CÓMO LLEGAR</a>
+                  <a href="https://www.google.com/maps/search/?api=1&query=WineNotFound%20Ctra.%20Nacional%20232%20Briones"><span class="success-action-icon success-action-pin" aria-hidden="true"></span>CÓMO LLEGAR</a>
                   <button type="button"><span class="success-action-icon success-action-calendar" aria-hidden="true"></span>AÑADIR A MI CALENDARIO</button>
-                  <button type="button"><span class="success-action-icon success-action-contact" aria-hidden="true"></span>AÑADIR LA VIEJA BODEGA<br />A MIS CONTACTOS</button>
+                  <button type="button"><span class="success-action-icon success-action-contact" aria-hidden="true"></span>AÑADIR WINENOTFOUND<br />A MIS CONTACTOS</button>
                   <button class="booking-success-modify" type="button" data-success-modify><span class="success-action-icon success-action-edit" aria-hidden="true"></span>MODIFICAR RESERVA</button>
                 </div>
               </div>
