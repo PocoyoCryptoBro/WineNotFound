@@ -1,0 +1,33 @@
+
+> winenotfound@1.0.0 dev
+> astro dev --host 127.0.0.1 --port 4321
+
+[vite] connected.
+[2m11:47:14[22m [34m[types][39m Generated [2m1ms[22m
+[2m11:47:14[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.1.10[39m [2mready in[22m 799 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4321/[39m
+[2m11:47:14[22m [32mwatching for file changes...[39m
+[2m11:47:25[22m [34m[200][39m /reservar/ [2m31ms[22m
+[2m11:47:48[22m [34m[200][39m /reservar/ [2m2ms[22m
+[2m11:48:50[22m [34m[200][39m /reservar/ [2m2ms[22m
+[2m11:49:12[22m [34m[200][39m /reservar/ [2m2ms[22m
+[2m11:49:49[22m [34m[watch][39m /src/styles/global.css
+[2m11:49:49[22m [34m[200][39m /reservar/ [2m32ms[22m
+[2m11:50:08[22m [34m[200][39m /reservar/ [2m3ms[22m
+[2m11:50:43[22m [34m[200][39m /reservar/ [2m3ms[22m
+[2m11:54:01[22m [34m[watch][39m src/components/SiteScripts.astro
+[2m11:54:01[22m [34m[200][39m /reservar/ [2m31ms[22m
+[2m11:56:33[22m [34m[watch][39m /src/styles/global.css
+[2m11:57:07[22m [34m[200][39m /reservar/ [2m9ms[22m
+[2m11:57:28[22m [34m[200][39m /reservar/ [2m3ms[22m
+[2m11:58:29[22m [34m[watch][39m src/components/SiteScripts.astro
+[2m11:58:29[22m [34m[200][39m /reservar/ [2m46ms[22m
+[2m12:00:05[22m [34m[200][39m /reservar/ [2m3ms[22m
+[2m12:00:34[22m [34m[watch][39m src/components/SiteScripts.astro
+[2m12:00:35[22m [34m[200][39m /reservar/ [2m64ms[22m
+[2m12:00:46[22m [34m[watch][39m /src/styles/global.css
+[2m12:01:17[22m [34m[200][39m /reservar/ [2m8ms[22m
+[2m12:01:40[22m [34m[200][39m /reservar/ [2m3ms[22m
+[2m12:02:23[22m [34m[watch][39m /src/styles/global.css
+[2m12:02:25[22m [34m[200][39m /reservar/ [2m44ms[22m
