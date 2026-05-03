@@ -238,7 +238,7 @@ const pageLinks = [
             <figure class={`gallery-item ${item.span === "large" ? "gallery-large" : ""}`}>
               {item.type === "video" ? (
                 <video autoplay muted loop playsinline poster={`${baseUrl}${item.poster}`}>
-                  <source src={`${baseUrl}${item.src}`} type="video/webm" />
+                  <source src={`${baseUrl}${item.src}`} type={item.mime} />
                 </video>
               ) : (
                 <img src={`${baseUrl}${item.src}`} alt={item.title} loading="lazy" />

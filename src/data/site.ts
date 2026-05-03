@@ -492,10 +492,64 @@ export const events = [
 export const galleryItems = [
   {
     type: "video",
+    title: "Recorrido de bodega",
+    text: "Vídeo reciente de WineNotFound para abrir la galería con material local.",
+    src: "videos/gallery-whatsapp-20260503-01.mp4",
+    poster: "images/gallery-whatsapp-20260503-01.jpeg",
+    mime: "video/mp4",
+    span: "large",
+  },
+  {
+    type: "video",
+    title: "Experiencia WineNotFound",
+    text: "Segundo clip vertical con ambiente de bodega, visita y servicio de vino.",
+    src: "videos/gallery-whatsapp-20260503-02.mp4",
+    poster: "images/gallery-whatsapp-20260503-02.jpeg",
+    mime: "video/mp4",
+  },
+  {
+    type: "image",
+    title: "Vendimia al amanecer",
+    text: "Filas de viñedo y cajas de uva listas para entrar en bodega.",
+    src: "images/gallery-whatsapp-20260503-01.jpeg",
+  },
+  {
+    type: "image",
+    title: "Mesa de maridaje",
+    text: "Servicio completo de copas, platos y menú para una experiencia WineNotFound.",
+    src: "images/gallery-whatsapp-20260503-02.jpeg",
+  },
+  {
+    type: "image",
+    title: "Ficha de cata guiada",
+    text: "Copas numeradas, notas de cata y sesión dirigida en sala de barricas.",
+    src: "images/gallery-whatsapp-20260503-03.jpeg",
+  },
+  {
+    type: "image",
+    title: "Selección manual de uva",
+    text: "Trabajo de mesa para revisar racimos antes de cada partida limitada.",
+    src: "images/gallery-whatsapp-20260503-04.jpeg",
+  },
+  {
+    type: "image",
+    title: "Suscripción privada",
+    text: "Caja de vinos con notas de cata, preventas exclusivas y oferta especial.",
+    src: "images/gallery-whatsapp-20260503-05.jpeg",
+  },
+  {
+    type: "image",
+    title: "Nuevas cosechas",
+    text: "Presentación de temporada con prensa, botellas y uva seleccionada.",
+    src: "images/gallery-whatsapp-20260503-06.jpeg",
+  },
+  {
+    type: "video",
     title: "Bodega en movimiento",
     text: "Vídeo generado para mostrar la atmósfera de sala, copas y barricas durante una visita guiada.",
     src: "videos/cellar-loop.webm",
     poster: "images/gallery-tasting.png",
+    mime: "video/webm",
     span: "large",
   },
   {
@@ -516,6 +570,7 @@ export const galleryItems = [
     text: "Vídeo generado del turno de comida con ambiente de bodega.",
     src: "videos/restaurant-service.webm",
     poster: "images/gallery-restaurant.png",
+    mime: "video/webm",
   },
   {
     type: "image",
@@ -547,6 +602,7 @@ export const galleryItems = [
     text: "Vídeo principal con el ambiente de WineNotFound, sala de barricas y copa servida.",
     src: "videos/bodega.webm",
     poster: "images/hero-cellar.jpg",
+    mime: "video/webm",
     span: "large",
   },
   {
